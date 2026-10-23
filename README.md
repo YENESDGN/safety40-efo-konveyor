@@ -1,4 +1,4 @@
-# safety40-efo-konveyor
+# safety40-efo-konveyor | Yağız Enes DOĞAN - 230542022 - GÜNDÜZ B
 
 **Efo Makina — Besleme Bandı & Sarsak (Titreşimli Konveyör): Safety 4.0 Föy Analizi (LAB 1–4) + SWOT**
 

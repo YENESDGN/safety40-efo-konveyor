@@ -1,0 +1,57 @@
+flowchart TB
+  internet(["İnternet"])
+  uzak_arac(["Uzak destek aracı"])
+  usb(["USB"])
+  hmi_yerel(["HMI (yerel)"])
+  wifi(["Wi-Fi / WLAN"])
+  router["4G/VPN router"]
+  jump["Jump server"]
+  hmi["HMI"]
+  plc["PLC"]
+  vfd["Bant invertörü"]
+  emniyet["Emniyet rölesi / Safety PLC"]
+  sf{{"SF1 acil stop → STO"}}
+  internet -.-|"✕ sürekli açık 4G router"| router
+  internet -->|"VPN + MFA aşıldı"| jump
+  uzak_arac -.-|"✕ HMI'da uzak masaüstü aracı"| hmi
+  router -.-|"✕ düz ağ"| plc
+  router -.-|"✕ düz ağ"| hmi
+  router -.-|"✕ düz ağ"| vfd
+  jump -->|"izin listesindeki mühendislik portu"| plc
+  jump -->|"HMI bakımı"| hmi
+  jump -.-|"✕ emniyetle ilgili parametre yazma"| vfd
+  jump -.-|"✕ emniyet programına ağdan erişim"| emniyet
+  usb -.-|"✕ kilitsiz USB"| hmi
+  hmi_yerel -.-|"✕ varsayılan parola"| hmi
+  wifi -.-|"✕ WLAN modülü açık"| vfd
+  hmi -->|"HMI etiket yazma / forcing"| plc
+  plc -.-|"✕ PLC'den emniyetle ilgili parametre yazma"| vfd
+  plc -.-|"✕ acil stop PLC mantığında"| sf
+  vfd -.-|"✕ durma rampası ve STO invertörde"| sf
+  vfd -.-|"✕ hız, güvenli mesafe varsayımını aşar"| sf
+  emniyet -.-|"emniyet programı değişir"| sf
+  classDef giris fill:#fdeee6,stroke:#d9572e,color:#16223a
+  classDef hedef fill:#fdecea,stroke:#b3261e,stroke-width:3px,color:#16223a
+  classDef varlik fill:#e9f1fb,stroke:#2a78d6,color:#16223a
+  class internet,uzak_arac,usb,hmi_yerel,wifi giris
+  class sf hedef
+  class router,jump,hmi,plc,vfd,emniyet varlik
+  linkStyle 0 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 1 stroke:#e2a91c,stroke-width:2px
+  linkStyle 2 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 3 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 4 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 5 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 6 stroke:#e2a91c,stroke-width:2px
+  linkStyle 7 stroke:#e2a91c,stroke-width:2px
+  linkStyle 8 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 9 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 10 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 11 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 12 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 13 stroke:#e2a91c,stroke-width:2px
+  linkStyle 14 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 15 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 16 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 17 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 18 stroke:#c3c8d0,stroke-width:1px

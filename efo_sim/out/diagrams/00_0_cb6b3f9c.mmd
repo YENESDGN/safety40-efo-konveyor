@@ -1,0 +1,16 @@
+%% caption: Şekil 1 — Yonga üretim hattında akış. Çerçeve içi analiz kapsamı; kesikli çizgiler konumu kesin olmayan bağlantılar.
+flowchart LR
+  Y["Yükleme<br/>ekskavatör / yükleyici"] --> S1
+  subgraph K["Analiz kapsamı"]
+    S1["Büyük sarsak<br/>dozaj · bunkerli"] --> B["Besleme bandı<br/>V1: yongalamayı<br/>doğrudan besler"]
+    S2["Küçük sarsak<br/>taşıma<br/>konumu bilinmiyor"]
+    S1 -.-> S2
+    S2 -.-> B
+  end
+  B ==> A(["Besleme ağzı"])
+  A ==> C["Yongalama makinesi<br/>drum chipper"]
+  C --> H["Helezon → çavuş bandı<br/>→ yonga stoku"]
+  classDef kapsam fill:#fbf1ec,stroke:#d9572e,stroke-width:2px,color:#16223a
+  classDef tehlike fill:#fcecea,stroke:#b3261e,stroke-width:2px,color:#16223a
+  class S1,S2,B kapsam
+  class A tehlike

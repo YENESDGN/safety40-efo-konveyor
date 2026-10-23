@@ -1,0 +1,88 @@
+lab1:
+  # --- 1.2 Durma mesafesi modeli ---
+  bant_hizi:
+    {deger: 0.5, birim: "m/s", etiket: "VARSAYIM", kaynak: "V6",
+     not: "Besleme bandı nominal hızı; Efo yayınlamıyor"}
+  insan_reaksiyon_suresi:
+    {deger: 0.7, birim: "s", etiket: "VARSAYIM", kaynak: "V6",
+     not: "Kapılan kişinin ya da yanındakinin acil stopa/çekme ipine uzanma süresi"}
+  sistem_tepki_suresi:
+    {deger: 0.05, birim: "s", etiket: "SEKTÖR-TİPİK", kaynak: "R47",
+     not: "Algılama + emniyet rölesi + STO tetikleme; röle kataloglarında onlarca ms mertebesi"}
+  durma_suresi_kat0:
+    {deger: 0.4, birim: "s", etiket: "VARSAYIM", kaynak: "V6",
+     not: "Stop kat. 0: STO ile tork hemen kesilir, yüklü bant sürtünmeyle durur (nominal hızdan)"}
+  rampa_suresi_kat1:
+    {deger: 0.5, birim: "s", etiket: "VARSAYIM", kaynak: "V2",
+     not: "Stop kat. 1: invertör nominal hızdan sıfıra kontrollü yavaşlatır, sonra STO"}
+  ss1_gecikmesi:
+    {deger: 1.0, birim: "s", etiket: "VARSAYIM", kaynak: "V4",
+     not: "SS1-t: emniyet rölesi bu süre sonunda rampadan bağımsız olarak STO verir"}
+  guvenli_mesafe:
+    {deger: 1.5, birim: "m", etiket: "SEKTÖR-TİPİK", kaynak: "Y11",
+     not: "Elin kapılabildiği en yakın nokta ile besleme ağzı arası. WorkSafe Victoria'nın besleme ağzı ≥1500 mm önerisi analoji olarak alındı"}
+  grafik_hiz_araligi:
+    {deger: [0.1, 2.0], birim: "m/s", etiket: "VARSAYIM", kaynak: "V6",
+     not: "Durma mesafesi grafiğinde taranan bant hızı aralığı"}
+  grafik_nokta_sayisi:
+    {deger: 60, birim: "adet", etiket: "VARSAYIM", kaynak: "-", not: "Grafik çözünürlüğü"}
+
+  # --- 1.3 ISO 13849-1 risk grafiği (S, F, P -> PLr) ---
+  plr_grafigi:
+    deger:
+      S1-F1-P1: a
+      S1-F1-P2: b
+      S1-F2-P1: b
+      S1-F2-P2: c
+      S2-F1-P1: c
+      S2-F1-P2: d
+      S2-F2-P1: d
+      S2-F2-P2: e
+    etiket: "SEKTÖR-TİPİK"
+    kaynak: "Y21"
+    not: "ISO 13849-1 risk grafiğinin standart eşlemesi"
+  pl_sil_karsiligi:
+    deger: {a: "—", b: "SIL 1", c: "SIL 1", d: "SIL 2", e: "SIL 3"}
+    etiket: "SEKTÖR-TİPİK"
+    kaynak: "Y21"
+    not: "Yaklaşık karşılık; eşdeğerlik değildir"
+  pl_tipik_kategori:
+    deger: {a: "B", b: "B / 1", c: "1 / 2 / 3", d: "2 / 3", e: "3 / 4"}
+    etiket: "SEKTÖR-TİPİK"
+    kaynak: "Y21"
+    not: "Ulaşılabilen kategoriler; MTTFd, DCavg ve CCF ile birlikte değerlendirilir"
+
+  # Emniyet fonksiyonları ve risk parametresi seçimleri
+  emniyet_fonksiyonlari:
+    deger:
+      - id: SF1
+        ad: "Acil stop / çekme ipi → STO"
+        tehlike: "Besleme ağzına çekilme; tambur kıstırma noktası"
+        S: S2
+        F: F2
+        P: P2
+        gerekce: "S2: çekilme ölümcül (Y9, Y10). F2: çalışanlar bant yanında sık (Y3). P2: bant elini çektikten sonra kaçınmak neredeyse imkânsız"
+      - id: SF2
+        ad: "Kilitli koruyucu kapak açılınca STO"
+        tehlike: "Tambur, makara ve sarsak kollarında kıstırma"
+        S: S2
+        F: F1
+        P: P2
+        gerekce: "S2: kıstırma uzuv kaybına yol açabilir (R38, R39). F1: kapaklar yalnızca bakım/temizlikte açılır. P2: hareketli parçaya temas anında kaçınılamaz"
+      - id: SF3
+        ad: "Yongalama makinesi interlock'u: yongalama durursa besleme durur"
+        tehlike: "Besleme ağzında yığılma → elle sıkışma açma"
+        S: S2
+        F: F1
+        P: P1
+        gerekce: "S2: sıkışma açarken çekilme (Y9). F1: seyrek. P1: yığılma görünür, operatör prosedürle kaçınabilir"
+      - id: SF4
+        ad: "Beklenmedik yol almanın önlenmesi (reset ≠ start)"
+        tehlike: "Reset ya da kapak kapanınca bandın kendiliğinden çalışması"
+        S: S2
+        F: F1
+        P: P2
+        gerekce: "S2: bakımcı tambur yanında (R33). F1: bakım periyodik. P2: beklenmedik harekette kaçınma yok"
+    etiket: "ÇIKARIM"
+    kaynak: "V4"
+    not: "S/F/P seçimleri bu çalışmanın yorumudur; Efo'nun risk değerlendirmesi yayınlanmamış"

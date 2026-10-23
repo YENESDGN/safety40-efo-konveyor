@@ -1,0 +1,5 @@
+lab2:
+  # Zone/conduit verisi lab2_zones.py içinde; burada yalnızca sayısal eşik var
+  conduit_min_kontrol_sayisi:
+    {deger: 1, birim: "adet", etiket: "SEKTÖR-TİPİK", kaynak: "R12",
+     not: "Her conduit'te en az bir kontrol tanımlı olmalı"}

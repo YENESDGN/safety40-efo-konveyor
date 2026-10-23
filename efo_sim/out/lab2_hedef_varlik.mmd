@@ -1,0 +1,66 @@
+flowchart TB
+  subgraph Z0["Z0 · Dış bölge — internet, üretici servisi, WLAN menzili"]
+    uzak_servis["Üretici uzak servis bilgisayarı<br/><i>bilinmiyor</i>"]
+    bulut["Bulut telemetri (kestirimci bakım)<br/><i>bilinmiyor</i>"]
+  end
+  subgraph Z1["Z1 · Kurumsal bölge — müşteri ofis ağı"]
+    ofis["Müşteri ofis ağı (ERP, e-posta)<br/><i>var</i>"]
+  end
+  subgraph Z2["Z2 · OT DMZ — jump server, veri aynası"]
+    jump["Jump server + uzak erişim aracısı<br/><i>yok</i>"]
+    ayna["Veri aynası (historian kopyası)<br/><i>yok</i>"]
+  end
+  subgraph Z3["Z3 · Tesis denetim bölgesi — SCADA / MES"]
+    scada["Müşteri SCADA / MES istemcisi<br/><i>bilinmiyor</i>"]
+  end
+  subgraph Z4["Z4 · Hat kumanda bölgesi — PLC, HMI, invertörler"]
+    plc["Hat PLC'si<br/><i>bilinmiyor</i>"]
+    hmi["Operatör paneli / HMI (kabin)<br/><i>bilinmiyor</i>"]
+    vfd_bant["Bant invertörü<br/><i>bilinmiyor</i>"]
+    vfd_sarsak["Sarsak tahrik sürücüsü<br/><i>bilinmiyor</i>"]
+    yongalama["Yongalama makinesi kontrolörü<br/><i>bilinmiyor</i>"]
+    kumanda["Yerel kumanda kutusu (start/stop)<br/><i>var</i>"]
+  end
+  subgraph Z5["Z5 · Emniyet bölgesi — emniyet rölesi, acil stop, STO"]
+    emniyet["Emniyet rölesi / Safety PLC<br/><i>bilinmiyor</i>"]
+    girisler["Acil stop, çekme ipi, kapak anahtarları, reset<br/><i>bilinmiyor</i>"]
+    sto["STO hattı (invertör STO girişleri)<br/><i>bilinmiyor</i>"]
+  end
+  subgraph ZT["ZT · Geçici bakım cihazları — laptop, USB"]
+    laptop["Servis laptopu<br/><i>bilinmiyor</i>"]
+    usb["USB bellek<br/><i>bilinmiyor</i>"]
+  end
+  uzak_servis -->|"C1: uzak bakım oturumu"| jump
+  jump -->|"C3: mühendislik erişimi"| plc
+  jump -->|"C3: HMI bakımı"| hmi
+  jump -->|"C3: invertör bakımı"| vfd_bant
+  scada -.->|"C4: üretim verisi"| plc
+  scada -->|"C2: veri yansıtma"| ayna
+  ofis -.->|"C5: rapor okuma"| ayna
+  ayna -->|"C6: telemetri gönderimi"| bulut
+  laptop -->|"C7: yerel servis"| plc
+  usb -->|"C7: reçete / güncelleme"| hmi
+  plc -->|"hız komutu"| vfd_bant
+  plc -->|"hız komutu"| vfd_sarsak
+  plc -.->|"durum okuma"| yongalama
+  kumanda -->|"start / stop"| plc
+  girisler -->|"acil stop, ip, kapak, reset"| emniyet
+  emniyet -->|"STO"| sto
+  emniyet -->|"C8: emniyet durumu"| plc
+  classDef emniyet fill:#fdecea,stroke:#b3261e,stroke-width:2px,color:#16223a
+  classDef dis fill:#fdeee6,stroke:#d9572e,color:#16223a
+  classDef dmz fill:#fbf6e6,stroke:#8a6d1f,color:#16223a
+  classDef kumanda fill:#e9f1fb,stroke:#2a78d6,color:#16223a
+  class uzak_servis dis
+  class bulut dis
+  class jump dmz
+  class ayna dmz
+  class plc kumanda
+  class hmi kumanda
+  class vfd_bant kumanda
+  class vfd_sarsak kumanda
+  class yongalama kumanda
+  class kumanda kumanda
+  class emniyet emniyet
+  class girisler emniyet
+  class sto emniyet

@@ -1,0 +1,16 @@
+lab4:
+  # Hedef mimaride hız izleme eşiği (gereksinim gösterimi)
+  hiz_izleme_esigi_carpani:
+    {deger: 1.2, birim: "×", etiket: "VARSAYIM", kaynak: "V4",
+     not: "Emniyet tarafı bant hızını izler; nominalin 1,2 katını aşarsa durdurur (gereksinimin gösterimi, çözüm önerisi değil)"}
+  alternatif_guvenli_mesafe:
+    {deger: 1.0, birim: "m", etiket: "VARSAYIM", kaynak: "V8",
+     not: "Varsayım etkisi hesabı: gerçek mesafe daha kısa olsaydı"}
+  arama_araligi_ss1:
+    {deger: [0.1, 10.0], birim: "s", etiket: "VARSAYIM", kaynak: "-",
+     not: "SS1-t gecikmesi için eşik aramasının aralığı"}
+  arama_araligi_esik:
+    {deger: [1.0, 3.0], birim: "×", etiket: "VARSAYIM", kaynak: "-",
+     not: "Hız izleme eşiği için eşik aramasının aralığı"}
+  arama_adim_sayisi:
+    {deger: 60, birim: "adet", etiket: "VARSAYIM", kaynak: "-", not: "İkiye bölme (bisection) adım sayısı"}

@@ -1,0 +1,26 @@
+%% caption: Şekil 1 — Efo besleme bandı & sarsak için Safety Function Map. Kırmızı çerçeve: emniyetle ilgili kontrol sistemi (giriş + mantık + çıkış). Sarı kesikli çizgiler: dijital kesişim noktaları ①–④. Bileşenlerin hiçbiri Efo kaynaklarında doğrulanmadı (V2–V5).
+flowchart TB
+  subgraph N["NORMAL KONTROL YOLU · üretim"]
+    SN["Sensörler<br/>bant hızı · yongalama akımı<br/>VARSAYIM V7"] --> PLC["PLC<br/>normal kumanda<br/>VARSAYIM V3"]
+    PLC --> VFD["İnvertör VFD<br/>hız · rampa<br/>VARSAYIM V2"]
+    VFD --> M["Motor-redüktör<br/>bant · sarsak"]
+    UE["Uzak destek · servis laptopu<br/>bakım · güncelleme<br/>VARSAYIM V5"] --> PLC
+  end
+  subgraph G["SAFETY YOLU · koruma · AYRI"]
+    ES["Acil stop · çekme ipi<br/>kilitli kapak anahtarları<br/>SEKTÖR-TİPİK · V4"] --> SR["Emniyet rölesi /<br/>Safety PLC<br/>emniyet kumandası"]
+    SR --> STO["STO girişi VFD<br/>+ kontaktör"]
+    STO --> SS["Güvenli durum<br/>tork yok · bant durdu<br/>kendiliğinden başlamaz"]
+  end
+  VFD -.- |"① aynı cihaz: hız/rampa + STO"| STO
+  UE -.- |"② emniyet programı / parametre"| SR
+  SR -.-> |"③ durum · reset sinyali"| PLC
+  UE -.- |"④ invertör parametresi / WLAN"| VFD
+  classDef normal fill:#e9f1fb,stroke:#2a78d6,color:#16223a
+  classDef emniyet fill:#fdecea,stroke:#b3261e,stroke-width:3px,color:#16223a
+  classDef uzak fill:#fdeee6,stroke:#d9572e,color:#16223a
+  classDef durum fill:#16223a,stroke:#16223a,color:#ffffff
+  class SN,PLC,VFD,M normal
+  class ES,SR,STO emniyet
+  class UE uzak
+  class SS durum
+  linkStyle 7,8,9,10 stroke:#e2a91c,stroke-width:2px

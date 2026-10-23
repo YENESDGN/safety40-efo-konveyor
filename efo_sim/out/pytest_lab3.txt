@@ -1,0 +1,30 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.17, pytest-9.1.1, pluggy-1.7.0 -- /usr/bin/python3
+rootdir: /home/claude/safety40-efo-konveyor
+configfile: pytest.ini
+plugins: platformdirs-4.12.4, anyio-4.15.1
+collecting ... collected 21 items
+
+efo_sim/tests/test_lab3_risk.py::test_bant_sinirlari_dogru[27-Kritik] PASSED [  4%]
+efo_sim/tests/test_lab3_risk.py::test_bant_sinirlari_dogru[18-Kritik] PASSED [  9%]
+efo_sim/tests/test_lab3_risk.py::test_bant_sinirlari_dogru[17-Y\xfcksek] PASSED [ 14%]
+efo_sim/tests/test_lab3_risk.py::test_bant_sinirlari_dogru[9-Y\xfcksek] PASSED [ 19%]
+efo_sim/tests/test_lab3_risk.py::test_bant_sinirlari_dogru[8-Orta] PASSED [ 23%]
+efo_sim/tests/test_lab3_risk.py::test_bant_sinirlari_dogru[4-Orta] PASSED [ 28%]
+efo_sim/tests/test_lab3_risk.py::test_bant_sinirlari_dogru[3-D\xfc\u015f\xfck] PASSED [ 33%]
+efo_sim/tests/test_lab3_risk.py::test_bant_sinirlari_dogru[1-D\xfc\u015f\xfck] PASSED [ 38%]
+efo_sim/tests/test_lab3_risk.py::test_skor_olasilik_siddet_ve_maruziyetin_carpimidir PASSED [ 42%]
+efo_sim/tests/test_lab3_risk.py::test_s3_olan_senaryo_skoru_ne_olursa_olsun_one_alinir PASSED [ 47%]
+efo_sim/tests/test_lab3_risk.py::test_register_siralamasi_s3_kuralina_uyar PASSED [ 52%]
+efo_sim/tests/test_lab3_risk.py::test_tum_puanlar_bir_ile_uc_arasinda_ve_dayanakli PASSED [ 57%]
+efo_sim/tests/test_lab3_risk.py::test_fizikse_baglanan_her_senaryo_insana_etkiyle_biter PASSED [ 61%]
+efo_sim/tests/test_lab3_risk.py::test_yalniz_veri_okuyan_kontrol_senaryosu_emniyet_bulgusu_sayilmaz PASSED [ 66%]
+efo_sim/tests/test_lab3_risk.py::test_duyarlilik_varsayima_dayali_her_puani_iki_yonde_dener PASSED [ 71%]
+efo_sim/tests/test_lab3_risk.py::test_duyarlilik_sayisal_tutarli PASSED  [ 76%]
+efo_sim/tests/test_lab3_risk.py::test_normal_parametrelerle_el_besleme_agzina_ulasmaz PASSED [ 80%]
+efo_sim/tests/test_lab3_risk.py::test_rampa_parametresi_degisirse_el_besleme_agzina_ulasir PASSED [ 85%]
+efo_sim/tests/test_lab3_risk.py::test_rampa_saldirisinda_el_bant_durmadan_agza_varir PASSED [ 90%]
+efo_sim/tests/test_lab3_risk.py::test_yalniz_hiz_artisi_nominal_rampada_siniri_asmaz PASSED [ 95%]
+efo_sim/tests/test_lab3_risk.py::test_el_yolu_durma_mesafesiyle_tutarli PASSED [100%]
+
+============================== 21 passed in 0.10s ==============================

@@ -1,0 +1,30 @@
+%% caption: Şekil 1 — Mevcut durum varsayımı: düz ağ. Kırmızı kenarlar kontrolsüz geçişleri gösteriyor. Efo'ya ait bir tespit değildir; tipik KOBİ kurulumundan kuruldu (V3, V5).
+flowchart TB
+  Z0["<b>Z0 · Dış bölge</b><br/>Üretici uzak servis bilgisayarı<br/>Telefon / tablet<br/>Bulut telemetri"]
+  ZT["<b>ZT · Geçici bakım cihazları</b><br/>Servis laptopu<br/>USB bellek"]
+  ZD["<b>ZD · Düz ağ</b><br/>Müşteri ofis ağı<br/>4G/VPN router<br/>Müşteri SCADA / MES istemcisi<br/>Hat PLC'si<br/>Operatör paneli / HMI<br/>Bant invertörü<br/>Sarsak tahrik sürücüsü<br/>Yongalama makinesi kontrolörü<br/>Yerel kumanda kutusu"]
+  Z5["<b>Z5 · Emniyet bölgesi</b><br/>Acil stop, çekme ipi, kapak anahtarları, reset<br/>STO hattı"]
+  Z0 -->|"C1 · sürekli açık · paylaşılan parola"| ZD
+  Z0 -->|"kontrolsüz: WLAN ile parametre"| ZD
+  ZD -->|"kontrolsüz: telemetri"| Z0
+  ZT -->|"kontrolsüz: yerel servis, güncelleme"| ZD
+  Z5 -->|"kontrolsüz: acil stop PLC girişinde"| ZD
+  ZD -->|"kontrolsüz: STO'yu PLC çıkışı veriyor"| Z5
+  classDef emniyet fill:#fdecea,stroke:#b3261e,stroke-width:3px,color:#16223a
+  classDef dis fill:#fdeee6,stroke:#d9572e,color:#16223a
+  classDef dmz fill:#fbf6e6,stroke:#8a6d1f,stroke-width:2px,color:#16223a
+  classDef kumanda fill:#e9f1fb,stroke:#2a78d6,stroke-width:2px,color:#16223a
+  classDef duz fill:#fdecea,stroke:#d9572e,stroke-width:2px,stroke-dasharray:6 4,color:#16223a
+  classDef gecici fill:#f2f5f8,stroke:#5b6576,color:#16223a
+  classDef kurumsal fill:#f7f9fb,stroke:#5b6576,color:#16223a
+  class Z0 dis
+  class ZT gecici
+  class ZD duz
+  class Z5 emniyet
+  ZD ~~~ Z5
+  linkStyle 0 stroke:#b3261e,stroke-width:3px
+  linkStyle 1 stroke:#b3261e,stroke-width:3px
+  linkStyle 2 stroke:#b3261e,stroke-width:3px
+  linkStyle 3 stroke:#b3261e,stroke-width:3px
+  linkStyle 4 stroke:#b3261e,stroke-width:3px
+  linkStyle 5 stroke:#b3261e,stroke-width:3px

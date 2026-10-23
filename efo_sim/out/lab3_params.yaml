@@ -1,0 +1,70 @@
+lab3:
+  puan_araligi:
+    {deger: [1, 3], birim: "-", etiket: "SEKTÖR-TİPİK", kaynak: "föy LAB 3",
+     not: "L, S, E her biri 1–3"}
+  oncelikli_siddet:
+    {deger: 3, birim: "-", etiket: "SEKTÖR-TİPİK", kaynak: "föy LAB 3",
+     not: "S=3 kuralı: skor düşük olsa bile öne alınır"}
+  bantlar:
+    deger:
+      - {ad: "Kritik", min: 18, max: 27}
+      - {ad: "Yüksek", min: 9, max: 17}
+      - {ad: "Orta", min: 4, max: 8}
+      - {ad: "Düşük", min: 1, max: 3}
+    etiket: "SEKTÖR-TİPİK"
+    kaynak: "föy LAB 3"
+    not: "Föydeki bant sınırları"
+  duyarlilik_adimi:
+    {deger: 1, birim: "puan", etiket: "VARSAYIM", kaynak: "-",
+     not: "Varsayıma dayalı her puan ±1 değiştirilir"}
+
+  # 3.3 Siberden fiziksele: saldırganın değiştirdiği invertör parametreleri
+  saldiri_rampa_suresi:
+    {deger: 10.0, birim: "s", etiket: "VARSAYIM", kaynak: "Y17",
+     not: "Saldırgan yavaşlama rampasını 0,5 s'den 10 s'ye çıkarır (parametre uzaktan/WLAN ile yazılabilir)"}
+  saldiri_hiz_carpani:
+    {deger: 1.6, birim: "×", etiket: "VARSAYIM", kaynak: "Y17",
+     not: "Saldırgan maksimum frekansı yükselterek bant hızını 1,6 katına çıkarır (50 Hz → 80 Hz)"}
+
+  # Senaryolar: kim → kapı → ne yapar → zincir → fiziksel sonuç; her puanın dayanağı
+  senaryolar:
+    deger:
+      - id: S1
+        kim: "Dış saldırgan (çalınmış servis parolası ya da fidye yazılımı)"
+        kapi: "Sürekli açık uzak destek bağlantısı (4G/VPN router ya da uzak masaüstü aracı)"
+        ne_yapar: "Bant invertörünün yavaşlama rampasını 0,5 s'den 10 s'ye çıkarır"
+        zincir: "Acil stop basıldığında STO, invertör rampası bittikten sonra geliyor (emniyet invertöre bağımlı) → bant 10 s boyunca kayar"
+        fiziksel_sonuc: "Bant tarafından çekilen el/kol, bant durmadan besleme ağzına ulaşır → yongalama makinesine çekilme"
+        L: {deger: 2, etiket: "ÇIKARIM", dayanak: "KOBİ'lerde sürekli açık uzak erişim yaygın (R13); hedefli parametre değişikliği ek bilgi ister"}
+        S: {deger: 3, etiket: "SEKTÖR-TİPİK", dayanak: "Yongalama ölümlerinin %78'i çekilme (Y9); elle beslemede ölüm (Y10)"}
+        E: {deger: 3, etiket: "ÇIKARIM", dayanak: "Çalışanlar bant kenarında ve platformda (Y3)"}
+      - id: S2
+        kim: "Servis teknisyeni (kasıtsız) — enfekte ya da yanlış projeli servis laptopu"
+        kapi: "Kilitsiz USB / pano içindeki mühendislik portu"
+        ne_yapar: "PLC'ye yongalama interlock'u devre dışı kalmış eski bir proje yüklenir"
+        zincir: "Yongalama makinesi durduğunda besleme devam eder → besleme ağzında yığılma ve sıkışma → operatör elle müdahale eder"
+        fiziksel_sonuc: "Sıkışma açılırken malzeme aniden kapılır → el/kolun yongalama makinesine çekilmesi"
+        L: {deger: 2, etiket: "ÇIKARIM", dayanak: "Servis laptopu ile bağlantı rutin; ağdan bağımsız yayılma yolu (rapor E.3)"}
+        S: {deger: 3, etiket: "SEKTÖR-TİPİK", dayanak: "Sıkışma açarken çekilme ölümcül (Y9)"}
+        E: {deger: 2, etiket: "VARSAYIM", dayanak: "Sıkışma açma ara sıra yapılır"}
+      - id: S3
+        kim: "Fabrika ağına erişimi olan içeriden biri ya da ağdaki zararlı yazılım"
+        kapi: "PLC web arayüzü (S7-1200 < V4.7, CVE-2024-47100: CSRF)"
+        ne_yapar: "Oturum açmış operatöre link tıklatarak CPU'yu RUN moduna alır"
+        zincir: "Bakım için bant yalnızca PLC'den durdurulmuş, enerji kilitlenmemiş (LOTO yok) → CPU RUN'a geçince bant beklenmedik çalışır"
+        fiziksel_sonuc: "Tambur yanında çalışan bakımcının kıstırılması / çekilmesi"
+        L: {deger: 1, etiket: "ÇIKARIM", dayanak: "Kullanıcı etkileşimi + ağ erişimi + LOTO ihlali birlikte gerekir (Y12)"}
+        S: {deger: 3, etiket: "SEKTÖR-TİPİK", dayanak: "Bakım sırasında beklenmedik çalışma ezilme ve çekilmeye yol açar (R33)"}
+        E: {deger: 2, etiket: "VARSAYIM", dayanak: "Bakım periyodik"}
+      - id: K1
+        kim: "Dış saldırgan"
+        kapi: "Bulut telemetri hesabı"
+        ne_yapar: "Titreşim ve sıcaklık verisini okur"
+        zincir: "Telemetri yalnızca okuma yönünde; makineye komut yolu yok"
+        fiziksel_sonuc: "Hattaki insana fiziksel etki yok (altın kural kontrolü: emniyet bulgusu değil)"
+        L: {deger: 2, etiket: "VARSAYIM", dayanak: "Bulut hesapları sık hedeflenir"}
+        S: {deger: 1, etiket: "ÇIKARIM", dayanak: "Fiziksel zarar zinciri yok"}
+        E: {deger: 3, etiket: "VARSAYIM", dayanak: "Telemetri sürekli açık"}
+    etiket: "ÇIKARIM"
+    kaynak: "V2, V3, V5, V7"
+    not: "Puanların dayanakları senaryo içinde; K1 föydeki üç senaryoya ek kontrol senaryosudur"

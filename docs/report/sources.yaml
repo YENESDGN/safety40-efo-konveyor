@@ -1,0 +1,69 @@
+# Kaynak listesi
+# R<n> = derin araştırma raporundaki kaynak numarası (docs/research/)
+# Y<n> = bu çalışmada eklenen kaynak
+# build_pdf.py metinde geçen kimlikleri bu listeden çözer; listede olmayan kimlik hata verir.
+
+R2:  {title: "Efo Makina — Hakkımızda", url: "https://www.efomakina.com.tr/hakkimizda"}
+R3:  {title: "Efo Makina — Yonga Üretim Hattı", url: "https://www.efomakina.com.tr/kategori/yonga-uretim-hatti"}
+R4:  {title: "Efo Makina — Besleme Bandı", url: "https://www.efomakina.com.tr/cozum/besleme-bandi"}
+R5:  {title: "Pallmann — PHT Drum Chipper broşürü", url: "https://pallmann.eu/wp-content/uploads/2024/07/Final_H_PHT_Drum_Chipper_E_DIN_A4.pdf"}
+R6:  {title: "Pallmann — Drum Chipper PHT (Alfatecnica)", url: "https://www.alfatecnica.cl/wp-content/uploads/2017/08/Chipeador-de-tambor-PHT.pdf"}
+R7:  {title: "Carrier Vibrating Equipment — Vibratory Feeder", url: "https://carriervibrating.com/equipment/feeders/vibrating/"}
+R8:  {title: "ABB Jokab Safety — Safety Products", url: "https://us.rs-online.com/m/d/6d1fe2bd4f6b2d79f15adbcf1be38693.pdf"}
+R9:  {title: "IEC 61800-5 Drive Safety Standards (Otomasyon Avm)", url: "https://www.otomasyonavm.com/en/iec-61800-5-drive-safety-standards-k-12"}
+R12: {title: "Zyberum — Zones and Conduits (IEC 62443)", url: "https://zyberum.com/glossary/zones-and-conduits"}
+R13: {title: "Althera — Secure remote access to industrial plants", url: "https://althera.it/en/blog/accesso-remoto-sicuro-impianti-errori-architettura"}
+R14: {title: "OT Ecosystem — Network Architecture Patterns for OT Safety", url: "https://otecosystem.com/15-practical-network-architecture-patterns-for-ot-safety/"}
+R15: {title: "Bursa CE Belgesi — Yeni Makine Yönetmeliği (AB) 2023/1230", url: "https://bursacebelgesi.com/urun-belgelendirme/makine-emniyeti-regulasyonu/index.html"}
+R16: {title: "Knapster — Cyber Resilience Act: Deadlines", url: "https://www.knapster.at/en/wissen/cyber-resilience-act-fristen-produktklassen.html"}
+R17: {title: "Turkish Time — Türkiye'nin dünya ikincisi olduğu sektör (2016)", url: "https://turkishtimedergi.com/mobilya/turkiyenin-dunya-ikincisi-oldugu-baska-hangi-sektor-var/"}
+R18: {title: "Torbalı Ticaret Odası — Faal üye listesi", url: "https://torbalito.org.tr/uploads/documents/torbali-ticaret-odasi-faal-listesi-20260914181654-ab8ac476.pdf"}
+R19: {title: "Yandex Haritalar — MTN Makine & Otomasyon (Torbalı)", url: "https://yandex.com.tr/maps/org/mtn_makine_otomasyon/17914476728/"}
+R22: {title: "Efo Makina — Belgelerimiz", url: "https://www.efomakina.com.tr/belgelerimiz"}
+R23: {title: "AİMSAD — Blog / AİMSAD haberleri", url: "https://www.twm.com.tr/en/blog?category=aimsad-news"}
+R28: {title: "Efo Makina — Sarsak", url: "https://www.efomakina.com.tr/cozum/sarsak"}
+R29: {title: "Efo Makina — Yongalama Makinesi Nedir? (Drum Chipper)", url: "https://www.efomakina.com.tr/yongalama-makinesi-nedir-br-drum-chipper"}
+R30: {title: "Vecoplan — VVR 300 Vibrating conveyor", url: "https://vecoplan.com/en/products/conveying/vibrating-conveying-systems/vvr-vibrating-conveyor/vvr-300-vibrating-conveyor"}
+R31: {title: "General Kinematics — Chipper Feeding Conveyor", url: "https://www.generalkinematics.com/product/chipper-feeding-conveyor/"}
+R33: {title: "HSE — Safeguarding multi-blade roof truss saws", url: "https://www.hse.gov.uk/woodworking/safeguarding-multi-blade-truss-saws.htm"}
+R34: {title: "Safequarry — Guarding of Machinery", url: "https://www.safequarry.com/hotview.aspx?kHotTopic=13"}
+R38: {title: "HSE — Guarding (quarries)", url: "https://www.hse.gov.uk/quarries/hardtarget/guarding.htm"}
+R39: {title: "HSE — Egg farm fined after worker trapped in running conveyor machinery (13.05.2026)", url: "https://press.hse.gov.uk/2026/05/13/egg-farm-fined-after-worker-trapped-in-running-conveyor-machinery/"}
+R42: {title: "Alberta OHS — Best practices on conveyor safety", url: "https://ohs-pubstore.labour.alberta.ca/download/sample/116"}
+R45: {title: "İTÜ — Sürekli transport makinaları ile ilgili standartlar ve yönetmelikler", url: "https://transport.itu.edu.tr/docs/librariesprovider99/dersnotlari/dersnotlarimak546/15-s%C3%BCrekli-transport-makinalar%C4%B1-ile-ilgili-standartlar-ve-y%C3%B6netmelikler.pdf?sfvrsn=2"}
+R46: {title: "EN 618:2002+A1:2010 (iTeh örnek)", url: "https://cdn.standards.iteh.ai/samples/35974/65b6d07b96d54a7fbad6de89d96a9617/SIST-EN-618-2003-A1-2011.pdf"}
+R47: {title: "ABB — Machine Safety Jokab Standard Products", url: "https://library.e.abb.com/public/84acb5369ad34e6490b07b0dee4563b2/ABB%20Canada%20Safety%20Handbook%20Standard%20Products-2014%201SXP172014C0202.pdf"}
+R49: {title: "Pilz — Requirement for functional safety (EN / IEC 61800-5-2)", url: "https://www.pilz.com/en-IN/support/lexicon/articles/200448"}
+R51: {title: "PROFIsafe Environment Guideline", url: "https://www.profibus.com/fileadmin/media/downloadsection/installation_guide/PROFIsafe-Environment_2232_V26_Dec15.pdf"}
+R57: {title: "Çağrı Polat — IEC 62443 Zone & Conduit Design in OT", url: "https://www.cagripolat.com/iec62443/en/iec-62443-zone-conduit-design-ot-practical-guide"}
+R58: {title: "Helmholz — Machine Security and OT Security (IEC 62443)", url: "https://www.helmholz.de/en/solutions/network-security/machine-security-and-ot-security-in-accordance-with-iec-62443/"}
+R59: {title: "RealVNC — Remote Access for PLC Systems", url: "https://www.realvnc.com/en/blog/remote-access-for-plc-systems/"}
+R60: {title: "ASP Otomasyon — OT Identity and Access Management", url: "https://wiki.aspotomasyon.com/article/ot-identity-access-management-mfa"}
+R61: {title: "IEC 61508 Functional Safety — SIL, PFD, Safety PLC", url: "https://iotdigitaltwinplm.com/iec-61508-functional-safety-sil-pfd-safety-instrumented-systems-safety-plc-architecture-2026/"}
+R64: {title: "Bursa CE Belgesi — Yeni Makine Emniyeti Yönetmeliği (2023/1230/AB) Yayımlandı", url: "https://bursacebelgesi.com/makine-ce-rehberi/makine-emniyeti-yonetmeligi-2023-1230/index.html"}
+R67: {title: "FOSSA — EU CRA Compliance Timeline", url: "https://fossa.com/blog/cra-compliance-timeline/"}
+R69: {title: "YOMSAD — MDF ve Yonga Levha Sanayi (Ormuh)", url: "http://world.ormuh.org.tr/wp-content/uploads/2017/09/9-Haluk-Yildiz-YOMSAD.pdf"}
+R70: {title: "AİMSAD / TWM — About Us", url: "https://www.twm.com.tr/en/about-us"}
+R71: {title: "IEEE — The Role of Mobile Communications for Industrial Automation", url: "https://ieeexplore.ieee.org/iel8/8782661/10829557/11111740.pdf"}
+
+Y1:  {title: "Efo Makina — Sarsak broşür görseli (gorsel-efo-1, sarsak sayfası)", url: "https://efomakina.com.tr/upload/gorsel-efo-1-1681284870.jpg"}
+Y2:  {title: "Efo Makina — Bantlı konveyör broşürü ve renderları (efobrosur-5, eforndr-014/015/016)", url: "https://www.efomakina.com.tr/upload/efobrosur-5-1680607448.jpg"}
+Y3:  {title: "Efo Makina — Medya merkezi görselleri (efo1, efo2, efo3, efo6, efo7, efo8)", url: "https://www.efomakina.com.tr/medya-merkezi"}
+Y4:  {title: "Efo Makina — Yongalama Makinesi", url: "https://www.efomakina.com.tr/cozum/yongalama-makinesi"}
+Y5:  {title: "TWM (AİMSAD) — Sarsak - Titreşimli Konveyör ilanı", url: "https://twm.com.tr/tr/ilan/sarsak---titresimli-konveyor"}
+Y6:  {title: "TWM (AİMSAD) — Besleme Bandı ilanı", url: "https://twm.com.tr/tr/ilan/besleme-bandi"}
+Y7:  {title: "TWM (AİMSAD) — Efo Makina mağaza sayfası", url: "https://twm.com.tr/tr/magaza/efomakina"}
+Y8:  {title: "Efo Makina — Instagram (@efomakina_)", url: "https://instagram.com/efomakina_"}
+Y9:  {title: "OSHA SHIB 04-16-2008 — Hazards of Wood Chippers", url: "https://www.osha.gov/dts/shib/shib041608.pdf"}
+Y10: {title: "OSHA IMIS Accident Report 688978", url: "https://www.osha.gov/ords/imis/accidentsearch.accident_detail?id=688978"}
+Y11: {title: "WorkSafe Victoria — Woodchipper safety", url: "https://www.worksafe.vic.gov.au/woodchipper-safety"}
+Y12: {title: "CISA ICSA-25-021-02 — Siemens SIMATIC S7-1200 CPUs (CVE-2024-47100)", url: "https://cisa.gov/news-events/ics-advisories/icsa-25-021-02"}
+Y13: {title: "CVE-2020-28400 (SSA-599968, ICSA-21-194-03)", url: "https://cvefeed.io/vuln/detail/CVE-2020-28400"}
+Y14: {title: "Siemens ProductCERT SSA-688146", url: "https://cert-portal.siemens.com/productcert/html/ssa-688146.html"}
+Y15: {title: "ACSC — Remote access to operational technology environments (Mart 2023)", url: "https://www.cyber.gov.au/sites/default/files/2025-03/Remote%20access%20to%20operational%20technology%20environments%20%28March%202023%29.pdf"}
+Y16: {title: "ibf solutions — prEN 50742 protection against corruption", url: "https://ibf-solutions.com/en/seminars-and-news/news/new-standard-pren-50742-protection-against-corruption"}
+Y17: {title: "Precision Electric — Commissioning Lenze i500 with smartphone app", url: "https://www.precision-elec.com/commissioning-lenze-i500-frequency-inverter-with-smartphone-app/"}
+Y18: {title: "Regulation (EU) 2023/1230, Article 54", url: "https://gesetze.legal/eu/vo_eu_2023_1230/54"}
+Y19: {title: "Resmî Gazete 16.10.2026 (Sayı 33402) — Makine Emniyeti Yönetmeliği (2023/1230/AB)", url: "https://www.resmigazete.gov.tr/eskiler/2026/10/20261016-12.htm"}
+Y20: {title: "The Cyber Resilience Act Explained", url: "https://www.cyberresilienceact.eu/explained.html"}
+Y21: {title: "ReeR — ISO 13849-1,2 Safety Related Parts of Control Systems", url: "https://int.reersafety.com/?p=38995"}

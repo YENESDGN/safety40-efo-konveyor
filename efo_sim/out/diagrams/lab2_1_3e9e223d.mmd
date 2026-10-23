@@ -1,0 +1,40 @@
+%% caption: Şekil 2 — Hedef zone/conduit diyagramı. Her bölgeler arası geçiş bir conduit'ten geçiyor; emniyet bölgesine (Z5) giren kenar yok. Diyagram lab2_zones.py verisinden üretildi.
+flowchart TB
+  Z0["<b>Z0 · Dış bölge</b><br/>Üretici uzak servis bilgisayarı<br/>Bulut telemetri"]
+  Z1["<b>Z1 · Kurumsal bölge</b><br/>Müşteri ofis ağı"]
+  Z3["<b>Z3 · Tesis denetim bölgesi</b><br/>Müşteri SCADA / MES istemcisi"]
+  ZT["<b>ZT · Geçici bakım cihazları</b><br/>Servis laptopu<br/>USB bellek"]
+  Z2["<b>Z2 · OT DMZ</b><br/>Jump server + uzak erişim aracısı<br/>Veri aynası"]
+  Z5["<b>Z5 · Emniyet bölgesi</b><br/>Emniyet rölesi / Safety PLC<br/>Acil stop, çekme ipi, kapak anahtarları, reset<br/>STO hattı"]
+  Z4["<b>Z4 · Hat kumanda bölgesi</b><br/>Hat PLC'si<br/>Operatör paneli / HMI<br/>Bant invertörü<br/>Sarsak tahrik sürücüsü<br/>Yongalama makinesi kontrolörü<br/>Yerel kumanda kutusu"]
+  Z0 -->|"C1 · VPN · MFA · kayıt<br/>varsayılan kapalı"| Z2
+  Z2 -->|"C3 · izin listesi · kayıt · parametre kilidi"| Z4
+  Z3 -->|"C4 · salt okuma"| Z4
+  Z3 -->|"C2 · tek yönlü veri"| Z2
+  Z1 -->|"C5 · salt okuma · kimlik"| Z2
+  Z2 -->|"C6 · giden · TLS"| Z0
+  ZT -->|"C7 · port kilidi · kayıtlı cihaz"| Z4
+  Z5 -->|"C8 · kablolu tek yönlü durum"| Z4
+  classDef emniyet fill:#fdecea,stroke:#b3261e,stroke-width:3px,color:#16223a
+  classDef dis fill:#fdeee6,stroke:#d9572e,color:#16223a
+  classDef dmz fill:#fbf6e6,stroke:#8a6d1f,stroke-width:2px,color:#16223a
+  classDef kumanda fill:#e9f1fb,stroke:#2a78d6,stroke-width:2px,color:#16223a
+  classDef duz fill:#fdecea,stroke:#d9572e,stroke-width:2px,stroke-dasharray:6 4,color:#16223a
+  classDef gecici fill:#f2f5f8,stroke:#5b6576,color:#16223a
+  classDef kurumsal fill:#f7f9fb,stroke:#5b6576,color:#16223a
+  class Z0 dis
+  class Z1 kurumsal
+  class Z3 kurumsal
+  class ZT gecici
+  class Z2 dmz
+  class Z5 emniyet
+  class Z4 kumanda
+  Z4 ~~~ Z5
+  linkStyle 0 stroke:#1f8f86,stroke-width:2px
+  linkStyle 1 stroke:#1f8f86,stroke-width:2px
+  linkStyle 2 stroke:#1f8f86,stroke-width:2px
+  linkStyle 3 stroke:#1f8f86,stroke-width:2px
+  linkStyle 4 stroke:#1f8f86,stroke-width:2px
+  linkStyle 5 stroke:#1f8f86,stroke-width:2px
+  linkStyle 6 stroke:#1f8f86,stroke-width:2px
+  linkStyle 7 stroke:#1f8f86,stroke-width:2px

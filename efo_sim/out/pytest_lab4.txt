@@ -1,0 +1,28 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.17, pytest-9.1.1, pluggy-1.7.0 -- /usr/bin/python3
+rootdir: /home/claude/safety40-efo-konveyor
+configfile: pytest.ini
+plugins: platformdirs-4.12.4, anyio-4.15.1
+collecting ... collected 19 items
+
+efo_sim/tests/test_lab4_attack.py::test_mevcut_mimaride_emniyet_fonksiyonuna_ulasan_yol_var PASSED [  5%]
+efo_sim/tests/test_lab4_attack.py::test_hedef_mimaride_emniyet_fonksiyonunu_degistirebilen_yol_sayisi_sifir PASSED [ 10%]
+efo_sim/tests/test_lab4_attack.py::test_saldirgan_tum_onlemlere_ragmen_iceri_girse_de_emniyet_fonksiyonuna_ulasamaz PASSED [ 15%]
+efo_sim/tests/test_lab4_attack.py::test_mevcut_mimaride_en_kisa_yol_iki_adimdir PASSED [ 21%]
+efo_sim/tests/test_lab4_attack.py::test_her_kenarin_kosullari_mimaride_tanimli PASSED [ 26%]
+efo_sim/tests/test_lab4_attack.py::test_her_giris_noktasi_grafta_bir_kenarla_baglidir PASSED [ 31%]
+efo_sim/tests/test_lab4_attack.py::test_plc_mantigi_degisse_de_acil_stop_guvenli_duruma_goturur[bagimli] XFAIL [ 36%]
+efo_sim/tests/test_lab4_attack.py::test_plc_mantigi_degisse_de_acil_stop_guvenli_duruma_goturur[bagimsiz] PASSED [ 42%]
+efo_sim/tests/test_lab4_attack.py::test_plc_mantigi_degisse_de_acil_stop_guvenli_duruma_goturur[bagimsiz_hiz_izlemeli] PASSED [ 47%]
+efo_sim/tests/test_lab4_attack.py::test_invertor_rampasi_degisse_de_el_besleme_agzina_ulasmaz[bagimli] XFAIL [ 52%]
+efo_sim/tests/test_lab4_attack.py::test_invertor_rampasi_degisse_de_el_besleme_agzina_ulasmaz[bagimsiz] PASSED [ 57%]
+efo_sim/tests/test_lab4_attack.py::test_invertor_rampasi_degisse_de_el_besleme_agzina_ulasmaz[bagimsiz_hiz_izlemeli] PASSED [ 63%]
+efo_sim/tests/test_lab4_attack.py::test_hiz_ve_rampa_birlikte_degisse_de_el_besleme_agzina_ulasmaz[bagimli] XFAIL [ 68%]
+efo_sim/tests/test_lab4_attack.py::test_hiz_ve_rampa_birlikte_degisse_de_el_besleme_agzina_ulasmaz[bagimsiz] XFAIL [ 73%]
+efo_sim/tests/test_lab4_attack.py::test_hiz_ve_rampa_birlikte_degisse_de_el_besleme_agzina_ulasmaz[bagimsiz_hiz_izlemeli] PASSED [ 78%]
+efo_sim/tests/test_lab4_attack.py::test_saldiri_yokken_her_varyant_guvenli[bagimli] PASSED [ 84%]
+efo_sim/tests/test_lab4_attack.py::test_saldiri_yokken_her_varyant_guvenli[bagimsiz] PASSED [ 89%]
+efo_sim/tests/test_lab4_attack.py::test_saldiri_yokken_her_varyant_guvenli[bagimsiz_hiz_izlemeli] PASSED [ 94%]
+efo_sim/tests/test_lab4_attack.py::test_varsayim_etkisi_hesaplari_tutarli PASSED [100%]
+
+======================== 15 passed, 4 xfailed in 0.12s =========================

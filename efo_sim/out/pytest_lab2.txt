@@ -1,0 +1,23 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.17, pytest-9.1.1, pluggy-1.7.0 -- /usr/bin/python3
+rootdir: /home/claude/safety40-efo-konveyor
+configfile: pytest.ini
+plugins: platformdirs-4.12.4, anyio-4.15.1
+collecting ... collected 14 items
+
+efo_sim/tests/test_lab2_zones.py::test_internetten_ya_da_uzak_erisimden_emniyet_bolgesine_dogrudan_kenar_yok PASSED [  7%]
+efo_sim/tests/test_lab2_zones.py::test_bolgeler_arasindaki_her_kenar_bir_conduitten_gecer PASSED [ 14%]
+efo_sim/tests/test_lab2_zones.py::test_her_conduitte_en_az_bir_kontrol_tanimli PASSED [ 21%]
+efo_sim/tests/test_lab2_zones.py::test_emniyet_bolgesine_disaridan_yazma_yonunde_akis_yok PASSED [ 28%]
+efo_sim/tests/test_lab2_zones.py::test_dis_bolge_yalnizca_dmzye_baglanir PASSED [ 35%]
+efo_sim/tests/test_lab2_zones.py::test_kullanilan_her_conduit_tanimli PASSED [ 42%]
+efo_sim/tests/test_lab2_zones.py::test_her_varlik_bir_bolgeye_atanmis_ve_akislar_bilinen_varliklari_kullanir PASSED [ 50%]
+efo_sim/tests/test_lab2_zones.py::test_emniyet_rolesi_kendi_bolgesinde_ve_yalniz_disari_durum_verir PASSED [ 57%]
+efo_sim/tests/test_lab2_zones.py::test_mevcut_varsayim_mimaride_kural_ihlali_yakalanir[K2] PASSED [ 64%]
+efo_sim/tests/test_lab2_zones.py::test_mevcut_varsayim_mimaride_kural_ihlali_yakalanir[K3] PASSED [ 71%]
+efo_sim/tests/test_lab2_zones.py::test_mevcut_varsayim_mimaride_kural_ihlali_yakalanir[K4] PASSED [ 78%]
+efo_sim/tests/test_lab2_zones.py::test_mevcut_varsayim_mimaride_kural_ihlali_yakalanir[K5] PASSED [ 85%]
+efo_sim/tests/test_lab2_zones.py::test_mermaid_veriden_uretilir_ve_her_akisi_icerir PASSED [ 92%]
+efo_sim/tests/test_lab2_zones.py::test_bolge_diyagrami_her_bolgeler_arasi_gecisi_gosterir PASSED [100%]
+
+============================== 14 passed in 0.15s ==============================

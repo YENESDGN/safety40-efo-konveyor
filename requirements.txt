@@ -1,0 +1,15 @@
+# Simülasyon ve testler (efo_sim)
+pytest>=8.0
+matplotlib>=3.8
+pyyaml>=6.0
+
+# PDF üretimi (scripts/build_pdf.py)
+weasyprint>=62
+markdown>=3.5
+pygments>=2.17
+pypdf>=4.0
+
+# Ayrıca gerekli (pip dışı):
+#   mermaid-cli (diyagramlar):  npm install -g @mermaid-js/mermaid-cli
+#   poppler-utils (önizleme için pdftoppm, isteğe bağlı)
+#   DejaVu fontları (Türkçe karakterler; çoğu Linux dağıtımında hazır)

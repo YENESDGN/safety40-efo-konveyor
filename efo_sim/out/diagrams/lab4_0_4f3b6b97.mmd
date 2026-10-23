@@ -1,0 +1,26 @@
+%% caption: Şekil 1 — Uzaktan erişim yolu: mevcut durum varsayımı (üstte) ve hedef (altta). Hedefte emniyet zinciri uzak erişim yolunun dışında; yalnızca durum sinyali verir.
+flowchart TB
+  subgraph M["MEVCUT · varsayım V5"]
+    direction LR
+    MT["Üretici teknisyeni<br/>paylaşılan hesap"] --> MI(("İnternet"))
+    MI --> MR["4G/VPN router<br/>sürekli açık · parola"]
+    MR --> MN["Düz ağ<br/>PLC · HMI · invertör · ofis"]
+    MN --> MS["Acil stop<br/>PLC mantığında<br/>STO invertör rampasında"]
+    MW(["Telefon"]) --> |"WLAN modülü"| MN
+  end
+  subgraph H["HEDEF"]
+    direction LR
+    HT["Teknisyen<br/>kişisel hesap"] --> HV["VPN + MFA"]
+    HV --> HJ["DMZ jump server<br/>tam oturum kaydı"]
+    HJ --> HO{"Tesis onayı<br/>varsayılan kapalı"}
+    HO --> HF["Güvenlik duvarı<br/>izin listesi"]
+    HF --> HK["Hat kumanda<br/>PLC · HMI · invertör"]
+    HE["Emniyet zinciri<br/>acil stop · ip · kapak<br/>→ röle → STO"] -.-> |"yalnız durum"| HK
+  end
+  classDef kotu fill:#fdecea,stroke:#b3261e,stroke-width:2px,color:#16223a
+  classDef iyi fill:#e6f3f1,stroke:#1f8f86,stroke-width:2px,color:#16223a
+  classDef emniyet fill:#fdecea,stroke:#b3261e,stroke-width:3px,color:#16223a
+  class MR,MN,MS,MW kotu
+  class HV,HJ,HO,HF iyi
+  class HE emniyet
+  M ~~~ H

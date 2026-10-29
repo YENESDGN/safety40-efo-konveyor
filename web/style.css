@@ -1,0 +1,162 @@
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #16191d;
+  --muted: #5b636e;
+  --line: #e2e5ea;
+  --accent: #d9480f;
+  --accent-text: #ffffff;
+  --warn-bg: #fff4e5;
+  --warn-text: #7a3e00;
+  --efo: #2b8a3e;
+  --sektor: #1c7ed6;
+  --cikarim: #7048e8;
+  --varsayim: #c2410c;
+  --radius: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111317;
+    --surface: #1a1d23;
+    --text: #e8eaed;
+    --muted: #9aa2ad;
+    --line: #2b3038;
+    --accent: #ff6b2c;
+    --accent-text: #111317;
+    --warn-bg: #2a1e10;
+    --warn-text: #ffc078;
+    --efo: #69db7c;
+    --sektor: #74c0fc;
+    --cikarim: #b197fc;
+    --varsayim: #ffa94d;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+a { color: var(--accent); }
+
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+/* Üst bar */
+.top {
+  position: sticky; top: 0; z-index: 5;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.top-in { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 16px; }
+.brand { font-weight: 700; color: var(--text); text-decoration: none; }
+.brand span { color: var(--accent); }
+nav { display: flex; gap: 18px; }
+nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
+nav a:hover { color: var(--text); }
+
+/* Hero */
+.hero { padding: 56px 0 32px; }
+.hero h1 { font-size: clamp(28px, 5vw, 44px); line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.02em; }
+.sub { font-size: 20px; color: var(--muted); margin: 0 0 4px; }
+.author { color: var(--muted); margin: 0 0 24px; font-size: 15px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+.warn {
+  background: var(--warn-bg); color: var(--warn-text);
+  border-radius: var(--radius); padding: 12px 16px; font-size: 14px; margin: 0; max-width: 780px;
+}
+
+/* Butonlar */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 16px; border-radius: 8px; font: inherit; font-size: 15px; font-weight: 600;
+  border: 1px solid var(--line); background: var(--surface); color: var(--text);
+  text-decoration: none; cursor: pointer;
+}
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.sm { padding: 7px 12px; font-size: 14px; }
+
+/* Bölümler */
+section { margin-bottom: 48px; scroll-margin-top: 72px; }
+h2 { font-size: 24px; margin: 0 0 16px; letter-spacing: -0.01em; }
+
+/* Bulgular */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+.stat-v { font-size: 28px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.stat-t { font-weight: 600; margin: 2px 0 6px; }
+.stat p { margin: 0; color: var(--muted); font-size: 14px; }
+
+/* Makine */
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.tag {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.03em;
+  padding: 2px 7px; border-radius: 4px; border: 1px solid currentColor; vertical-align: middle; white-space: nowrap;
+}
+.t-efo { color: var(--efo); }
+.t-sektor { color: var(--sektor); }
+.t-cikarim { color: var(--cikarim); }
+.t-varsayim { color: var(--varsayim); }
+
+.spec { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.spec-row { display: grid; grid-template-columns: 220px 1fr; gap: 16px; padding: 12px 18px; border-top: 1px solid var(--line); }
+.spec-row:first-child { border-top: 0; }
+.spec dt { color: var(--muted); font-size: 14px; }
+.spec dd { margin: 0; }
+
+/* Dokümanlar */
+.docs { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.doc {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 18px; display: flex; flex-direction: column;
+}
+.badge { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.04em; }
+.doc h3 { margin: 4px 0 6px; font-size: 18px; }
+.doc p { margin: 0 0 16px; color: var(--muted); font-size: 14px; flex: 1; }
+.doc-actions { display: flex; gap: 8px; }
+
+/* Figürler */
+.figs { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.fig {
+  all: unset; cursor: pointer; display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden;
+}
+.fig:hover, .fig:focus-visible { border-color: var(--accent); }
+.fig img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: #fff; padding: 8px; }
+.fig span { padding: 10px 14px; font-size: 14px; border-top: 1px solid var(--line); }
+.fig b { color: var(--accent); }
+
+/* Görüntüleyici */
+dialog {
+  width: min(1100px, 96vw); height: 92vh; padding: 0; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface); color: var(--text);
+}
+dialog[open] { display: flex; flex-direction: column; }
+dialog::backdrop { background: rgb(0 0 0 / 0.6); }
+.viewer-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 14px; border-bottom: 1px solid var(--line);
+}
+.viewer-bar div { display: flex; align-items: center; gap: 14px; font-size: 14px; }
+.viewer-bar button { all: unset; cursor: pointer; font-size: 18px; padding: 0 4px; color: var(--muted); }
+.viewer-bar button:hover { color: var(--text); }
+.viewer-body { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; background: var(--bg); }
+.viewer-body iframe { width: 100%; height: 100%; border: 0; }
+.viewer-body img { max-width: 100%; max-height: 100%; object-fit: contain; background: #fff; }
+
+.foot { border-top: 1px solid var(--line); padding-top: 20px; padding-bottom: 40px; color: var(--muted); font-size: 14px; }
+.foot p { margin: 4px 0; }
+
+@media (max-width: 700px) {
+  nav { gap: 12px; }
+  nav a { font-size: 14px; }
+  .spec-row { grid-template-columns: 1fr; gap: 2px; }
+  .docs { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Efo Safety 4.0</title>
+  <meta name="description" content="Efo Makina besleme bandı ve sarsak için Safety 4.0 föy analizi (LAB 1–4) ve SWOT.">
+  <link rel="stylesheet" href="web/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-in">
+      <a class="brand" href="#">Safety 4.0 · <span>Efo</span></a>
+      <nav>
+        <a href="#makine">Makine</a>
+        <a href="#dokumanlar">Dokümanlar</a>
+        <a href="#figurler">Figürler</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1 id="baslik"></h1>
+      <p class="sub" id="altBaslik"></p>
+      <p class="author" id="yazar"></p>
+      <div class="hero-actions" id="heroActions"></div>
+      <p class="warn" id="uyari"></p>
+    </section>
+
+    <section class="stats" id="bulgular"></section>
+
+    <section id="makine">
+      <h2>Makine</h2>
+      <div class="legend">
+        <span class="tag t-efo">EFO-DOĞRULANMIŞ</span>
+        <span class="tag t-sektor">SEKTÖR-TİPİK</span>
+        <span class="tag t-cikarim">ÇIKARIM</span>
+        <span class="tag t-varsayim">VARSAYIM</span>
+      </div>
+      <dl class="spec" id="makineListe"></dl>
+    </section>
+
+    <section id="dokumanlar">
+      <h2>Dokümanlar</h2>
+      <div class="docs" id="dokumanListe"></div>
+    </section>
+
+    <section id="figurler">
+      <h2>Figürler</h2>
+      <div class="figs" id="figurListe"></div>
+    </section>
+  </main>
+
+  <footer class="wrap foot" id="foot"></footer>
+
+  <dialog id="viewer">
+    <div class="viewer-bar">
+      <strong id="viewerTitle"></strong>
+      <div>
+        <a id="viewerOpen" target="_blank" rel="noopener">Yeni sekmede aç</a>
+        <a id="viewerDownload" download>İndir</a>
+        <button type="button" id="viewerClose" aria-label="Kapat">✕</button>
+      </div>
+    </div>
+    <div class="viewer-body" id="viewerBody"></div>
+  </dialog>
+
+  <script src="web/data.js"></script>
+  <script src="web/app.js"></script>
+</body>
+</html>

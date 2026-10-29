@@ -98,6 +98,16 @@ python scripts/build_pdf.py lab2 --preview /tmp/onizleme   # sayfaları PNG'ye �
 
 **Beklenen kalmalar:** LAB 4'te, emniyetin kumanda sistemine bağımlı olduğu varyant, bağımsızlık gereksinimini karşılamamalıdır. Bu testler `xfail(strict=True)` ile işaretli: kalmaları beklenen sonuçtur; beklenmedik şekilde geçerlerse test paketi başarısız olur.
 
+## Web arayüzü
+
+Kökteki `index.html` statik bir sayfadır: PDF'leri tarayıcıda açar, indirir ve figürleri gösterir. Derleme ya da veritabanı gerekmez.
+
+```bash
+python -m http.server 8000                  # http://localhost:8000
+```
+
+GitHub Pages için: Settings → Pages → `main` / `(root)`. İçerik (makine bilgileri, bulgular, dokümanlar, figürler) yalnızca `web/data.js` dosyasındadır; yeni bir PDF ya da figür eklemek için ilgili diziye bir satır eklemek yeterli. Tek bir dokümana doğrudan bağlantı: `index.html#doc=lab2`.
+
 ## Lab durumu
 
 | Bölüm | Durum | Testler |

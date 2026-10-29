@@ -22,7 +22,7 @@
   const ana = S.dokumanlar.find((d) => d.ana);
   if (ana) {
     $("heroActions").innerHTML =
-      `<button class="btn primary" data-doc="${esc(ana.id)}">${esc(ana.baslik)} — oku</button>` +
+      `<a class="btn primary" href="viewer.html?doc=${esc(ana.id)}">${esc(ana.baslik)} — oku</a>` +
       `<a class="btn" href="${esc(ana.dosya)}" download>PDF indir</a>` +
       (S.repo ? `<a class="btn" href="${esc(S.repo)}" target="_blank" rel="noopener">GitHub</a>` : "");
   }
@@ -57,7 +57,7 @@
         <h3>${esc(d.baslik)}</h3>
         <p>${esc(d.aciklama)}</p>
         <div class="doc-actions">
-          <button class="btn primary sm" data-doc="${esc(d.id)}">Görüntüle</button>
+          <a class="btn primary sm" href="viewer.html?doc=${esc(d.id)}">Görüntüle</a>
           <a class="btn sm" href="${esc(d.dosya)}" download>İndir</a>
         </div>
       </article>`
@@ -78,54 +78,26 @@
     `<p>${esc(S.yazar)}</p>` +
     (S.repo ? `<p><a href="${esc(S.repo)}" target="_blank" rel="noopener">Kaynak kod ve testler</a></p>` : "");
 
-  // Görüntüleyici
+  // Figür görüntüleyici (PDF'ler viewer.html'de açılır)
   const dlg = $("viewer");
-  const isMobile = matchMedia("(max-width: 700px)").matches;
-
-  function open(title, src, kind) {
-    // Mobil tarayıcılar iframe içinde PDF göstermiyor; doğrudan aç.
-    if (kind === "pdf" && isMobile) {
-      window.open(src, "_blank", "noopener");
-      return;
-    }
-    $("viewerTitle").textContent = title;
-    $("viewerOpen").href = src;
-    $("viewerDownload").href = src;
-    $("viewerBody").innerHTML =
-      kind === "pdf"
-        ? `<iframe src="${esc(src)}#view=FitH" title="${esc(title)}"></iframe>`
-        : `<img src="${esc(src)}" alt="${esc(title)}">`;
-    dlg.showModal();
-  }
 
   document.addEventListener("click", (e) => {
-    const docBtn = e.target.closest("[data-doc]");
-    if (docBtn) {
-      const d = S.dokumanlar.find((x) => x.id === docBtn.dataset.doc);
-      if (d) {
-        open(d.baslik, d.dosya, "pdf");
-        history.replaceState(null, "", "#doc=" + d.id);
-      }
-      return;
-    }
     const figBtn = e.target.closest("[data-fig]");
-    if (figBtn) {
-      const f = S.figurler[+figBtn.dataset.fig];
-      open(`${f.lab} · ${f.baslik}`, f.dosya, "img");
-    }
+    if (!figBtn) return;
+    const f = S.figurler[+figBtn.dataset.fig];
+    const title = `${f.lab} · ${f.baslik}`;
+    $("viewerTitle").textContent = title;
+    $("viewerOpen").href = f.dosya;
+    $("viewerDownload").href = f.dosya;
+    $("viewerBody").innerHTML = `<img src="${esc(f.dosya)}" alt="${esc(title)}">`;
+    dlg.showModal();
   });
 
   $("viewerClose").addEventListener("click", () => dlg.close());
   dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
-  dlg.addEventListener("close", () => {
-    $("viewerBody").innerHTML = "";
-    if (location.hash.startsWith("#doc=")) history.replaceState(null, "", location.pathname);
-  });
+  dlg.addEventListener("close", () => { $("viewerBody").innerHTML = ""; });
 
-  // #doc=lab2 gibi doğrudan bağlantılar
+  // Eski #doc=lab2 bağlantıları yeni sayfaya yönlensin
   const m = location.hash.match(/^#doc=(.+)$/);
-  if (m) {
-    const d = S.dokumanlar.find((x) => x.id === m[1]);
-    if (d) open(d.baslik, d.dosya, "pdf");
-  }
+  if (m) location.replace("viewer.html?doc=" + encodeURIComponent(m[1]));
 })();

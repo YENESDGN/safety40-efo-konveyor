@@ -106,7 +106,7 @@ Kökteki `index.html` statik bir sayfadır: PDF'leri tarayıcıda açar, indirir
 python -m http.server 8000                  # http://localhost:8000
 ```
 
-GitHub Pages için: Settings → Pages → `main` / `(root)`. İçerik (makine bilgileri, bulgular, dokümanlar, figürler) yalnızca `web/data.js` dosyasındadır; yeni bir PDF ya da figür eklemek için ilgili diziye bir satır eklemek yeterli. Tek bir dokümana doğrudan bağlantı: `index.html#doc=lab2`.
+GitHub Pages için: Settings → Pages → `main` / `(root)`. İçerik (makine bilgileri, bulgular, dokümanlar, figürler) yalnızca `web/data.js` dosyasındadır; yeni bir PDF ya da figür eklemek için ilgili diziye bir satır eklemek yeterli. PDF'ler ayrı bir sayfada açılır; tek bir dokümana doğrudan bağlantı: `viewer.html?doc=lab2`.
 
 ## Lab durumu
 

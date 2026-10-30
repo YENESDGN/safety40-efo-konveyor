@@ -49,6 +49,9 @@ DOCS = {
     "lab2": ("lab2_zone_conduit.md", "LAB2_IEC62443_Zone_Conduit.pdf"),
     "lab3": ("lab3_risk_register.md", "LAB3_Threat_Risk_Register.pdf"),
     "lab4": ("lab4_secure_remote_access.md", "LAB4_Secure_Remote_Access.pdf"),
+    "lab5": ("lab5_sbom_cve_patch.md", "LAB5_SBOM_CVE_Patch.pdf"),
+    "lab6": ("lab6_cra_incident.md", "LAB6_CRA_Incident.pdf"),
+    "lab7": ("lab7_ai_safety.md", "LAB7_AI_Safety.pdf"),
     "05": ("05_swot_varsayimlar.md", "05_SWOT_ve_Varsayimlar.pdf"),
 }
 FULL_PDF = "Efo_Safety40_Tam_Rapor.pdf"
@@ -238,7 +241,7 @@ def build_full(keys, meta, sources):
         sections.append(section)
         toc.append(f'<li><a href="#doc-{key}">{html.escape(fm["baslik"])} — {html.escape(fm["cikti"])}</a></li>')
     cover = (f'<section class="kapak"><h1>Efo Makina — Besleme Bandı &amp; Sarsak</h1>'
-             f'<div class="alt">Safety 4.0 Föy Analizi (LAB 1–4) + SWOT</div>'
+             f'<div class="alt">Safety 4.0 Föy Analizi (LAB 1–7) + SWOT</div>'
              f'<div class="fields"><div><span>Ad Soyad</span>{html.escape(meta["ad_soyad"])}</div>'
              f'<div><span>Grup</span>{html.escape(meta["grup"])}</div></div>'
              f'<p class="uyari">{html.escape(meta["uyari"])}</p>'
@@ -281,7 +284,7 @@ def preview(pdf_path, out_dir):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("docs", nargs="+", help="00, lab1, lab2, lab3, lab4, 05 ya da all")
+    ap.add_argument("docs", nargs="+", help="00, lab1 … lab7, 05 ya da all")
     ap.add_argument("--check", action="store_true", help="üretilen PDF'leri kontrol et")
     ap.add_argument("--preview", metavar="KLASÖR", help="sayfaları PNG olarak bu klasöre yaz")
     args = ap.parse_args()

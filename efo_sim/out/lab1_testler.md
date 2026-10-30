@@ -1,6 +1,6 @@
 | # | Test (dosya) | Sonuç |
 |---|---|---|
-| 1 | `test_her_parametrenin_etiketi_ve_kaynagi_var` (test_params) | ✔ geçti (26/26) |
+| 1 | `test_her_parametrenin_etiketi_ve_kaynagi_var` (test_params) | ✔ geçti (49/49) |
 | 2 | `test_her_tetikleyici_her_durumdan_guvenli_duruma_goturur` (test_lab1_safety) | ✔ geçti (9/9) |
 | 3 | `test_acil_stop_her_durumda_guvenli_duruma_gecer` (test_lab1_safety) | ✔ geçti |
 | 4 | `test_reset_yapilmadan_makine_yeniden_baslamaz` (test_lab1_safety) | ✔ geçti |

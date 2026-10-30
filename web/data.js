@@ -4,7 +4,7 @@
 
 window.SITE = {
   baslik: "Efo Makina · Besleme Bandı & Sarsak",
-  altBaslik: "Safety 4.0 Föy Analizi (LAB 1–4) + SWOT",
+  altBaslik: "Safety 4.0 Föy Analizi (LAB 1–7) + SWOT",
   yazar: "Yağız Enes Doğan · Gündüz - B · Safety 4.0 Bootcamp",
   repo: "https://github.com/YENESDGN/safety40-efo-konveyor",
   uyari:
@@ -27,7 +27,10 @@ window.SITE = {
     { deger: "PLr e", baslik: "En ciddi tehlike", metin: "Besleme ağzında el/kolun yongalama makinesine çekilmesi. Acil stop / çekme ipi için S2, F2, P2." },
     { deger: "0,50 → 2,875 m", baslik: "Siberden fiziksele", metin: "Emniyet invertöre bağımlıyken tek bir rampa parametresi durma mesafesini güvenli sınırın (1,50 m) çok üstüne çıkarıyor." },
     { deger: "19 → 0", baslik: "Bağımsızlık", metin: "Emniyet fonksiyonuna saldırı yolu: mevcut durumda 19, hedef mimaride VPN + MFA aşılsa bile 0." },
-    { deger: "109 + 4", baslik: "Gereksinim = test", metin: "109 test geçti, 4 beklenen kalma (xfail). PDF'teki sonuçlar testlerin gerçek çıktısıdır." },
+    { deger: "CVSS 9,8 ≠ durdur", baslik: "Zafiyet kararı", metin: "Aynı kritik PLC açığı bağımlı mimaride acil telafi ve yeniden doğrulama, bağımsız mimaride planlı bakım işi demek." },
+    { deger: "2,875 m", baslik: "Olay anında emniyet", metin: "Okunan konfigürasyon referansla karşılaştırılınca mevcut mimaride acil stopa güvenilemediği görülüyor; bağımsız emniyette 0,931 m." },
+    { deger: "%6,57 → %0,88", baslik: "YZ fail-safe", metin: "Güven eşiği ve YZ'den bağımsız metal dedektörüyle kaçak oranı hedefin altına iniyor; YZ emniyet zincirine hiç dokunmuyor." },
+    { deger: "208 + 5", baslik: "Gereksinim = test", metin: "208 test geçti, 5 beklenen kalma (xfail). PDF'teki sonuçlar testlerin gerçek çıktısıdır." },
   ],
 
   // PDF dokümanlar. ana: true olan, üstte "tam rapor" olarak öne çıkar.
@@ -38,7 +41,10 @@ window.SITE = {
     { id: "lab2", rozet: "LAB 2 · EP 05", baslik: "IEC 62443 Zone / Conduit", aciklama: "Bölge ve conduit diyagramı, varlık envanteri, kurallar.", dosya: "pdf/LAB2_IEC62443_Zone_Conduit.pdf" },
     { id: "lab3", rozet: "LAB 3 · EP 04", baslik: "Threat & Risk Register", aciklama: "Risk register, ısı haritası, siber-fiziksel bağ, duyarlılık.", dosya: "pdf/LAB3_Threat_Risk_Register.pdf" },
     { id: "lab4", rozet: "LAB 4 · EP 02 + 06", baslik: "Secure Remote Access", aciklama: "Saldırı grafı, bağımsızlık testi, G1–G7 gereksinimleri.", dosya: "pdf/LAB4_Secure_Remote_Access.pdf" },
-    { id: "swot", rozet: "Bölüm 5", baslik: "SWOT ve Varsayımlar", aciklama: "SWOT, V1–V15 varsayımları ve yanlışsa etkileri.", dosya: "pdf/05_SWOT_ve_Varsayimlar.pdf" },
+    { id: "lab5", rozet: "LAB 5 · EP 09 · 10 · 11", baslik: "SBOM / CVE / Patch", aciklama: "SBOM, üç şart, karar akışı, telafi edici önlemler, validasyon etkisi.", dosya: "pdf/LAB5_SBOM_CVE_Patch.pdf" },
+    { id: "lab6", rozet: "LAB 6 · EP 13", baslik: "CRA Incident Simulation", aciklama: "Olay akışı, emniyet doğrulaması, kanıt koruma, CRA 24 sa / 72 sa / 14 gün.", dosya: "pdf/LAB6_CRA_Incident.pdf" },
+    { id: "lab7", rozet: "LAB 7 · EP 03 + 15", baslik: "AI Safety Challenge", aciklama: "Güven eşiği, girdi manipülasyonu, YZ'den bağımsız emniyet, A1–A6 gereksinimleri.", dosya: "pdf/LAB7_AI_Safety.pdf" },
+    { id: "swot", rozet: "Bölüm 5", baslik: "SWOT ve Varsayımlar", aciklama: "SWOT, V1–V20 varsayımları ve yanlışsa etkileri.", dosya: "pdf/05_SWOT_ve_Varsayimlar.pdf" },
     { id: "arastirma", rozet: "Kaynak", baslik: "Derin Araştırma Raporu", aciklama: "Analizin ana kanıt kaynağı olan bağımsız araştırma.", dosya: "docs/research/Efo_Makina_Derin_Arastirma_Raporu.pdf" },
   ],
 
@@ -55,5 +61,9 @@ window.SITE = {
     { baslik: "Uzaktan erişim yolu", lab: "LAB 4", dosya: "efo_sim/out/diagrams/lab4_0_4f3b6b97.png" },
     { baslik: "Saldırı grafı · mevcut", lab: "LAB 4", dosya: "efo_sim/out/diagrams/lab4_1_7e0e63b7.png" },
     { baslik: "Saldırı grafı · hedef", lab: "LAB 4", dosya: "efo_sim/out/diagrams/lab4_2_7576ccd7.png" },
+    { baslik: "Zafiyet karar akışı", lab: "LAB 5", dosya: "efo_sim/out/diagrams/lab5_0_ac138fb6.png" },
+    { baslik: "Olay akışı", lab: "LAB 6", dosya: "efo_sim/out/lab6_zaman_cizelgesi.png" },
+    { baslik: "YZ ve emniyet katmanları", lab: "LAB 7", dosya: "efo_sim/out/diagrams/lab7_0_1da3b242.png" },
+    { baslik: "Güven eşiği taraması", lab: "LAB 7", dosya: "efo_sim/out/lab7_esik.png" },
   ],
 };

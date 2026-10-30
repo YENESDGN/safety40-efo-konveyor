@@ -1,8 +1,9 @@
 ============================= test session starts ==============================
-platform linux -- Python 3.13.17, pytest-9.1.1, pluggy-1.7.0 -- /usr/bin/python3
-rootdir: /home/claude/safety40-efo-konveyor
+platform linux -- Python 3.14.8, pytest-9.0.2, pluggy-1.6.0 -- /usr/bin/python
+rootdir: /home/ydogan/Masaüstü/safety40-efo-konveyor
 configfile: pytest.ini
-plugins: platformdirs-4.12.4, anyio-4.15.1
+plugins: asyncio-1.3.0, anyio-4.13.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
 collecting ... collected 19 items
 
 efo_sim/tests/test_lab4_attack.py::test_mevcut_mimaride_emniyet_fonksiyonuna_ulasan_yol_var PASSED [  5%]
@@ -25,4 +26,4 @@ efo_sim/tests/test_lab4_attack.py::test_saldiri_yokken_her_varyant_guvenli[bagim
 efo_sim/tests/test_lab4_attack.py::test_saldiri_yokken_her_varyant_guvenli[bagimsiz_hiz_izlemeli] PASSED [ 94%]
 efo_sim/tests/test_lab4_attack.py::test_varsayim_etkisi_hesaplari_tutarli PASSED [100%]
 
-======================== 15 passed, 4 xfailed in 0.12s =========================
+======================== 15 passed, 4 xfailed in 0.06s =========================

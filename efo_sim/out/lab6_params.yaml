@@ -1,0 +1,18 @@
+lab6:
+  kilometre_taslari:
+    deger: {ilk_mudahale: 15, ilk_asama: 120, erken_uyari: 1440, bildirim: 4320, son_rapor: 20160}
+    birim: "dk"
+    etiket: "SEKTÖR-TİPİK"
+    kaynak: "föy LAB 6, Y20, Y22"
+    not: "10:15'ten itibaren: 15 dk, 2 sa, 24 sa, 72 sa, 14 gün"
+  # Referans (onaylı) konfigürasyon ve olay sırasında okunan konfigürasyon
+  referans_konfig:
+    deger: {plc_proje_crc: "7A3F-19C2", emniyet_rolesi_ayar: "SS1-t 1,0 s", rampa_suresi: 0.5, hiz_carpani: 1.0}
+    etiket: "VARSAYIM"
+    kaynak: "V19"
+    not: "Devreye almadaki onaylı yedek. Rampa lab1.rampa_suresi_kat1 ile aynı"
+  okunan_konfig:
+    deger: {plc_proje_crc: "C04D-88E1", emniyet_rolesi_ayar: "SS1-t 1,0 s", rampa_suresi: 10.0, hiz_carpani: 1.0}
+    etiket: "VARSAYIM"
+    kaynak: "V19"
+    not: "Olay sırasında salt okunur olarak alınan döküm: PLC projesi farklı, rampa 10 s (LAB 3 saldırısı)"

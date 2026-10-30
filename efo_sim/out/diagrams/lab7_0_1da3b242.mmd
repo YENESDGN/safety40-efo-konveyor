@@ -1,0 +1,22 @@
+%% caption: Şekil 1 — Föydeki zincir (üstte), YZ'nin etrafındaki kural katmanı (ortada) ve YZ'den bağımsız emniyet zinciri (altta). YZ yalnız normal kumandaya öneri verir.
+flowchart TB
+  subgraph Z["Föydeki zincir"]
+    direction LR
+    K["Kamera"] --> Y["YZ modeli<br/>p(kusur)"] --> O{"OK / RED"} --> R["Ayırma klapesi /<br/>besleme durdurma"] --> H["Dozaj hızı<br/>önerisi"]
+  end
+  subgraph KK["Kural katmanı · YZ'nin etrafında"]
+    direction LR
+    G["Girdi kontrolleri<br/>kare yaşı · donmuş kare<br/>parlaklık · keskinlik"] --> T["Güven eşiği<br/>altında operatöre sor"] --> M["Metal dedektörü<br/>YZ'den bağımsız"] --> NK["Normal kumanda<br/>hız üst sınırı → invertör"]
+  end
+  subgraph E["Emniyet zinciri · YZ'nin dışında"]
+    direction LR
+    AS["Acil stop · ip · kapak"] --> ER["Emniyet rölesi<br/>+ hız izleme"] --> STO["STO"] --> B["Bant invertörü"]
+  end
+  Z ~~~ KK
+  KK ~~~ E
+  classDef yz fill:#efe9fb,stroke:#7a4fd0,stroke-width:2px,color:#16223a
+  classDef koruma fill:#e6f3f1,stroke:#1f8f86,stroke-width:2px,color:#16223a
+  classDef emniyet fill:#fdecea,stroke:#b3261e,stroke-width:2px,color:#16223a
+  class Y,O,H yz
+  class G,T,M,NK koruma
+  class AS,ER,STO emniyet

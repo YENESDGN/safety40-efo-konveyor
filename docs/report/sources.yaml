@@ -67,3 +67,13 @@ Y18: {title: "Regulation (EU) 2023/1230, Article 54", url: "https://gesetze.lega
 Y19: {title: "Resmî Gazete 16.10.2026 (Sayı 33402) — Makine Emniyeti Yönetmeliği (2023/1230/AB)", url: "https://www.resmigazete.gov.tr/eskiler/2026/10/20261016-12.htm"}
 Y20: {title: "The Cyber Resilience Act Explained", url: "https://www.cyberresilienceact.eu/explained.html"}
 Y21: {title: "ReeR — ISO 13849-1,2 Safety Related Parts of Control Systems", url: "https://int.reersafety.com/?p=38995"}
+Y22: {title: "Regulation (EU) 2024/2847 (Cyber Resilience Act), Article 14 — Reporting obligations of manufacturers", url: "https://eur-lex.europa.eu/eli/reg/2024/2847/oj"}
+Y23: {title: "CISA — Software Bill of Materials (SBOM)", url: "https://www.cisa.gov/sbom"}
+Y24: {title: "FIRST — CVSS v3.1 Specification Document", url: "https://www.first.org/cvss/v3.1/specification-document"}
+Y25: {title: "CISA — Known Exploited Vulnerabilities Catalog", url: "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"}
+Y26: {title: "NIST SP 800-82 Rev. 3 — Guide to Operational Technology (OT) Security", url: "https://csrc.nist.gov/pubs/sp/800/82/r3/final"}
+Y27: {title: "Regulation (EU) 2023/1230 (Machinery Regulation) — Annex I Part A, Annex III 1.1.9 ve 1.2.1", url: "https://eur-lex.europa.eu/eli/reg/2023/1230/oj"}
+Y28: {title: "Regulation (EU) 2024/1689 (AI Act) — Article 6, Annex I", url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj"}
+Y29: {title: "ISO/IEC TR 5469:2024 — Artificial intelligence — Functional safety and AI systems", url: "https://www.iso.org/standard/81283.html"}
+Y30: {title: "USOM — Ulusal Siber Olaylara Müdahale Merkezi", url: "https://www.usom.gov.tr/"}
+Y31: {title: "NIST SP 800-61 Rev. 3 — Incident Response Recommendations and Considerations for Cybersecurity Risk Management", url: "https://csrc.nist.gov/pubs/sp/800/61/r3/final"}

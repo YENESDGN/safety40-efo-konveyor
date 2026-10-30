@@ -1,0 +1,51 @@
+lab5:
+  # SBOM: hat yazılım bileşenleri. "dugum" = LAB 4 saldırı grafındaki karşılığı
+  sbom:
+    deger:
+      - {id: PLC_FW, ad: "PLC firmware (S7-1200 sınıfı)", urun: "S7-1200", dugum: plc, surum: "4.5", yazilim: true}
+      - {id: COMP_X, ad: "Component X (PLC firmware kütüphanesi)", urun: "Component X", dugum: plc, surum: "2.4", yazilim: true}
+      - {id: HMI_SW, ad: "Operatör paneli yazılımı", urun: "HMI runtime", dugum: hmi, surum: "17.0", yazilim: true}
+      - {id: UZAK_ARAC, ad: "Uzak masaüstü aracı (HMI'da)", urun: "Uzak masaüstü", dugum: hmi, surum: "15.0", yazilim: true}
+      - {id: VFD_FW, ad: "Bant invertörü firmware + WLAN modülü", urun: "VFD", dugum: vfd, surum: "3.2", yazilim: true}
+      - {id: ROUTER_FW, ad: "4G/VPN router firmware", urun: "4G router", dugum: router, surum: "7.1", yazilim: true}
+      - {id: EMNIYET_RELE, ad: "Emniyet rölesi (kablolu, yazılımsız)", urun: "Emniyet rölesi", dugum: emniyet, surum: "-", yazilim: false}
+    etiket: "VARSAYIM"
+    kaynak: "V2, V3, V5, V16"
+    not: "Efo SBOM yayınlamıyor. Bileşenler LAB 2 varlık listesinden; sürümler kabul. Component X ve 2.4 föyden"
+
+  # Zafiyet kayıtları: föydeki kayıt + iki gerçek kayıt (karşılaştırma için)
+  kayitlar:
+    deger:
+      - {id: FOY-X, cve: "CVE-XXXX-XXXX", urun: "Component X", ilk_duzeltilmis: "2.5", cvss: 9.8,
+         vektor: "ağ (kimlik doğrulamasız)", ek_kosullar: [], yama: "2.5", kaynak: "föy LAB 5 + V17"}
+      - {id: CVE-2024-47100, cve: "CVE-2024-47100", urun: "S7-1200", ilk_duzeltilmis: "4.7", cvss: 7.1,
+         vektor: "ağ, PLC web arayüzü (CSRF, kullanıcı etkileşimi)", ek_kosullar: [plc_web_sunucusu_acik], yama: "4.7", kaynak: "Y12"}
+      - {id: SSA-688146, cve: "SSA-688146", urun: "S7-1500 / ET 200SP", ilk_duzeltilmis: "-", cvss: 9.1,
+         vektor: "ağ", ek_kosullar: [], yama: "üretici bildirimine göre", kaynak: "Y14"}
+    etiket: "SEKTÖR-TİPİK"
+    kaynak: "föy LAB 5, Y12, Y14"
+    not: "FOY-X'in etkilenen sürüm aralığı föyde yok; 2.5 öncesi etkilenir kabul edildi (V17)"
+
+  # LAB 4 mimarilerine eklenen koşul
+  plc_web_sunucusu:
+    deger: {mevcut: true, hedef: false}
+    etiket: "VARSAYIM"
+    kaynak: "V13"
+    not: "Mevcutta PLC web sunucusu açık; hedefte kapalı"
+
+  # Telafi edici önlemler: kapattığı koşul (LAB 4 mimari anahtarı) ve uygulama süresi
+  telafi_onlemleri:
+    deger:
+      - {id: T1, ad: "Uzak destek router'ının bağlantısını fiziksel olarak kesmek", kosul: router_surekli_acik, saat: 0.25}
+      - {id: T2, ad: "PLC web sunucusunu kapatmak", kosul: plc_web_sunucusu_acik, saat: 1.0}
+      - {id: T3, ad: "İnvertör WLAN modülünü sökmek", kosul: wlan_modulu_acik, saat: 0.25}
+      - {id: T4, ad: "Pano ve HMI USB portlarını kilitlemek", kosul: usb_kilitsiz, saat: 0.5}
+      - {id: T5, ad: "HMI varsayılan parolasını değiştirmek", kosul: hmi_varsayilan_parola, saat: 0.25}
+      - {id: T6, ad: "HMI'daki uzak masaüstü aracını kaldırmak", kosul: uzak_masaustu_kurulu, saat: 0.5}
+      - {id: T7, ad: "Yama bitene kadar uzak bakım oturumuna (C1) tesis onayı vermemek", kosul: uzak_oturum_acik, saat: 0.1}
+    etiket: "VARSAYIM"
+    kaynak: "V18, Y15"
+    not: "Süreler bir bakım teknisyeni için kaba tahmin"
+  telafi_azami_sure:
+    {deger: 2.0, birim: "saat", etiket: "VARSAYIM", kaynak: "V18",
+     not: "Emniyete yol açan bir zafiyette telafi bu süre içinde bitirilemiyorsa hat kontrollü durdurulur"}

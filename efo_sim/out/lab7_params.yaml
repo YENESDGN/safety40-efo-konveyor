@@ -1,0 +1,40 @@
+lab7:
+  ornek_sayisi: {deger: 20000, birim: "adet", etiket: "VARSAYIM", kaynak: "V20", not: "Sentetik değerlendirme kümesi"}
+  tohum: {deger: 42, birim: "-", etiket: "VARSAYIM", kaynak: "-", not: "Tekrarlanabilirlik için rastgele sayı tohumu"}
+  kusur_orani:
+    {deger: 0.02, birim: "oran", etiket: "VARSAYIM", kaynak: "V20",
+     not: "Bantta yabancı cisim (metal, taş) ya da aşırı boy parça oranı"}
+  metal_payi:
+    {deger: 0.6, birim: "oran", etiket: "VARSAYIM", kaynak: "V20", not: "Kusurların metal olan kısmı"}
+  skor_kusurlu:
+    {deger: [6.0, 2.0], birim: "Beta(a, b)", etiket: "VARSAYIM", kaynak: "V20",
+     not: "Kusurlu parçada modelin verdiği p(kusur) dağılımı"}
+  skor_saglam:
+    {deger: [1.5, 9.0], birim: "Beta(a, b)", etiket: "VARSAYIM", kaynak: "V20",
+     not: "Sağlam parçada modelin verdiği p(kusur) dağılımı"}
+  karar_siniri:
+    {deger: 0.5, birim: "p", etiket: "VARSAYIM", kaynak: "V20",
+     not: "p(kusur) ≥ 0,5 → RED; altı → OK (ikili sınıflandırıcının olağan sınırı)"}
+  hedef_kacak_orani:
+    {deger: 0.01, birim: "oran", etiket: "VARSAYIM", kaynak: "V20",
+     not: "Kusurların en fazla %1'i otomatik OK alabilir"}
+  insan_kapasitesi:
+    {deger: 0.05, birim: "oran", etiket: "VARSAYIM", kaynak: "V20",
+     not: "Operatörün onaylayabileceği en yüksek parça oranı"}
+  esik_araligi:
+    {deger: [0.5, 0.99], birim: "güven", etiket: "VARSAYIM", kaynak: "-", not: "Güven eşiği taraması"}
+  esik_adim_sayisi: {deger: 50, birim: "adet", etiket: "VARSAYIM", kaynak: "-", not: "Tarama çözünürlüğü"}
+  md_kacirma_orani:
+    {deger: 0.05, birim: "oran", etiket: "VARSAYIM", kaynak: "V20",
+     not: "YZ'den bağımsız metal dedektörünün metal parçayı kaçırma oranı"}
+  girdi_kontrolleri:
+    deger: {azami_kare_yasi_ms: 200, donuk_kare_sayisi: 5, parlaklik_araligi: [0.08, 0.92], asgari_keskinlik: 0.15}
+    etiket: "VARSAYIM"
+    kaynak: "V20"
+    not: "Kare yaşı, aynı karenin tekrarı, parlaklık ve keskinlik sınırları"
+  hiz_istegi_ust_siniri:
+    {deger: 1.0, birim: "× nominal", etiket: "VARSAYIM", kaynak: "V20",
+     not: "Normal kumanda YZ'nin dozaj hızı isteğini nominalde keser"}
+  hiz_istegi_taramasi:
+    {deger: [0.5, 1.0, 1.5, 2.0, 3.0], birim: "× nominal", etiket: "VARSAYIM", kaynak: "-",
+     not: "Test edilen YZ hız istekleri"}

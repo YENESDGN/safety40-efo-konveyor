@@ -1,0 +1,21 @@
+%% caption: Şekil 1 — Karar akışı. CVSS yalnızca bir girdi; kararı üç şart, emniyete yol ve telafi süresi belirler.
+flowchart TB
+  A["CVE kaydı"] --> B["1 · Bileşen<br/>var mı?"]
+  B -->|evet| C["2 · Sürüm<br/>etkileniyor mu?"]
+  C -->|evet| D["3 · Ulaşılabilir<br/>mi?"]
+  D -->|evet| E["Emniyete<br/>yol var mı?"]
+  E -->|evet| G["Telafi ≤ 2 sa,<br/>istismar yok?"]
+  G -->|evet| H["Durdurmadan<br/>hemen telafi"]
+  B -->|hayır| X["Etkilemez<br/>kayda geç"]
+  C -->|hayır| X
+  D -->|hayır| Y["Şimdilik etkilemez<br/>koşulu izle"]
+  E -->|hayır| F["Devam +<br/>planlı telafi"]
+  G -->|hayır| I["Kontrollü<br/>durdur"]
+  classDef soru fill:#e9f1fb,stroke:#2a78d6,stroke-width:2px,color:#16223a
+  class B,C,D,E,G soru
+  classDef iyi fill:#e6f3f1,stroke:#1f8f86,stroke-width:2px,color:#16223a
+  classDef orta fill:#fdf6e3,stroke:#e2a91c,stroke-width:2px,color:#16223a
+  classDef kotu fill:#fdecea,stroke:#b3261e,stroke-width:2px,color:#16223a
+  class X,Y,F iyi
+  class H orta
+  class I kotu

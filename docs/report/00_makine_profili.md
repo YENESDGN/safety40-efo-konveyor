@@ -3,7 +3,7 @@ bolum: "Bölüm 0 · Efo Makina · Besleme Bandı & Sarsak"
 baslik: "Makine Profili"
 cikti: "Rapor Doğrulama + Makine Profili"
 ep: "Giriş (föy dışı)"
-kavram: "Makine profili, LAB 1–4'ün ortak girdisidir. Ne **bildiğimizi**, neyi **varsaydığımızı** ve neyin **bilinmediğini** etiketlerle ayırır. Sonraki lab'larda kullanılan her varsayım burada bir kimlik (V1, V2, …) alır."
+kavram: "Makine profili, LAB 1–7'nin ortak girdisidir. Ne **bildiğimizi**, neyi **varsaydığımızı** ve neyin **bilinmediğini** etiketlerle ayırır. Sonraki lab'larda kullanılan her varsayım burada bir kimlik (V1, V2, …) alır."
 ---
 
 ## 1. Kapsam ve yöntem
@@ -150,10 +150,10 @@ flowchart LR
 | Kimlik | Varsayım | Kullanıldığı yer |
 |---|---|---|
 | V1 | Yongalama makinesini doğrudan besleyen ünite besleme bandıdır. | LAB 1, LAB 3 |
-| V2 | Bant ve sarsak motorları frekans invertörüyle sürülür; invertörlerde STO girişi vardır. | LAB 1–4 |
-| V3 | Hat standart bir PLC ile kumanda edilir (S7-1200 sınıfı); operatör kabininde bir HMI ya da panel vardır. | LAB 1–4 |
+| V2 | Bant ve sarsak motorları frekans invertörüyle sürülür; invertörlerde STO girişi vardır. | LAB 1–7 |
+| V3 | Hat standart bir PLC ile kumanda edilir (S7-1200 sınıfı); operatör kabininde bir HMI ya da panel vardır. | LAB 1–7 |
 | V4 | Emniyet zinciri tipik yapıdadır: acil stop + çekme ipi + kilitli kapaklar → emniyet rölesi → STO / kontaktör. | LAB 1, LAB 4 |
-| V5 | Uzak destek tipik KOBİ pratiğiyle yapılır: panoda sürekli açık bir 4G/VPN router ya da ticari bir uzak masaüstü aracı. | LAB 2–4 |
+| V5 | Uzak destek tipik KOBİ pratiğiyle yapılır: panoda sürekli açık bir 4G/VPN router ya da ticari bir uzak masaüstü aracı. | LAB 2–6 |
 | V6 | Sayısal değerler (bant hızı, mesafeler, durma süreleri) sektör-tipik değerlerdir. | LAB 1, LAB 3 |
 | V7 | Yongalama makinesi ile besleme arasında bir interlock vardır: yongalama durursa besleme durur. | LAB 1, LAB 3 |
 

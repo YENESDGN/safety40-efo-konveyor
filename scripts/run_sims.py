@@ -24,6 +24,9 @@ LABS = {
     "lab2": ("efo_sim.lab2_zones", ["test_lab2_zones.py"]),
     "lab3": ("efo_sim.lab3_risk", ["test_lab3_risk.py"]),
     "lab4": ("efo_sim.lab4_attack", ["test_lab4_attack.py"]),
+    "lab5": ("efo_sim.lab5_vuln", ["test_lab5_vuln.py"]),
+    "lab6": ("efo_sim.lab6_incident", ["test_lab6_incident.py"]),
+    "lab7": ("efo_sim.lab7_ai", ["test_lab7_ai.py"]),
 }
 
 

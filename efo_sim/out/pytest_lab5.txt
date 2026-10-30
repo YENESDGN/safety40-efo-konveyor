@@ -1,0 +1,29 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.8, pytest-9.0.2, pluggy-1.6.0 -- /usr/bin/python
+rootdir: /home/ydogan/Masaüstü/safety40-efo-konveyor
+configfile: pytest.ini
+plugins: asyncio-1.3.0, anyio-4.13.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 19 items
+
+efo_sim/tests/test_lab5_vuln.py::test_surum_karsilastirmasi_sayisaldir[2.4-2.5-True] PASSED [  5%]
+efo_sim/tests/test_lab5_vuln.py::test_surum_karsilastirmasi_sayisaldir[2.5-2.5-False] PASSED [ 10%]
+efo_sim/tests/test_lab5_vuln.py::test_surum_karsilastirmasi_sayisaldir[2.10-2.5-False] PASSED [ 15%]
+efo_sim/tests/test_lab5_vuln.py::test_surum_karsilastirmasi_sayisaldir[4.5-4.7-True] PASSED [ 21%]
+efo_sim/tests/test_lab5_vuln.py::test_surum_karsilastirmasi_sayisaldir[4.7-4.7-False] PASSED [ 26%]
+efo_sim/tests/test_lab5_vuln.py::test_surum_karsilastirmasi_sayisaldir[--2.5-False] PASSED [ 31%]
+efo_sim/tests/test_lab5_vuln.py::test_foydeki_kayit_mevcut_mimaride_uc_sarti_da_saglar PASSED [ 36%]
+efo_sim/tests/test_lab5_vuln.py::test_sbomda_olmayan_urun_cvss_yuksek_olsa_da_etkilemez PASSED [ 42%]
+efo_sim/tests/test_lab5_vuln.py::test_web_sunucusu_kapaliysa_csrf_acigi_ulasilamaz PASSED [ 47%]
+efo_sim/tests/test_lab5_vuln.py::test_her_sbom_bileseni_saldiri_grafinda_bir_dugume_baglidir PASSED [ 52%]
+efo_sim/tests/test_lab5_vuln.py::test_telafi_onlemleri_mimarideki_kosullari_kapatir PASSED [ 57%]
+efo_sim/tests/test_lab5_vuln.py::test_cvss_tek_basina_karari_belirlemez PASSED [ 63%]
+efo_sim/tests/test_lab5_vuln.py::test_bagimsiz_emniyette_plc_acigi_uretimi_durdurmaz PASSED [ 68%]
+efo_sim/tests/test_lab5_vuln.py::test_bagimli_emniyette_istismar_belirtisi_varsa_hat_kontrollu_durur PASSED [ 73%]
+efo_sim/tests/test_lab5_vuln.py::test_telafi_plani_acigi_ulasilamaz_kilar_ve_azami_surede_biter PASSED [ 78%]
+efo_sim/tests/test_lab5_vuln.py::test_plc_yamasi_validasyonu_yalniz_bagimli_mimaride_etkiler PASSED [ 84%]
+efo_sim/tests/test_lab5_vuln.py::test_emniyet_rolesi_degisikligi_her_mimaride_validasyon_gerektirir PASSED [ 89%]
+efo_sim/tests/test_lab5_vuln.py::test_yama_once_test_tezgahinda_denenir[mevcut] PASSED [ 94%]
+efo_sim/tests/test_lab5_vuln.py::test_yama_once_test_tezgahinda_denenir[hedef] PASSED [100%]
+
+============================== 19 passed in 0.05s ==============================

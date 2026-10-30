@@ -1,0 +1,27 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.8, pytest-9.0.2, pluggy-1.6.0 -- /usr/bin/python
+rootdir: /home/ydogan/Masaüstü/safety40-efo-konveyor
+configfile: pytest.ini
+plugins: asyncio-1.3.0, anyio-4.13.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 17 items
+
+efo_sim/tests/test_lab6_incident.py::test_referansla_karsilastirma_degisen_ayarlari_bulur PASSED [  5%]
+efo_sim/tests/test_lab6_incident.py::test_fark_yoksa_emniyet_guvende PASSED [ 11%]
+efo_sim/tests/test_lab6_incident.py::test_mevcut_bagimli_mimaride_okunan_konfigurasyonla_emniyet_guvende_degil PASSED [ 17%]
+efo_sim/tests/test_lab6_incident.py::test_bagimsiz_emniyette_ayni_farklarla_acil_stop_guvenli_durdurur[bagimsiz] PASSED [ 23%]
+efo_sim/tests/test_lab6_incident.py::test_bagimsiz_emniyette_ayni_farklarla_acil_stop_guvenli_durdurur[bagimsiz_hiz_izlemeli] PASSED [ 29%]
+efo_sim/tests/test_lab6_incident.py::test_emniyet_rolesi_ayari_degismisse_hicbir_mimaride_guvenilmez PASSED [ 35%]
+efo_sim/tests/test_lab6_incident.py::test_kanit_silinmeden_once_alinir PASSED [ 41%]
+efo_sim/tests/test_lab6_incident.py::test_resetleyip_devam_etmek_kaniti_siler PASSED [ 47%]
+efo_sim/tests/test_lab6_incident.py::test_ilk_eylem_emniyet_ve_kurtarmadan_once_emniyet_degerlendirmesi PASSED [ 52%]
+efo_sim/tests/test_lab6_incident.py::test_ilk_15_dakikada_hat_durdurulur_ve_uzak_baglanti_kesilir PASSED [ 58%]
+efo_sim/tests/test_lab6_incident.py::test_servis_hesabi_ilk_iki_saatte_kapanir PASSED [ 64%]
+efo_sim/tests/test_lab6_incident.py::test_start_emniyet_fonksiyon_testinden_once_verilmez PASSED [ 70%]
+efo_sim/tests/test_lab6_incident.py::test_her_kanit_kimligi_tanimli PASSED [ 76%]
+efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_once_hazir[erken_uyari] PASSED [ 82%]
+efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_once_hazir[bildirim] PASSED [ 88%]
+efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_once_hazir[son_rapor] PASSED [ 94%]
+efo_sim/tests/test_lab6_incident.py::test_reset_akisi_cra_paketlerini_dolduramaz PASSED [100%]
+
+============================== 17 passed in 0.04s ==============================

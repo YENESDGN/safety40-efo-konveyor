@@ -36,7 +36,7 @@ DUGUMLER = {
 # (kaynak, hedef, koşullar, açıklama) — koşulların hepsi doğruysa kenar açık
 KENARLAR = [
     ("internet", "router", ["router_surekli_acik"], "sürekli açık 4G router"),
-    ("internet", "jump", ["jump_var", "mfa_asildi"], "VPN + MFA aşıldı"),
+    ("internet", "jump", ["jump_var", "uzak_oturum_acik", "mfa_asildi"], "VPN + MFA aşıldı"),
     ("uzak_arac", "hmi", ["uzak_masaustu_kurulu"], "HMI'da uzak masaüstü aracı"),
     ("router", "plc", ["duz_ag"], "düz ağ"),
     ("router", "hmi", ["duz_ag"], "düz ağ"),
@@ -61,8 +61,10 @@ MEVCUT = {  # tipik KOBİ kurulumu üzerinden varsayım (V2–V5); Efo'ya ait te
     "uzak_masaustu_kurulu": True, "duz_ag": True, "vfd_emniyet_parametresi_acik": True,
     "emniyet_programi_agdan_erisilebilir": False, "usb_kilitsiz": True, "hmi_varsayilan_parola": True,
     "wlan_modulu_acik": True, "emniyet_plcye_bagimli": True, "sto_ss1_vfdde": True, "hiz_izleme_yok": True,
+    "uzak_oturum_acik": True,
 }
-HEDEF = {k: False for k in MEVCUT} | {"jump_var": True}
+# Hedefte uzak oturum tesis onayıyla açılır; analiz, onay verilmiş bir pencereyi kabul eder
+HEDEF = {k: False for k in MEVCUT} | {"jump_var": True, "uzak_oturum_acik": True}
 HEDEF_ICERI_GIRILDI = HEDEF | {"mfa_asildi": True}  # "saldırgan tüm önlemlere rağmen içeri girerse"
 
 

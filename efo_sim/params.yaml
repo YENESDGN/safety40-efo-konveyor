@@ -242,6 +242,35 @@ lab5:
     {deger: 2.0, birim: "saat", etiket: "VARSAYIM", kaynak: "V18",
      not: "Emniyete yol açan bir zafiyette telafi bu süre içinde bitirilemiyorsa hat kontrollü durdurulur"}
 
+  # 5.3 Karar bir kez verilip kapanmaz: aynı kayıt için olaylar sırayla gelir, karar her olayda yeniden hesaplanır
+  olay_akisi:
+    deger:
+      - {id: yayim, ad: "Kayıt yayımlandı", istismar: false, telafi: false, yama: false}
+      - {id: kev, ad: "KEV kataloğuna girdi", istismar: true, telafi: false, yama: false}
+      - {id: telafi, ad: "Telafi uygulandı", istismar: true, telafi: true, yama: false}
+      - {id: yama, ad: "Yama test edilip uygulandı", istismar: true, telafi: true, yama: true}
+    etiket: "VARSAYIM"
+    kaynak: "V23, Y25"
+    not: "Sıra tipik bir zafiyet yaşam döngüsü. KEV = CISA'nın aktif istismar edilen açıklar kataloğu"
+
+  # 5.4 SBOM sapması: sahadaki değişiklikler teslim SBOM'una işlenmezse. farklar = teslim SBOM'unda yazan sürüm (null: teslimde yok)
+  saha_degisiklikleri:
+    deger:
+      - {id: D1, ad: "Arızalı CPU yedek parçayla değişti; yedek CPU eski firmware'le geldi",
+         farklar: {PLC_FW: "4.7", COMP_X: "2.5"}}
+      - {id: D2, ad: "Servis teknisyeni HMI'ya uzak masaüstü aracı kurdu", farklar: {UZAK_ARAC: null}}
+    etiket: "VARSAYIM"
+    kaynak: "V21, Y23"
+    not: "Teslimde PLC 4.7 / Component X 2.5 (yamalı). Sahadaki gerçek durum lab5.sbom (V16)"
+
+  # 5.5 Ömrü bitmiş bileşen: yaması hiç gelmeyecek temsilî kayıt (ilk_duzeltilmis: "yok" = bütün sürümler etkilenir)
+  eol_kaydi:
+    deger: {id: TEMSILI-EOL, cve: "temsilî kayıt (EOL)", urun: "4G router", ilk_duzeltilmis: "yok", cvss: 8.8,
+            vektor: "ağ, router yönetim arayüzü", ek_kosullar: [], yama: "yok (üretici desteği bitti)"}
+    etiket: "VARSAYIM"
+    kaynak: "V22, Y26"
+    not: "Gerçek bir CVE değildir; QE3'ü sınamak için kuruldu. Router sürümü lab5.sbom'daki ROUTER_FW"
+
 lab6:
   kilometre_taslari:
     deger: {ilk_mudahale: 15, ilk_asama: 120, erken_uyari: 1440, bildirim: 4320, son_rapor: 20160}

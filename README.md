@@ -33,7 +33,7 @@ Yağız Enes Doğan · Gündüz - B · Safety 4.0 Bootcamp ders ödevi
    | `[ÇIKARIM]` | Kaynağa dayalı yorum |
    | `[VARSAYIM]` | Kaynak yok; tipik kurulum üzerinden kabul |
 
-   Varsayımlar V1–V20 kimlikleriyle `05_SWOT_ve_Varsayimlar.pdf`'te toplanıyor: her biri için hangi lab'da kullanıldığı ve yanlışsa sonucun nasıl değişeceği yazılı.
+   Varsayımlar V1–V23 kimlikleriyle `05_SWOT_ve_Varsayimlar.pdf`'te toplanıyor: her biri için hangi lab'da kullanıldığı ve yanlışsa sonucun nasıl değişeceği yazılı.
 3. **Föyler.** Sorular Genel Sürüm'den birebir alındı. PaketPro 3000 sürümü, uyarlamanın nasıl yapılacağına örnek olarak kullanıldı (`docs/foyler/NOT.md`). Her lab'a föy dışı "zafiyetler ve nasıl kapatılır" soruları eklendi.
 4. **Gereksinim = test.** Lab'lardaki iddialar `efo_sim/` altında basit Python modellerine çevrildi. Her test bir iddiayı ya da gereksinimi doğrular. Bütün sayısal değerler `efo_sim/params.yaml`'dadır ve her biri etiket + kaynak taşır; kodda sabit sayı yoktur.
 5. **Tek kaynaktan PDF.** Lab metinleri `docs/report/*.md` dosyalarındadır. Sonuç tabloları, grafikler, Mermaid diyagramları ve pytest çıktıları PDF'e doğrudan `efo_sim/out/` dosyalarından girer. Bu sayede PDF'teki sonuçlar testlerin gerçek çıktısıyla birebir aynıdır.
@@ -44,7 +44,7 @@ Yağız Enes Doğan · Gündüz - B · Safety 4.0 Bootcamp ders ödevi
 - **Siberden fiziksele:** Model, emniyet invertöre bağımlı olduğunda tek bir rampa parametresi değişikliğinin acil stoptaki durma mesafesini 0,50 m'den 2,875 m'ye çıkardığını gösteriyor (güvenli mesafe 1,50 m). Yani el, bant durmadan besleme ağzına ulaşıyor.
 - **Bağımsızlık:** Saldırı grafında mevcut durum varsayımında emniyet fonksiyonuna 19 yol var. Hedef mimaride, saldırganın VPN ve MFA'yı aştığı kabul edilse bile yol sayısı **0**.
 - **Önemli koşul:** Bağımsızlık yalnızca sinyal yolunu değil, emniyet hesabının dayandığı varsayımları da (bant hızı) kapsamalı. LAB 4'teki G1–G7 gereksinimleri bunu tanımlıyor.
-- **Zafiyet kararı:** CVSS 9,8'lik aynı PLC açığı, bağımlı mimaride acil telafi (4 önlem, 1,5 saat) ve emniyet yeniden doğrulaması gerektiriyor. Bağımsız mimaride tek önlemle planlı bir bakım işine dönüşüyor. CVSS'i yüksek ama bileşeni SBOM'da olmayan bir kayıt (SSA-688146) ilk şartta eleniyor.
+- **Zafiyet kararı:** CVSS 9,8'lik aynı PLC açığı, bağımlı mimaride acil telafi (4 önlem, 1,5 saat) ve emniyet yeniden doğrulaması gerektiriyor. Bağımsız mimaride tek önlemle planlı bir bakım işine dönüşüyor. CVSS'i yüksek ama bileşeni SBOM'da olmayan bir kayıt (SSA-688146) ilk şartta eleniyor. Karar her olayda yeniden hesaplanıyor: kayıt KEV'e girince bağımlı mimaride hat kontrollü duruyor, bağımsız mimaride durmuyor. Sahadaki değişiklikleri işlenmemiş bir SBOM 3 kaydı yanlışlıkla "etkilemez" gösteriyor; yaması gelmeyecek bir bileşende telafi kalıcı hâle geliyor.
 - **Olay anında emniyet:** Okunan konfigürasyon (PLC CRC farkı + rampa 10 s) referansla karşılaştırılıp durma mesafesi modeline verildiğinde, mevcut mimaride acil stopa güvenilemiyor. "Resetleyip devam edelim" akışı kanıt, emniyet sırası ve CRA paketi kontrollerinde kalıyor.
 - **YZ fail-safe:** Sentetik veride güven eşiği (0,61) ve YZ'den bağımsız metal dedektörüyle kaçak oranı %6,57'den %0,88'e iniyor. YZ'nin hiçbir çıktısı acil stopu etkilemiyor; hız önerisi emniyet tarafındaki hız izlemeyle sınırlanıyor (A1–A6).
 
@@ -69,11 +69,12 @@ safety40-efo-konveyor/
   efo_sim/
     params.yaml                      # tüm sayısal varsayımlar, etiket + kaynak
     params.py                        # params.yaml okuyucu
+    stil.py                          # ortak palet: grafikler ve diyagramlar aynı renkleri kullanır
     lab1_safety.py                   # durum makinesi, durma mesafesi, PLr
     lab2_zones.py                    # zone/conduit verisi, kurallar, Mermaid üretimi
     lab3_risk.py                     # risk register, S=3 kuralı, duyarlılık, siber-fiziksel bağ
     lab4_attack.py                   # saldırı grafı, bağımsızlık testi, varsayım etkileri
-    lab5_vuln.py                     # SBOM, üç şart, yama kararı, telafi edici önlemler
+    lab5_vuln.py                     # SBOM, üç şart, yama kararı, telafi, KEV akışı, SBOM sapması, EOL
     lab6_incident.py                 # olay akışı, kanıt koruma, emniyet doğrulaması, CRA paketleri
     lab7_ai.py                       # güven eşiği, girdi kontrolleri, YZ'den bağımsız emniyet
     tests/                           # gereksinim = test
@@ -92,7 +93,7 @@ pip install -r requirements.txt
 npm install -g @mermaid-js/mermaid-cli     # yalnızca PDF üretimi için
 
 # Testler
-pytest                                      # 208 geçti, 5 beklenen kalma (xfail)
+pytest                                      # 228 geçti, 5 beklenen kalma (xfail)
 
 # Simülasyonlar + lab başına pytest çıktıları (efo_sim/out/)
 python scripts/run_sims.py                  # ya da: python scripts/run_sims.py lab3

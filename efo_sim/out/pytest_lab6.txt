@@ -24,4 +24,4 @@ efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_o
 efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_once_hazir[son_rapor] PASSED [ 94%]
 efo_sim/tests/test_lab6_incident.py::test_reset_akisi_cra_paketlerini_dolduramaz PASSED [100%]
 
-============================== 17 passed in 0.04s ==============================
+============================== 17 passed in 0.06s ==============================

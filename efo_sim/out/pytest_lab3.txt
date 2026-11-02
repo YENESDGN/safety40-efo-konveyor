@@ -28,4 +28,4 @@ efo_sim/tests/test_lab3_risk.py::test_rampa_saldirisinda_el_bant_durmadan_agza_v
 efo_sim/tests/test_lab3_risk.py::test_yalniz_hiz_artisi_nominal_rampada_siniri_asmaz PASSED [ 95%]
 efo_sim/tests/test_lab3_risk.py::test_el_yolu_durma_mesafesiyle_tutarli PASSED [100%]
 
-============================== 21 passed in 0.04s ==============================
+============================== 21 passed in 0.06s ==============================

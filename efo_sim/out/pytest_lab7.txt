@@ -48,4 +48,4 @@ efo_sim/tests/test_lab7_ai.py::test_kumanda_atlatilsa_da_hiz_izleme_eli_korur[2.
 efo_sim/tests/test_lab7_ai.py::test_kumanda_atlatilsa_da_hiz_izleme_eli_korur[3.0] PASSED [ 97%]
 efo_sim/tests/test_lab7_ai.py::test_hiz_izleme_olmadan_da_eli_korur XFAIL [100%]
 
-======================== 40 passed, 1 xfailed in 1.34s =========================
+======================== 40 passed, 1 xfailed in 1.63s =========================

@@ -61,6 +61,10 @@ Karşılaştırma için iki gerçek kayıt aynı akıştan geçirildi:
 
 <!-- include-md: efo_sim/out/lab5_karar.md -->
 
+![Üç şart zinciri](efo_sim/out/lab5_uc_sart.png)
+
+Grafik aynı tabloyu bir zincir olarak okuyor: bir şart düştüğünde sonrakiler değerlendirilmez. Kırmızı ✔'ler riskin sürdüğü şartlar; kararı, ilk yeşil ✖'nin nerede durduğu belirliyor [ÇIKARIM].
+
 - **CVE-2024-47100** yalnızca PLC web sunucusu açıksa ulaşılabilir. Hedefte web sunucusu kapalı olduğundan sürüm etkilense bile üçüncü şart düşüyor [Y12].
 - **SSA-688146**'nın CVSS'i 9,1, ama S7-1500 ve ET 200SP içindir. Bu yüzden ilk şartta eleniyor [Y14]. Yüksek CVSS, kayıt sizi etkilemediği sürece bir şey ifade etmez.
 
@@ -71,7 +75,15 @@ Q2 | Üretimi hemen durdurur musunuz? Neden / neden değil?
 - **CVSS kararı vermez.** CVSS, açığın genel ciddiyetini ölçer; bu hatta neye yol açacağını söylemez [Y24]. Aynı 9,8'lik kayıt, mevcut ve hedef mimaride farklı karar alıyor (test: `test_cvss_tek_basina_karari_belirlemez`).
 - **Mevcut mimaride:** PLC'den emniyet fonksiyonuna yol var (LAB 4: acil stop PLC mantığında). Yani bu açık, emniyeti bozabilen bir açık. Yine de dört telafi edici önlem 1,5 saatte açığı ulaşılamaz kılıyor (Q5). Karar: **durdurmadan hemen telafi**.
 - **Durdurma koşulu:** Aktif istismar belirtisi varsa hat **kontrollü durdurulur**. Örnekler: kayıt CISA KEV kataloğunda [Y25], PLC CRC'si referanstan farklı (LAB 6), ya da telafi 2 saatte bitirilemiyor. Bu kural kodda ve testte var (`test_bagimli_emniyette_istismar_belirtisi_varsa_hat_kontrollu_durur`).
-- **Hedef mimaride:** PLC ele geçirilse bile emniyet fonksiyonuna yol yok (LAB 4: 0 yol). Açık bir **kullanılabilirlik** riski, emniyet riski değil. Karar: **devam + planlı telafi**, yama bakım penceresinde.
+- **Hedef mimaride:** PLC ele geçirilse bile emniyet fonksiyonuna yol yok (LAB 4: 0 yol). Açık bir **kullanılabilirlik** riski, emniyet riski değil. Karar: **devam + planlı telafi**, yama bakım penceresinde. Kayıt KEV'e girerse telafi öne çekilir ama hat yine durmaz (`test_bagimsiz_emniyette_aktif_istismar_telafiyi_one_ceker_ama_hatti_durdurmaz`).
+
+**Karar bir kez verilip kapanmaz.** Aynı kayıt zaman içinde yeni bilgi alır: KEV'e girer, telafi uygulanır, yama gelir. Model, kararı her olayda üç şart ve emniyete yol üzerinden yeniden hesaplıyor [VARSAYIM] (V23):
+
+![Karar zaman çizelgesi](efo_sim/out/lab5_karar_zaman.png)
+
+<!-- include-md: efo_sim/out/lab5_zaman.md -->
+
+İki mimari aynı noktada bitiyor ama oraya farklı yoldan geliyor. Mevcut mimaride hat bir kez duruyor ve yamadan sonra emniyet fonksiyonları yeniden doğrulanıyor. Hedef mimaride hat hiç durmuyor ve yama emniyet doğrulamasını tetiklemiyor [ÇIKARIM].
 
 Q3 | Yamayı doğrudan mı uygularsınız, önce test mi? Nerede test?
 
@@ -102,6 +114,8 @@ Telafi edici önlem, açığı kapatmaz; **üçüncü şartı** (ulaşılabilirl
 
 <!-- include-md: efo_sim/out/lab5_telafi.md -->
 
+<!-- include-mermaid: efo_sim/out/lab5_telafi_mevcut.mmd | Şekil 2 — Mevcut mimaride telafi planı LAB 4 grafında: yeşil kesikli kenarlar (✂) önlemlerin kestiği girişler. Gri kenarlar açık kalıyor ama artık hiçbir girişten ulaşılamıyor. Kırmızı kenar, PLC ele geçirilirse neyin tehlikeye girdiğini gösteriyor. -->
+
 - **Mevcutta:** Dört önlem gerekiyor, çünkü PLC'ye dört ayrı giriş noktasından ulaşılıyor. T3 (WLAN) bu kümede yok; Wi-Fi yalnızca invertöre ulaşıyor, PLC'ye değil. Ama invertör parametreleri için ayrıca gerekli (LAB 3, S1).
 - **Hedefte:** Tek önlem yetiyor: yama bitene kadar uzak bakım oturumuna onay vermemek. Bu, LAB 4'ün "varsayılan kapalı" ilkesinin doğrudan bir faydası.
 - **Ek olarak** [SEKTÖR-TİPİK] [Y26]:
@@ -113,7 +127,7 @@ Telafi edici önlem, açığı kapatmaz; **üçüncü şartı** (ulaşılabilirl
 <div class="kanit" markdown="1">
 **Kanıt: simülasyon (LAB 5)**
 
-*Eğitim amaçlı modeldir; gerçek bir zafiyet taraması ya da emniyet doğrulaması değildir. SBOM ve sürümler varsayımdır.*
+*Eğitim amaçlı modeldir; gerçek bir zafiyet taraması ya da emniyet doğrulaması değildir. SBOM, sürümler, saha değişiklikleri ve EOL kaydı varsayımdır. Mevcut ve hedef mimari varyantları ürün önerisi değildir; mimari farkının karara etkisini göstermek için kuruldu.*
 
 **Ne gösterildi?**
 
@@ -121,6 +135,9 @@ Telafi edici önlem, açığı kapatmaz; **üçüncü şartı** (ulaşılabilirl
 - Karar, CVSS'e göre değil, mimariye göre değişiyor.
 - Telafi planı açığı gerçekten ulaşılamaz kılıyor ve 2 saatlik sınırın içinde kalıyor.
 - Validasyon ihtiyacı, bileşenden emniyet fonksiyonuna yol olup olmamasıyla belirleniyor.
+- Karar her olayda (KEV, telafi, yama) yeniden hesaplanıyor; bağımsız mimaride aktif istismar bile hattı durdurmuyor.
+- Güncel olmayan bir SBOM, emniyete yol açan bir açığı "etkilemez" gösterebiliyor (QE2).
+- Yaması gelmeyecek bir bileşende telafi kalıcı hâle geliyor (QE3).
 
 **Test sonuçları:**
 
@@ -147,11 +164,21 @@ QE1 | CRA, Efo'dan SBOM ve yama konusunda ne istiyor?
 QE2 | SBOM'un güncel kalmaması bir zafiyet midir?
 
 - **Zafiyet:** Sahada yapılan her firmware güncellemesi, parça değişimi ya da uzak masaüstü aracı kurulumu SBOM'u eskitir. Eski bir SBOM'la yapılan üç şart kontrolü yanlış "etkilemez" sonucu verir [ÇIKARIM].
-- **Kapatma:** SBOM'u değişiklik yönetimine bağlamak: her değişiklikte güncellenir ve yeni CRC ile birlikte kaydedilir. Etkilemeyen kayıtları gerekçesiyle (ör. "web sunucusu kapalı") kaydetmek. Durum değişirse karar yeniden açılır [SEKTÖR-TİPİK].
+- **Modelde:** İki saha değişikliği kuruldu [VARSAYIM] (V21). Teslimde PLC yamalıydı (4.7, Component X 2.5). Sonra arızalı CPU, eski firmware'le gelen bir yedekle değişti ve bir teknisyen HMI'ya uzak masaüstü aracı kurdu. Hiçbiri SBOM'a işlenmedi.
+
+<!-- include-md: efo_sim/out/lab5_sapma.md -->
+
+- **Sonuç:** Eski SBOM, föydeki kaydı mevcut mimaride "devam" diye geçiriyor. Oysa bileşenden emniyet fonksiyonuna yol var ve doğru karar "hemen telafi" (`test_eskimis_sbom_emniyete_yol_acan_acigi_etkilemez_gosterir`). Yüksek CVSS'li bir kayıt bile, yanlış SBOM'la sessizce elenir.
+- **Kapatma:** SBOM'u değişiklik yönetimine bağlamak: her değişiklikte güncellenir ve yeni CRC ile birlikte kaydedilir. Modelde bu durumda yanlış "etkilemez" sayısı sıfır (`test_degisiklik_yonetimine_bagli_sbomda_yanlis_etkilemez_sonucu_sifir`). Etkilemeyen kayıtları gerekçesiyle (ör. "web sunucusu kapalı") kaydetmek. Durum değişirse karar yeniden açılır [SEKTÖR-TİPİK] [Y23].
 
 QE3 | Yaması hiç gelmeyecek (ömrü bitmiş) bir bileşen varsa?
 
 - **Zafiyet:** Eski bir HMI işletim sistemi ya da üretimi durmuş bir router için yama gelmez; telafi edici önlem kalıcı hâle gelir.
+- **Modelde:** Desteği bitmiş 4G router için temsilî bir kayıt kuruldu; gerçek bir CVE değildir [VARSAYIM] (V22). Düzeltme hiç gelmeyeceği için bütün sürümler etkilenir.
+
+<!-- include-md: efo_sim/out/lab5_eol.md -->
+
+- **Sonuç:** Mevcut mimaride karar yama penceresine bırakılamaz; telafi (T1) kalıcı olur ve bileşen değiştirme planına girer (`test_yamasi_gelmeyecek_bilesende_telafi_kalici_olur_ve_degisim_planlanir`). Hedef mimaride router hiçbir girişten ulaşılabilir değil, bu yüzden kayıt bu hatta etkili değil (`test_hedef_mimaride_eol_routera_ulasilamaz`).
 - **Kapatma:** Bileşeni kendi bölgesine almak (LAB 2) ve yalnızca gerekli akışlara izin vermek. Değiştirme planını bütçelemek. Ömrü biten bileşeni SBOM'da işaretlemek [Y26] [SEKTÖR-TİPİK].
 
 ## Ek — Kod

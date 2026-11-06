@@ -10,8 +10,10 @@
 <body>
   <header class="top">
     <div class="wrap top-in">
-      <a class="brand" href="#">Safety 4.0 · <span>Efo</span></a>
-      <nav>
+      <a class="brand" href="#"><span class="brand-mark" aria-hidden="true"></span>Safety 4.0 · <span>Efo</span></a>
+      <nav aria-label="Bölümler">
+        <a href="#bulgular">Bulgular</a>
+        <a href="#zincir">Lab zinciri</a>
         <a href="#makine">Makine</a>
         <a href="#dokumanlar">Dokümanlar</a>
         <a href="#figurler">Figürler</a>
@@ -19,45 +21,75 @@
     </div>
   </header>
 
-  <main class="wrap">
-    <section class="hero">
+  <section class="hero">
+    <div class="wrap hero-in">
+      <p class="kicker">Safety 4.0 Bootcamp · bağımsız akademik çalışma</p>
       <h1 id="baslik"></h1>
       <p class="sub" id="altBaslik"></p>
       <p class="author" id="yazar"></p>
       <div class="hero-actions" id="heroActions"></div>
-      <p class="warn" id="uyari"></p>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <p class="warn" id="uyari"></p>
+
+    <section id="bulgular">
+      <div class="sec-head">
+        <h2>Öne çıkan bulgular</h2>
+        <p>Her sayı bir testin çıktısıdır; PDF'lerdeki tablolar koddan üretilir.</p>
+      </div>
+      <div class="stats" id="bulguListe"></div>
     </section>
 
-    <section class="stats" id="bulgular"></section>
+    <section id="zincir">
+      <div class="sec-head">
+        <h2>Lab zinciri</h2>
+        <p>Lab'lar birbirinin modelini yeniden kullanır. Ok, bir lab'ın hangi çıktıya dayandığını gösterir.</p>
+      </div>
+      <ol class="chain" id="zincirListe"></ol>
+    </section>
 
     <section id="makine">
-      <h2>Makine</h2>
-      <div class="legend">
-        <span class="tag t-efo">EFO-DOĞRULANMIŞ</span>
-        <span class="tag t-sektor">SEKTÖR-TİPİK</span>
-        <span class="tag t-cikarim">ÇIKARIM</span>
-        <span class="tag t-varsayim">VARSAYIM</span>
+      <div class="sec-head">
+        <h2>Makine</h2>
+        <div class="legend">
+          <span class="tag t-efo">EFO-DOĞRULANMIŞ</span>
+          <span class="tag t-sektor">SEKTÖR-TİPİK</span>
+          <span class="tag t-cikarim">ÇIKARIM</span>
+          <span class="tag t-varsayim">VARSAYIM</span>
+        </div>
       </div>
       <dl class="spec" id="makineListe"></dl>
     </section>
 
     <section id="dokumanlar">
-      <h2>Dokümanlar</h2>
+      <div class="sec-head">
+        <h2>Dokümanlar</h2>
+        <p>Her lab ayrı PDF; hepsi tek dosyada da var.</p>
+      </div>
       <div class="docs" id="dokumanListe"></div>
     </section>
 
     <section id="figurler">
-      <h2>Figürler</h2>
+      <div class="sec-head">
+        <h2>Figürler</h2>
+        <div class="filters" id="figurFiltre" role="toolbar" aria-label="Lab'a göre süz"></div>
+      </div>
       <div class="figs" id="figurListe"></div>
     </section>
   </main>
 
-  <footer class="wrap foot" id="foot"></footer>
+  <footer class="foot">
+    <div class="wrap" id="foot"></div>
+  </footer>
 
-  <dialog id="viewer">
+  <dialog id="viewer" aria-labelledby="viewerTitle">
     <div class="viewer-bar">
       <strong id="viewerTitle"></strong>
       <div>
+        <button type="button" id="viewerPrev" aria-label="Önceki figür">←</button>
+        <button type="button" id="viewerNext" aria-label="Sonraki figür">→</button>
         <a id="viewerOpen" target="_blank" rel="noopener">Yeni sekmede aç</a>
         <a id="viewerDownload" download>İndir</a>
         <button type="button" id="viewerClose" aria-label="Kapat">✕</button>

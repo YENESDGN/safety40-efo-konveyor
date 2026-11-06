@@ -34,6 +34,17 @@ window.SITE = {
     { deger: "228 + 5", baslik: "Gereksinim = test", metin: "228 test geçti, 5 beklenen kalma (xfail). PDF'teki sonuçlar testlerin gerçek çıktısıdır." },
   ],
 
+  // Lab zinciri: her lab hangi lab'ın çıktısını yeniden kullanıyor (doc = dokumanlar[].id)
+  zincir: [
+    { doc: "lab1", lab: "LAB 1", baslik: "Safety Architecture", cikti: "Durma mesafesi, durum makinesi, PLr e", kullanir: [] },
+    { doc: "lab2", lab: "LAB 2", baslik: "Zone / Conduit", cikti: "Bölgeler, conduit'ler, varlık envanteri", kullanir: [] },
+    { doc: "lab3", lab: "LAB 3", baslik: "Risk Register", cikti: "Siber → fiziksel: 0,50 → 2,875 m", kullanir: ["LAB 1"] },
+    { doc: "lab4", lab: "LAB 4", baslik: "Secure Remote Access", cikti: "Saldırı grafı: 19 → 0 yol", kullanir: ["LAB 1", "LAB 3"] },
+    { doc: "lab5", lab: "LAB 5", baslik: "SBOM / CVE / Patch", cikti: "Ulaşılabilirlik LAB 4 grafından", kullanir: ["LAB 2", "LAB 4"] },
+    { doc: "lab6", lab: "LAB 6", baslik: "CRA Incident", cikti: "Olayda emniyet: durma modeliyle doğrulama", kullanir: ["LAB 1", "LAB 4"] },
+    { doc: "lab7", lab: "LAB 7", baslik: "AI Safety", cikti: "YZ emniyet zincirinin dışında", kullanir: ["LAB 1"] },
+  ],
+
   // PDF dokümanlar. ana: true olan, üstte "tam rapor" olarak öne çıkar.
   dokumanlar: [
     { id: "tam", baslik: "Tam Rapor", aciklama: "Bütün bölümler tek dosyada, içindekiler sayfasıyla.", dosya: "pdf/Efo_Safety40_Tam_Rapor.pdf", ana: true },

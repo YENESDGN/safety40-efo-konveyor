@@ -20,7 +20,10 @@ python -m http.server 8000                    # web arayüzü (index.html)
 - `efo_sim/labN_*.py` modeli `efo_sim/out/` altına tablo (`.md`), grafik (`.png`), `.mmd` ve `labN_params.yaml` yazar. Markdown bunları `<!-- include-md: ... -->`, `include-mermaid`, `include-code`, `include-text` ile alır. **PDF'teki sonuçlar elle yazılmaz, koddan gelir.**
 - Yeni lab: `scripts/run_sims.py` içindeki `LABS` sözlüğüne modül + test dosyası ekle.
 - Web: statik, derleme ve veritabanı yok; içerik elle eklenir. `index.html` (ana sayfa, `web/app.js`) + `viewer.html?doc=<id>` (PDF ayrı sayfada açılır, `web/viewer.js`; modal değil). Figürler ana sayfada modalda büyür. Eski `index.html#doc=<id>` bağlantıları `viewer.html`'e yönlenir. Mobilde gömülü PDF yerine "PDF'i aç" düğmesi çıkar. Yollar repo köküne göredir; `.nojekyll` kökte durur.
-- Web içeriği yalnızca `web/data.js`'te (makine kartı, bulgular, dokümanlar, figürler); yeni PDF/figür = ilgili diziye bir satır, `id` `viewer.html?doc=` için kullanılır. Diyagram PNG'lerinin adı içerik hash'i taşır (`lab5_0_ac138fb6.png`); diyagram değişince `data.js`'teki yolu güncelle ve eski `efo_sim/out/diagrams/` dosyalarını sil.
+- Web içeriği yalnızca `web/data.js`'te (makine kartı, bulgular, lab zinciri, dokümanlar, figürler); `zincir[].kullanir` koddaki lab importlarıyla uyumlu tutulur; yeni PDF/figür = ilgili diziye bir satır, `id` `viewer.html?doc=` için kullanılır. Diyagram PNG'lerinin adı içerik hash'i taşır (`lab5_0_ac138fb6.png`); diyagram değişince `data.js`'teki yolu güncelle ve eski `efo_sim/out/diagrams/` dosyalarını sil.
+
+- **Görsel dil:** Renkler `efo_sim/stil.py`'de (anlam adlı: `kritik`, `uyari`, `iyi`, `bilgi`, `giris`, `pasif`); grafikler `stil.mpl()` ile başlar, Mermaid üreticileri `stil.classdef/kenar_stili/kume_stili` kullanır, `build_pdf.py` Mermaid temasını da buradan alır. Web ve PDF aynı paleti paylaşır.
+- **Fontlar:** DejaVu, matplotlib paketinin içinden fontconfig ile yüklenir (sistemde kurulu olması gerekmez). `--check` DejaVu dışı (yedek) font gömülürse hata verir. Mermaid teması hash'e girer; tema değişince bütün diyagram PNG'leri yeniden çizilir, `data.js` yollarını güncelle.
 
 ## Kurallar
 

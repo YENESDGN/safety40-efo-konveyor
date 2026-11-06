@@ -73,3 +73,52 @@ def test_cra_paketindeki_her_bilgi_suresinden_once_hazir(paket):
 def test_reset_akisi_cra_paketlerini_dolduramaz():
     h = m.cra_hazirlik(m.AKIS_RESET)
     assert not all(ok for alanlar in h.values() for _, ok in alanlar.values())
+
+
+# ---------------------------------------------------------------- 6.4 Etki alanı
+def _etki(duzen):
+    return {r["kurulum"]["id"]: r for r in m.etki_alani(duzen)}
+
+
+def test_paylasilan_hesap_ele_gecince_birden_cok_kurulum_etkilenir():
+    e = _etki("mevcut")
+    assert sum(r["ulasilir"] for r in e.values()) > 1
+    assert sum(r["emniyet_riskte"] for r in e.values()) > 1
+
+
+def test_kisisel_hesaplarda_etki_olayin_tesisiyle_sinirli_kalir():
+    ulasilan = [i for i, r in _etki("kisisel").items() if r["ulasilir"]]
+    assert ulasilan == [m.OLAY_KURULUMU]
+
+
+@pytest.mark.parametrize("duzen", ["mevcut", "kisisel"])
+def test_tesis_onayli_ya_da_kapali_uzak_erisimde_kurulum_ulasilamaz(duzen):
+    for r in m.etki_alani(duzen):
+        if r["kurulum"]["uzak"] != "surekli":
+            assert not r["ulasilir"]
+
+
+@pytest.mark.parametrize("duzen", ["mevcut", "kisisel"])
+def test_bagimsiz_emniyetli_kurulumda_erisim_olsa_da_emniyet_guvende(duzen):
+    for r in m.etki_alani(duzen):
+        if r["kurulum"]["emniyet"] != "bagimli":
+            assert not r["emniyet_riskte"]
+
+
+# ---------------------------------------------------------------- 6.5 Kanıt ömrü
+def test_bu_akista_her_kanit_omru_dolmadan_alinir():
+    assert m.kanit_kayiplari(m.AKIS) == set()
+
+
+def test_ilk_iki_saat_her_kanitin_omrunden_kisadir():
+    assert all(o > m.d("lab6.kilometre_taslari")["ilk_asama"] for o in m.d("lab6.kanit_omru").values())
+
+
+def test_gec_gelen_ekipte_router_logu_kaybolur():
+    assert "K3" in m.kanit_kayiplari(m.gec_akis())
+
+
+def test_kaybolan_kanit_cra_bildirimini_eksik_birakir():
+    h = m.cra_hazirlik(m.gec_akis())
+    assert not h["bildirim"]["Olayın genel niteliği"][1]
+    assert m.cra_hazirlik()["bildirim"]["Olayın genel niteliği"][1]

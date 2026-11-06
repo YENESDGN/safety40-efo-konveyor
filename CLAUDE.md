@@ -5,7 +5,7 @@ Safety 4.0 Bootcamp ödevi: Efo Makina besleme bandı ve sarsak için LAB 1–7 
 ## Komutlar
 
 ```bash
-pytest                                        # tüm testler (228 geçti, 5 xfail)
+pytest                                        # tüm testler (252 geçti, 6 xfail)
 python scripts/run_sims.py [lab5 ...]         # modeller + lab başına pytest → efo_sim/out/
 PATH=$HOME/.local/bin:$PATH python scripts/build_pdf.py all --check   # PDF'ler + birleşik rapor
 python scripts/build_pdf.py lab5 --preview /tmp/onizleme              # sayfaları PNG'ye çevir
@@ -29,7 +29,7 @@ python -m http.server 8000                    # web arayüzü (index.html)
 
 - **Kodda sabit sayı yok.** Her sayısal değer `efo_sim/params.yaml`'da `deger`, `etiket` (SEKTÖR-TİPİK | VARSAYIM | ÇIKARIM) ve `kaynak` taşır; `test_params.py` bunu her kayıt için kontrol eder. Okuma: `d("lab1.bant_hizi")`; geçici değişiklik: `gecici(...)`. Sayıları metne `sayi()` ile Türkçe virgüllü yaz.
 - **Etiketler:** Metindeki her iddia `[EFO-DOĞRULANMIŞ]`, `[SEKTÖR-TİPİK]`, `[ÇIKARIM]` ya da `[VARSAYIM]` taşır. Kaynaklar `[R12]` / `[Y22]` biçiminde; kimlik `docs/report/sources.yaml`'da yoksa build hata verir. R = derin araştırma raporu, Y = bu çalışmada eklenen; yeni kaynağı eklemeden önce linki kontrol et.
-- **Varsayımlar** V1–V23 kimlikli; yenisi `05_swot_varsayimlar.md` tablosuna "yanlışsa ne değişir" sütunuyla eklenir.
+- **Varsayımlar** V1–V26 kimlikli; yenisi `05_swot_varsayimlar.md` tablosuna "yanlışsa ne değişir" sütunuyla eklenir.
 - **Gereksinim = test.** Her iddia bir teste bağlanır; test adları cümle gibi Türkçe (`test_hedef_mimaride_..._sifir`). Gereksinimi karşılamaması beklenen varyantlar `xfail(strict=True)`.
 - **Lab'lar birbirine bağlı:** LAB 1 durma mesafesi ve durum makinesi; LAB 4 saldırı grafı (`MEVCUT`, `HEDEF`, `HEDEF_ICERI_GIRILDI`) ve bağımsızlık varyantları LAB 5–7'de yeniden kullanılır. LAB 4'te bir koşul değişirse LAB 4 çıktılarının değişmediğini kontrol et.
 - **Föy yapısı (markdown):** front matter (`bolum`, `baslik`, `cikti`, `ep`, `kavram`, `baglam`); föy soruları `Q1 | ...`, föy dışı ek sorular `QE1 | ...` (zafiyet → kapatma); kutular `<div class="kanit|note|kural" markdown="1">`; test bağlantısı `<span class="test-ref">`.

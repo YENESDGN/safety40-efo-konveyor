@@ -14,3 +14,11 @@
 | 12 | `test_her_kanit_kimligi_tanimli` (test_lab6_incident) | ✔ geçti |
 | 13 | `test_cra_paketindeki_her_bilgi_suresinden_once_hazir` (test_lab6_incident) | ✔ geçti (3/3) |
 | 14 | `test_reset_akisi_cra_paketlerini_dolduramaz` (test_lab6_incident) | ✔ geçti |
+| 15 | `test_paylasilan_hesap_ele_gecince_birden_cok_kurulum_etkilenir` (test_lab6_incident) | ✔ geçti |
+| 16 | `test_kisisel_hesaplarda_etki_olayin_tesisiyle_sinirli_kalir` (test_lab6_incident) | ✔ geçti |
+| 17 | `test_tesis_onayli_ya_da_kapali_uzak_erisimde_kurulum_ulasilamaz` (test_lab6_incident) | ✔ geçti (2/2) |
+| 18 | `test_bagimsiz_emniyetli_kurulumda_erisim_olsa_da_emniyet_guvende` (test_lab6_incident) | ✔ geçti (2/2) |
+| 19 | `test_bu_akista_her_kanit_omru_dolmadan_alinir` (test_lab6_incident) | ✔ geçti |
+| 20 | `test_ilk_iki_saat_her_kanitin_omrunden_kisadir` (test_lab6_incident) | ✔ geçti |
+| 21 | `test_gec_gelen_ekipte_router_logu_kaybolur` (test_lab6_incident) | ✔ geçti |
+| 22 | `test_kaybolan_kanit_cra_bildirimini_eksik_birakir` (test_lab6_incident) | ✔ geçti |

@@ -30,8 +30,9 @@ window.SITE = {
     { deger: "CVSS 9,8 ≠ durdur", baslik: "Zafiyet kararı", metin: "Aynı kritik PLC açığı bağımlı mimaride acil telafi ve yeniden doğrulama, bağımsız mimaride planlı bakım işi demek. KEV'e girse bile bağımsız mimaride hat durmuyor." },
     { deger: "3 → 0", baslik: "Güncel SBOM", metin: "Sahadaki değişiklikler işlenmemiş bir SBOM, 3 kaydı yanlışlıkla \"etkilemez\" gösteriyor; değişiklik yönetimine bağlı SBOM'da bu sayı 0." },
     { deger: "2,875 m", baslik: "Olay anında emniyet", metin: "Okunan konfigürasyon referansla karşılaştırılınca mevcut mimaride acil stopa güvenilemediği görülüyor; bağımsız emniyette 0,931 m." },
+    { deger: "3 → 1", baslik: "Etki alanı", metin: "Paylaşılan servis hesabı ele geçince 3 kuruluma ulaşılıyor (2'sinde emniyet riskte); kişisel hesapta yalnız olayın tesisi." },
     { deger: "%6,57 → %0,88", baslik: "YZ fail-safe", metin: "Güven eşiği ve YZ'den bağımsız metal dedektörüyle kaçak oranı hedefin altına iniyor; YZ emniyet zincirine hiç dokunmuyor." },
-    { deger: "228 + 5", baslik: "Gereksinim = test", metin: "228 test geçti, 5 beklenen kalma (xfail). PDF'teki sonuçlar testlerin gerçek çıktısıdır." },
+    { deger: "252 + 6", baslik: "Gereksinim = test", metin: "252 test geçti, 6 beklenen kalma (xfail). PDF'teki sonuçlar testlerin gerçek çıktısıdır." },
   ],
 
   // Lab zinciri: her lab hangi lab'ın çıktısını yeniden kullanıyor (doc = dokumanlar[].id)
@@ -54,9 +55,9 @@ window.SITE = {
     { id: "lab3", rozet: "LAB 3 · EP 04", baslik: "Threat & Risk Register", aciklama: "Risk register, ısı haritası, siber-fiziksel bağ, duyarlılık.", dosya: "pdf/LAB3_Threat_Risk_Register.pdf" },
     { id: "lab4", rozet: "LAB 4 · EP 02 + 06", baslik: "Secure Remote Access", aciklama: "Saldırı grafı, bağımsızlık testi, G1–G7 gereksinimleri.", dosya: "pdf/LAB4_Secure_Remote_Access.pdf" },
     { id: "lab5", rozet: "LAB 5 · EP 09 · 10 · 11", baslik: "SBOM / CVE / Patch", aciklama: "SBOM, üç şart, karar akışı, telafi edici önlemler, validasyon etkisi, KEV zaman çizelgesi, SBOM sapması, EOL bileşen.", dosya: "pdf/LAB5_SBOM_CVE_Patch.pdf" },
-    { id: "lab6", rozet: "LAB 6 · EP 13", baslik: "CRA Incident Simulation", aciklama: "Olay akışı, emniyet doğrulaması, kanıt koruma, CRA 24 sa / 72 sa / 14 gün.", dosya: "pdf/LAB6_CRA_Incident.pdf" },
-    { id: "lab7", rozet: "LAB 7 · EP 03 + 15", baslik: "AI Safety Challenge", aciklama: "Güven eşiği, girdi manipülasyonu, YZ'den bağımsız emniyet, A1–A6 gereksinimleri.", dosya: "pdf/LAB7_AI_Safety.pdf" },
-    { id: "swot", rozet: "Bölüm 5", baslik: "SWOT ve Varsayımlar", aciklama: "SWOT, V1–V23 varsayımları ve yanlışsa etkileri.", dosya: "pdf/05_SWOT_ve_Varsayimlar.pdf" },
+    { id: "lab6", rozet: "LAB 6 · EP 13", baslik: "CRA Incident Simulation", aciklama: "Olay akışı, emniyet doğrulaması, kanıt koruma ve ömrü, filodaki etki alanı, CRA 24 sa / 72 sa / 14 gün.", dosya: "pdf/LAB6_CRA_Incident.pdf" },
+    { id: "lab7", rozet: "LAB 7 · EP 03 + 15", baslik: "AI Safety Challenge", aciklama: "Güven eşiği, girdi manipülasyonu, YZ'den bağımsız emniyet, ortak neden, sahadaki kayma ve izleme, A1–A7 gereksinimleri.", dosya: "pdf/LAB7_AI_Safety.pdf" },
+    { id: "swot", rozet: "Bölüm 5", baslik: "SWOT ve Varsayımlar", aciklama: "SWOT, V1–V26 varsayımları ve yanlışsa etkileri.", dosya: "pdf/05_SWOT_ve_Varsayimlar.pdf" },
     { id: "arastirma", rozet: "Kaynak", baslik: "Derin Araştırma Raporu", aciklama: "Analizin ana kanıt kaynağı olan bağımsız araştırma.", dosya: "docs/research/Efo_Makina_Derin_Arastirma_Raporu.pdf" },
   ],
 
@@ -78,7 +79,9 @@ window.SITE = {
     { baslik: "Karar zaman çizelgesi", lab: "LAB 5", dosya: "efo_sim/out/lab5_karar_zaman.png" },
     { baslik: "Telafi planı · mevcut", lab: "LAB 5", dosya: "efo_sim/out/diagrams/lab5_0_6f33db26.png" },
     { baslik: "Olay akışı", lab: "LAB 6", dosya: "efo_sim/out/lab6_zaman_cizelgesi.png" },
+    { baslik: "Servis hesabının etki alanı", lab: "LAB 6", dosya: "efo_sim/out/lab6_etki_alani.png" },
     { baslik: "YZ ve emniyet katmanları", lab: "LAB 7", dosya: "efo_sim/out/diagrams/lab7_0_0732d38e.png" },
     { baslik: "Güven eşiği taraması", lab: "LAB 7", dosya: "efo_sim/out/lab7_esik.png" },
+    { baslik: "Ortak neden ve kayma", lab: "LAB 7", dosya: "efo_sim/out/lab7_ortak_neden_kayma.png" },
   ],
 };

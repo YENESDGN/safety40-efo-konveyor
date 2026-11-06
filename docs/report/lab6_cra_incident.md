@@ -74,6 +74,16 @@ Olay bildirimi; olayın genel niteliğini, ilk değerlendirmeyi, alınan düzelt
 
 **Geri yükleme kanıt alındıktan sonra yapılır** (+1 gün). Start, emniyet fonksiyon testinden sonra verilir.
 
+**Etki: kaç müşteri?** Olayda kullanılan hesap, üreticinin **paylaşılan** servis hesabı. Bu hesapla aynı anda hangi kurulumlara ulaşılabildiği, CRA bildirimindeki "etki" alanının ve müşteri uyarılarının dayanağı. Model, varsayılan bir müşteri filosunda bunu hesap düzenine göre hesaplıyor [VARSAYIM] (V24):
+
+![Servis hesabının etki alanı](efo_sim/out/lab6_etki_alani.png)
+
+<!-- include-md: efo_sim/out/lab6_etki.md -->
+
+- Paylaşılan hesapta olay tek tesiste kalmıyor: sürekli açık uzak erişimi olan her kurulum aynı kimlik bilgisiyle açık. Emniyetin bağımlı olduğu kurulumlarda aynı farkla acil stop bozuluyor (`test_paylasilan_hesap_ele_gecince_birden_cok_kurulum_etkilenir`).
+- Kişisel hesapta etki olayın tesisiyle sınırlı (`test_kisisel_hesaplarda_etki_olayin_tesisiyle_sinirli_kalir`). Tesis onaylı ya da kapalı uzak erişimde, paylaşılan hesapla bile kuruluma ulaşılamıyor.
+- Bağımsız emniyetli kurulumda (M3) saldırgan erişse bile emniyet güvende kalıyor; olay orada bir kullanılabilirlik olayı [ÇIKARIM].
+
 Q5 | 14 gün — son rapor: Hangi loglar/kayıtlar korunmuş olmalı?
 
 - K1–K6 ve her birinin hash'i.
@@ -81,6 +91,12 @@ Q5 | 14 gün — son rapor: Hangi loglar/kayıtlar korunmuş olmalı?
 - Referans konfigürasyon, olay anı dökümü ve geri yükleme sonrası yeni CRC.
 - SF1–SF4 fonksiyon testi ve durma süresi ölçüm raporu.
 - Uygulanan ve süren önlemler: kişisel hesaplar, MFA, varsayılan kapalı uzak erişim.
+
+**Korunmuş olmalı, ama ne zamana kadar?** Logların bir kısmı cihazda kendiliğinden silinir: küçük router'lar halka tampon kullanır, HMI logları döndürülür [VARSAYIM] (V25). 14 günlük rapor için gereken kanıt, ilk saatlerde alınmazsa hiç alınamaz. Model, OT güvenlik ekibinin ertesi sabah geldiği bir akışı aynı kontrollerden geçiriyor:
+
+<!-- include-md: efo_sim/out/lab6_kanit_omru.md -->
+
+Router logu, ekip gelmeden silindiği için 72 saatlik bildirimin "olayın genel niteliği" ve son raporun "kök neden" bilgisi süresinde hazırlanamıyor (`test_kaybolan_kanit_cra_bildirimini_eksik_birakir`). Föydeki "ilk 2 saat" penceresi bu yüzden bir hız tercihi değil, kanıtın hâlâ cihazda olduğu süre [ÇIKARIM].
 
 **Süre notu:** Föy 14 gün diyor. CRA'da 14 gün, **aktif olarak istismar edilen bir zafiyet** için düzeltici önlemin hazır olmasından sonraki süredir. **Ağır olayda** son rapor, olay bildiriminden sonra **bir ay** içinde verilir [Y22] [SEKTÖR-TİPİK]. Bu akış iki süreyi de karşılıyor (son rapor +12,5 gün).
 
@@ -104,6 +120,8 @@ Q5 | 14 gün — son rapor: Hangi loglar/kayıtlar korunmuş olmalı?
 **6.3 CRA paketleri.** Her bilgi, süresinden önce tamamlanan bir eylemden ya da kanıttan geliyor mu?
 
 <!-- include-md: efo_sim/out/lab6_cra.md -->
+
+**6.4 Etki alanı ve 6.5 kanıt ömrü.** Sonuçlar Q4 ve Q5'te. Paylaşılan hesap etki alanını filoya yayıyor; geç toplanan kanıt CRA paketlerini eksik bırakıyor. Filo ve log süreleri varsayımdır; hesap düzenleri ürün önerisi değildir.
 
 **Test sonuçları:**
 
@@ -136,6 +154,11 @@ QE3 | Bağımsız emniyet olay müdahalesini nasıl değiştirir?
 
 - **Bulgu:** Bağımlı mimaride emniyet doğrulanana kadar hat durmak zorunda. Bağımsız mimaride SF1 aynı farklarla güvenli kalıyor (6.1); karar insanın korunmasından çok üretim bütünlüğüne dayanıyor [ÇIKARIM].
 - **Sonuç:** Emniyetin bağımsızlığı, olayın etkisini bir emniyet olayından bir kullanılabilirlik olayına indiriyor. LAB 5'teki yama kararında da aynı etki görüldü.
+
+QE4 | Paylaşılan servis hesabı tek başına bir zafiyet midir?
+
+- **Zafiyet:** Evet. Bir hesap ele geçince sürekli açık uzak erişimi olan bütün kurulumlar açılıyor (6.4). Ayrıca kimin hangi kuruluma bağlandığı ayırt edilemiyor; kök neden analizi ve CRA "etkilenen kurulumlar" bilgisi belirsizleşiyor [ÇIKARIM].
+- **Kapatma:** Kişisel hesap ve MFA; kurulum başına ayrı kimlik bilgisi; uzak oturumun tesis onayıyla açılması (LAB 4 hedefi). Modelde bu düzen, etkiyi olayın tesisine indiriyor [Y15, Y26] [SEKTÖR-TİPİK].
 
 ## Ek — Kod
 

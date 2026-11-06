@@ -16,3 +16,28 @@ lab6:
     etiket: "VARSAYIM"
     kaynak: "V19"
     not: "Olay sırasında salt okunur olarak alınan döküm: PLC projesi farklı, rampa 10 s (LAB 3 saldırısı)"
+
+  # 6.4 Etki alanı: üreticinin sahadaki kurulum filosu (paylaşılan servis hesabı hangi kurulumlara açılıyor?)
+  # hesap: paylasilan | kisisel; uzak: surekli (router hep açık) | onayli (tesis onayıyla) | yok
+  # emniyet: LAB 4 bağımsızlık varyantı (bagimli | bagimsiz | bagimsiz_hiz_izlemeli)
+  kurulumlar:
+    deger:
+      - {id: M1, ad: "Bu olayın tesisi", hesap: paylasilan, uzak: surekli, emniyet: bagimli}
+      - {id: M2, ad: "Müşteri B", hesap: paylasilan, uzak: surekli, emniyet: bagimli}
+      - {id: M3, ad: "Müşteri C", hesap: paylasilan, uzak: surekli, emniyet: bagimsiz}
+      - {id: M4, ad: "Müşteri D", hesap: paylasilan, uzak: onayli, emniyet: bagimli}
+      - {id: M5, ad: "Müşteri E", hesap: paylasilan, uzak: yok, emniyet: bagimli}
+      - {id: M6, ad: "Müşteri F", hesap: kisisel, uzak: surekli, emniyet: bagimli}
+    etiket: "VARSAYIM"
+    kaynak: "V24, V19"
+    not: "Efo'nun gerçek filosu bilinmiyor; karışık bir filo varsayıldı. M1 LAB 6 olayının tesisi"
+  # 6.5 Kanıt ömrü: bu süreden sonra kanıt kendiliğinden silinir (halka tampon / log döndürme). Listede olmayan kalıcı
+  kanit_omru:
+    deger: {K3: 720, K4: 1440}
+    birim: "dk"
+    etiket: "VARSAYIM"
+    kaynak: "V25, Y31"
+    not: "K3 router logu 12 sa (küçük halka tampon), K4 HMI logu 24 sa döndürülüyor"
+  gec_ekip_gecikmesi:
+    {deger: 810, birim: "dk", etiket: "VARSAYIM", kaynak: "V25",
+     not: "OT güvenlik ekibi ertesi sabah gelir: ilk 2 saatten sonraki kanıt eylemleri bu kadar kayar (10:15 → +13:30)"}

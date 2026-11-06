@@ -290,6 +290,31 @@ lab6:
     kaynak: "V19"
     not: "Olay sırasında salt okunur olarak alınan döküm: PLC projesi farklı, rampa 10 s (LAB 3 saldırısı)"
 
+  # 6.4 Etki alanı: üreticinin sahadaki kurulum filosu (paylaşılan servis hesabı hangi kurulumlara açılıyor?)
+  # hesap: paylasilan | kisisel; uzak: surekli (router hep açık) | onayli (tesis onayıyla) | yok
+  # emniyet: LAB 4 bağımsızlık varyantı (bagimli | bagimsiz | bagimsiz_hiz_izlemeli)
+  kurulumlar:
+    deger:
+      - {id: M1, ad: "Bu olayın tesisi", hesap: paylasilan, uzak: surekli, emniyet: bagimli}
+      - {id: M2, ad: "Müşteri B", hesap: paylasilan, uzak: surekli, emniyet: bagimli}
+      - {id: M3, ad: "Müşteri C", hesap: paylasilan, uzak: surekli, emniyet: bagimsiz}
+      - {id: M4, ad: "Müşteri D", hesap: paylasilan, uzak: onayli, emniyet: bagimli}
+      - {id: M5, ad: "Müşteri E", hesap: paylasilan, uzak: yok, emniyet: bagimli}
+      - {id: M6, ad: "Müşteri F", hesap: kisisel, uzak: surekli, emniyet: bagimli}
+    etiket: "VARSAYIM"
+    kaynak: "V24, V19"
+    not: "Efo'nun gerçek filosu bilinmiyor; karışık bir filo varsayıldı. M1 LAB 6 olayının tesisi"
+  # 6.5 Kanıt ömrü: bu süreden sonra kanıt kendiliğinden silinir (halka tampon / log döndürme). Listede olmayan kalıcı
+  kanit_omru:
+    deger: {K3: 720, K4: 1440}
+    birim: "dk"
+    etiket: "VARSAYIM"
+    kaynak: "V25, Y31"
+    not: "K3 router logu 12 sa (küçük halka tampon), K4 HMI logu 24 sa döndürülüyor"
+  gec_ekip_gecikmesi:
+    {deger: 810, birim: "dk", etiket: "VARSAYIM", kaynak: "V25",
+     not: "OT güvenlik ekibi ertesi sabah gelir: ilk 2 saatten sonraki kanıt eylemleri bu kadar kayar (10:15 → +13:30)"}
+
 lab7:
   ornek_sayisi: {deger: 20000, birim: "adet", etiket: "VARSAYIM", kaynak: "V20", not: "Sentetik değerlendirme kümesi"}
   tohum: {deger: 42, birim: "-", etiket: "VARSAYIM", kaynak: "-", not: "Tekrarlanabilirlik için rastgele sayı tohumu"}
@@ -330,3 +355,17 @@ lab7:
   hiz_istegi_taramasi:
     {deger: [0.5, 1.0, 1.5, 2.0, 3.0], birim: "× nominal", etiket: "VARSAYIM", kaynak: "-",
      not: "Test edilen YZ hız istekleri"}
+  # 7.4 Ortak neden: YZ ve metal dedektörü hatalarının bağımsızlığı (V20) gevşetilir
+  ortak_neden_taramasi:
+    {deger: [0.0, 0.2, 21], birim: "[alt, üst, adım sayısı]", etiket: "VARSAYIM", kaynak: "V26",
+     not: "Ortak neden payı ρ: YZ'nin kaçırdığı metal parçayı dedektörün de aynı nedenle kaçırma olasılığı"}
+  # 7.5 Kayma: kusurlu parçaların skor dağılımı sağlam parçalarınkine doğru kayar (yeni yabancı cisim türü)
+  kayma_taramasi:
+    {deger: [0.0, 0.3, 13], birim: "[alt, üst, adım sayısı]", etiket: "VARSAYIM", kaynak: "V26",
+     not: "δ = 0 devreye alma; δ = 1 kusurlu skorlar sağlamlarla aynı dağılımda"}
+  izleme_alarm_carpani:
+    {deger: 1.5, birim: "× devreye alma değeri", etiket: "VARSAYIM", kaynak: "V26, Y29",
+     not: "İzlenen oran devreye almadaki değerinin bu katına çıkınca alarm"}
+  kayma_tolerans_carpani:
+    {deger: 2.0, birim: "× hedef kaçak", etiket: "VARSAYIM", kaynak: "V26",
+     not: "Alarm, kaçak oranı hedefin bu katına çıkmadan çalmalı (A7)"}

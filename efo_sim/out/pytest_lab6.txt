@@ -4,24 +4,34 @@ rootdir: /home/ydogan/Masaüstü/safety40-efo-konveyor
 configfile: pytest.ini
 plugins: asyncio-1.3.0, anyio-4.13.0
 asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
-collecting ... collected 17 items
+collecting ... collected 27 items
 
-efo_sim/tests/test_lab6_incident.py::test_referansla_karsilastirma_degisen_ayarlari_bulur PASSED [  5%]
-efo_sim/tests/test_lab6_incident.py::test_fark_yoksa_emniyet_guvende PASSED [ 11%]
-efo_sim/tests/test_lab6_incident.py::test_mevcut_bagimli_mimaride_okunan_konfigurasyonla_emniyet_guvende_degil PASSED [ 17%]
-efo_sim/tests/test_lab6_incident.py::test_bagimsiz_emniyette_ayni_farklarla_acil_stop_guvenli_durdurur[bagimsiz] PASSED [ 23%]
-efo_sim/tests/test_lab6_incident.py::test_bagimsiz_emniyette_ayni_farklarla_acil_stop_guvenli_durdurur[bagimsiz_hiz_izlemeli] PASSED [ 29%]
-efo_sim/tests/test_lab6_incident.py::test_emniyet_rolesi_ayari_degismisse_hicbir_mimaride_guvenilmez PASSED [ 35%]
-efo_sim/tests/test_lab6_incident.py::test_kanit_silinmeden_once_alinir PASSED [ 41%]
-efo_sim/tests/test_lab6_incident.py::test_resetleyip_devam_etmek_kaniti_siler PASSED [ 47%]
-efo_sim/tests/test_lab6_incident.py::test_ilk_eylem_emniyet_ve_kurtarmadan_once_emniyet_degerlendirmesi PASSED [ 52%]
-efo_sim/tests/test_lab6_incident.py::test_ilk_15_dakikada_hat_durdurulur_ve_uzak_baglanti_kesilir PASSED [ 58%]
-efo_sim/tests/test_lab6_incident.py::test_servis_hesabi_ilk_iki_saatte_kapanir PASSED [ 64%]
-efo_sim/tests/test_lab6_incident.py::test_start_emniyet_fonksiyon_testinden_once_verilmez PASSED [ 70%]
-efo_sim/tests/test_lab6_incident.py::test_her_kanit_kimligi_tanimli PASSED [ 76%]
-efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_once_hazir[erken_uyari] PASSED [ 82%]
-efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_once_hazir[bildirim] PASSED [ 88%]
-efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_once_hazir[son_rapor] PASSED [ 94%]
-efo_sim/tests/test_lab6_incident.py::test_reset_akisi_cra_paketlerini_dolduramaz PASSED [100%]
+efo_sim/tests/test_lab6_incident.py::test_referansla_karsilastirma_degisen_ayarlari_bulur PASSED [  3%]
+efo_sim/tests/test_lab6_incident.py::test_fark_yoksa_emniyet_guvende PASSED [  7%]
+efo_sim/tests/test_lab6_incident.py::test_mevcut_bagimli_mimaride_okunan_konfigurasyonla_emniyet_guvende_degil PASSED [ 11%]
+efo_sim/tests/test_lab6_incident.py::test_bagimsiz_emniyette_ayni_farklarla_acil_stop_guvenli_durdurur[bagimsiz] PASSED [ 14%]
+efo_sim/tests/test_lab6_incident.py::test_bagimsiz_emniyette_ayni_farklarla_acil_stop_guvenli_durdurur[bagimsiz_hiz_izlemeli] PASSED [ 18%]
+efo_sim/tests/test_lab6_incident.py::test_emniyet_rolesi_ayari_degismisse_hicbir_mimaride_guvenilmez PASSED [ 22%]
+efo_sim/tests/test_lab6_incident.py::test_kanit_silinmeden_once_alinir PASSED [ 25%]
+efo_sim/tests/test_lab6_incident.py::test_resetleyip_devam_etmek_kaniti_siler PASSED [ 29%]
+efo_sim/tests/test_lab6_incident.py::test_ilk_eylem_emniyet_ve_kurtarmadan_once_emniyet_degerlendirmesi PASSED [ 33%]
+efo_sim/tests/test_lab6_incident.py::test_ilk_15_dakikada_hat_durdurulur_ve_uzak_baglanti_kesilir PASSED [ 37%]
+efo_sim/tests/test_lab6_incident.py::test_servis_hesabi_ilk_iki_saatte_kapanir PASSED [ 40%]
+efo_sim/tests/test_lab6_incident.py::test_start_emniyet_fonksiyon_testinden_once_verilmez PASSED [ 44%]
+efo_sim/tests/test_lab6_incident.py::test_her_kanit_kimligi_tanimli PASSED [ 48%]
+efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_once_hazir[erken_uyari] PASSED [ 51%]
+efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_once_hazir[bildirim] PASSED [ 55%]
+efo_sim/tests/test_lab6_incident.py::test_cra_paketindeki_her_bilgi_suresinden_once_hazir[son_rapor] PASSED [ 59%]
+efo_sim/tests/test_lab6_incident.py::test_reset_akisi_cra_paketlerini_dolduramaz PASSED [ 62%]
+efo_sim/tests/test_lab6_incident.py::test_paylasilan_hesap_ele_gecince_birden_cok_kurulum_etkilenir PASSED [ 66%]
+efo_sim/tests/test_lab6_incident.py::test_kisisel_hesaplarda_etki_olayin_tesisiyle_sinirli_kalir PASSED [ 70%]
+efo_sim/tests/test_lab6_incident.py::test_tesis_onayli_ya_da_kapali_uzak_erisimde_kurulum_ulasilamaz[mevcut] PASSED [ 74%]
+efo_sim/tests/test_lab6_incident.py::test_tesis_onayli_ya_da_kapali_uzak_erisimde_kurulum_ulasilamaz[kisisel] PASSED [ 77%]
+efo_sim/tests/test_lab6_incident.py::test_bagimsiz_emniyetli_kurulumda_erisim_olsa_da_emniyet_guvende[mevcut] PASSED [ 81%]
+efo_sim/tests/test_lab6_incident.py::test_bagimsiz_emniyetli_kurulumda_erisim_olsa_da_emniyet_guvende[kisisel] PASSED [ 85%]
+efo_sim/tests/test_lab6_incident.py::test_bu_akista_her_kanit_omru_dolmadan_alinir PASSED [ 88%]
+efo_sim/tests/test_lab6_incident.py::test_ilk_iki_saat_her_kanitin_omrunden_kisadir PASSED [ 92%]
+efo_sim/tests/test_lab6_incident.py::test_gec_gelen_ekipte_router_logu_kaybolur PASSED [ 96%]
+efo_sim/tests/test_lab6_incident.py::test_kaybolan_kanit_cra_bildirimini_eksik_birakir PASSED [100%]
 
-============================== 17 passed in 0.06s ==============================
+============================== 27 passed in 0.06s ==============================

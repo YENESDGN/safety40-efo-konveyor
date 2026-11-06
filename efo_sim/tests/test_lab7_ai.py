@@ -95,3 +95,50 @@ def test_hiz_izleme_olmadan_da_eli_korur():
     for istek in m.d("lab7.hiz_istegi_taramasi"):
         assert not lab1.el_besleme_agzina_ulasir_mi(
             m.acil_stop_mesafesi(istek, kumanda_kesiyor=False, hiz_izleme=False))
+
+
+# ---------------------------------------------------------------- 7.4 Ortak neden
+def test_bagimsiz_hatalarda_ikinci_kanal_kacak_hedefini_saglar():
+    r = m.metrikler(m.veri_uret(), m.esik_sec(md=True), md=True, ortak_neden=0.0)
+    assert r["kacak"] <= m.d("lab7.hedef_kacak_orani")
+
+
+def test_ortak_neden_payi_artinca_kacak_artar():
+    kacaklar = [r["kacak"] for _, r in m.ortak_neden_taramasi()]
+    assert kacaklar == sorted(kacaklar) and kacaklar[-1] > kacaklar[0]
+
+
+def test_ortak_neden_esigi_asilinca_kacak_hedefi_asilir():
+    """V20'deki bağımsızlık varsayımı kritik: küçük bir ortak neden payı hedefi bozar."""
+    rho = m.ortak_neden_esigi()
+    veri, e, hedef = m.veri_uret(), m.esik_sec(md=True), m.d("lab7.hedef_kacak_orani")
+    assert m.metrikler(veri, e, md=True, ortak_neden=rho * 0.99)["kacak"] <= hedef
+    assert m.metrikler(veri, e, md=True, ortak_neden=rho * 1.01)["kacak"] > hedef
+
+
+# ---------------------------------------------------------------- 7.5 Kayma ve izleme
+def test_kaymasiz_veri_devreye_almadaki_kumeyle_aynidir():
+    assert m.veri_uret(0.0) == m.veri_uret()
+
+
+def test_kusurlu_skorlar_saglama_kaydikca_kacak_hedefi_asilir():
+    assert m.izleme_sonucu()["hedef_asim"] is not None
+
+
+def test_operator_yuku_kaymayi_gostermez():
+    """Kaçak toleransı aşıldığında bile operatöre sorulan oran alarm eşiğine ulaşmıyor."""
+    iz = m.izleme_sonucu()
+    assert iz["tolerans_asim"] is not None
+    assert iz["alarm_sor"] is None or iz["alarm_sor"] > iz["tolerans_asim"]
+
+
+def test_celiski_alarmi_kacak_toleransi_asilmadan_once_calar():
+    """A7: YZ ile bağımsız dedektör arasındaki çelişki oranı izlenir; kayma tolerans içinde yakalanır."""
+    iz = m.izleme_sonucu()
+    assert iz["alarm_celiski"] is not None and iz["alarm_celiski"] < iz["tolerans_asim"]
+
+
+@pytest.mark.xfail(strict=True, reason="Kaçak, devreye almada hedefe çok yakın; hiçbir izleme hedef aşılmadan önce davranamıyor")
+def test_celiski_alarmi_kacak_hedefi_asilmadan_once_calar():
+    iz = m.izleme_sonucu()
+    assert iz["alarm_celiski"] < iz["hedef_asim"]

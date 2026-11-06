@@ -58,6 +58,12 @@ Sentetik kümede sonuç:
 
 Metal dedektörü hesabı, YZ ile dedektörün hatalarının **bağımsız** olduğunu varsayıyor. Bağımsızlık gerçek kurulumda kanıtlanmalı (V20).
 
+**Bağımsızlık bozulursa (7.4).** İki kanal aynı nedenle birlikte yanılabilir: örneğin ıslak ve iri bir yonga yığını hem kameranın görüşünü kapatır hem de dedektörün sinyalini bastırır. Model, YZ'nin kaçırdığı metal parçaların ρ kadarını dedektörün de aynı nedenle kaçırdığını kabul ediyor [VARSAYIM] (V26):
+
+<!-- include-md: efo_sim/out/lab7_ortak_neden.md -->
+
+Sonuç, ikinci kanalın değerinin neredeyse tamamen bağımsızlıktan geldiğini gösteriyor. Küçük bir ortak neden payı bile hedefi bozuyor (`test_ortak_neden_esigi_asilinca_kacak_hedefi_asilir`). Bu yüzden iki kanalın farklı fiziksel ilkeye dayanması ve ortak neden payının devreye almada ölçülmesi gerekiyor [ÇIKARIM] [Y29].
+
 Q2 | Girdi manipüle edildi: Kamera verisi bozuk/sahte. Nasıl fark edilir? Şüpheli girdide ne yapılır?
 
 **Nasıl fark edilir** (kod: `girdi_supheli`):
@@ -106,6 +112,18 @@ YZ, sağlam ve küçük parçalarda dozaj hızını artırmayı önerebilir. LAB
 
 Hız izleme olmadan, YZ'nin 3 katlık bir isteği acil stop mesafesini 2,225 m'ye çıkarıyor ve el besleme ağzına ulaşıyor. Bu test `xfail(strict=True)` ile işaretli: gereksinimi karşılamayan bir düzende kalması beklenen sonuçtur.
 
+## YZ'nin sahadaki ömrü: kayma ve izleme
+
+Devreye almadaki doğrulama, modelin sahada aynı kalacağını varsaymaz. Yeni bir yabancı cisim türü (ör. boyalı metal, plastik kaplı parça) modelin kusurlu parçalara verdiği skorları sağlam parçalarınkine doğru kaydırabilir (7.5) [VARSAYIM] (V26). Kaçak oranı sahada **gözlenemez**: kaçan parçayı kimse görmez. Gözlenebilen iki oran var: operatöre sorulan parçalar ve YZ'nin GEÇ dediği hâlde metal dedektörünün metal gördüğü parçalar (çelişki).
+
+![Ortak neden ve kayma](efo_sim/out/lab7_ortak_neden_kayma.png)
+
+<!-- include-md: efo_sim/out/lab7_kayma.md -->
+
+- **Operatör yükü kaymayı göstermiyor.** Kayma, modelin "emin olduğu" kararları yanlış yöne çekiyor; emin olmadığı parça sayısı pek değişmiyor (`test_operator_yuku_kaymayi_gostermez`).
+- **Çelişki oranı gösteriyor.** Bağımsız kanal yalnızca kaçağı yakalamıyor, aynı zamanda YZ için bir **izleme sinyali** üretiyor. Alarm, kaçak hedefin iki katına çıkmadan çalıyor (`test_celiski_alarmi_kacak_toleransi_asilmadan_once_calar`).
+- **Ama hedefin kendisi korunamıyor.** Devreye almada kaçak oranı hedefe çok yakın (%0,88'e karşı %1). Kayma başlar başlamaz hedef aşılabiliyor ve hiçbir izleme ondan önce davranamıyor. Bu test `xfail(strict=True)`: eşiği hedefe bu kadar yakın seçmek, sahada marj bırakmıyor [ÇIKARIM].
+
 **Gereksinimler** (föyün tarafsızlık ilkesiyle: çözüm değil gereksinim; her biri bir teste bağlı):
 
 | # | Gereksinim ve testi |
@@ -116,6 +134,7 @@ Hız izleme olmadan, YZ'nin 3 katlık bir isteği acil stop mesafesini 2,225 m'y
 | **A4** | Güven eşiği, tanımlı bir kaçak hedefinden ve operatör kapasitesinden türetilmeli; eşiğin altında OK otomatik verilmemelidir.<br><span class="test-ref">Test: `test_secilen_esik_kacak_hedefini_operator_kapasitesi_icinde_karsilar`, `test_esigin_altinda_ok_otomatik_verilmez`</span> |
 | **A5** | Şüpheli girdide YZ kararı kullanılmamalı ve süreç güvenli duruma (besleme durur) geçmelidir.<br><span class="test-ref">Test: `test_supheli_girdide_besleme_durur`</span> |
 | **A6** | YZ'den bağımsız bir kanal YZ ile çelişirse güvenli taraf (ayır) seçilmelidir.<br><span class="test-ref">Test: `test_metal_dedektoru_yz_ile_celisirse_parca_ayrilir`</span> |
+| **A7** | YZ'nin sahadaki performansı, kaçak oranına dayanmayan gözlenebilir bir sinyalle (ör. bağımsız kanalla çelişki oranı) izlenmeli; kayma, kaçak tanımlı bir toleransı aşmadan alarm üretmelidir. İkinci kanalın ortak neden payı devreye almada ölçülmelidir.<br><span class="test-ref">Test: `test_celiski_alarmi_kacak_toleransi_asilmadan_once_calar`, `test_ortak_neden_esigi_asilinca_kacak_hedefi_asilir`</span> |
 
 <div class="note" markdown="1">
 **Tarafsızlık notu:** Metal dedektörü, güven eşiği değerleri ve girdi kontrolleri yalnızca gereksinimlerin test edilebildiğini göstermek içindir; bir ürün ya da tasarım önerisi değildir. Tasarım kararı firmaya aittir.
@@ -132,6 +151,8 @@ Hız izleme olmadan, YZ'nin 3 katlık bir isteği acil stop mesafesini 2,225 m'y
 - Bağımsız ikinci kanalın hem kaçak oranını hem de operatör yükünü azalttığı gösterildi.
 - Girdi kontrolleri, şüpheli her girdide beslemeyi durdurdu.
 - YZ'nin hiçbir çıktısı emniyet durum makinesini (LAB 1) etkilemedi; hız önerisi, emniyet tarafındaki hız izlemeyle sınırlandı (LAB 4).
+- İkinci kanalın katkısı bağımsızlığa bağlı: küçük bir ortak neden payı hedefi bozuyor (7.4).
+- Sahadaki kaymayı operatör yükü değil, YZ ile bağımsız kanal arasındaki çelişki oranı yakalıyor (7.5).
 
 **Test sonuçları:**
 

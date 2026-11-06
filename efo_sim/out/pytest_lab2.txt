@@ -21,4 +21,4 @@ efo_sim/tests/test_lab2_zones.py::test_mevcut_varsayim_mimaride_kural_ihlali_yak
 efo_sim/tests/test_lab2_zones.py::test_mermaid_veriden_uretilir_ve_her_akisi_icerir PASSED [ 92%]
 efo_sim/tests/test_lab2_zones.py::test_bolge_diyagrami_her_bolgeler_arasi_gecisi_gosterir PASSED [100%]
 
-============================== 14 passed in 0.06s ==============================
+============================== 14 passed in 0.05s ==============================

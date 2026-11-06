@@ -14,3 +14,11 @@
 | 12 | `test_yz_hiz_istegi_normal_kumandada_kesilir` (test_lab7_ai) | ✔ geçti (5/5) |
 | 13 | `test_kumanda_atlatilsa_da_hiz_izleme_eli_korur` (test_lab7_ai) | ✔ geçti (5/5) |
 | 14 | `test_hiz_izleme_olmadan_da_eli_korur` (test_lab7_ai) | ✖ kaldı (beklenen) |
+| 15 | `test_bagimsiz_hatalarda_ikinci_kanal_kacak_hedefini_saglar` (test_lab7_ai) | ✔ geçti |
+| 16 | `test_ortak_neden_payi_artinca_kacak_artar` (test_lab7_ai) | ✔ geçti |
+| 17 | `test_ortak_neden_esigi_asilinca_kacak_hedefi_asilir` (test_lab7_ai) | ✔ geçti |
+| 18 | `test_kaymasiz_veri_devreye_almadaki_kumeyle_aynidir` (test_lab7_ai) | ✔ geçti |
+| 19 | `test_kusurlu_skorlar_saglama_kaydikca_kacak_hedefi_asilir` (test_lab7_ai) | ✔ geçti |
+| 20 | `test_operator_yuku_kaymayi_gostermez` (test_lab7_ai) | ✔ geçti |
+| 21 | `test_celiski_alarmi_kacak_toleransi_asilmadan_once_calar` (test_lab7_ai) | ✔ geçti |
+| 22 | `test_celiski_alarmi_kacak_hedefi_asilmadan_once_calar` (test_lab7_ai) | ✖ kaldı (beklenen) |

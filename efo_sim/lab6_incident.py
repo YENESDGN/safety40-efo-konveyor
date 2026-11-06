@@ -7,6 +7,12 @@
     hesap 2 saat içinde kapanmış mı? "Resetleyip devam edelim" akışı karşı örnek olarak tutulur.
 6.3 CRA paketleri: 24 sa / 72 sa / 14 gün için gereken her bilgi, süresinden önce tamamlanan
     bir eylemden geliyor mu?
+6.4 Etki alanı: paylaşılan servis hesabı ele geçince filodaki hangi kurulumlara ulaşılır, hangilerinde
+    emniyet riskte? Kişisel hesaplarda etki olayın tesisiyle sınırlı kalır.
+6.5 Kanıt ömrü: router ve HMI logları belirli bir süre sonra kendiliğinden silinir. Ekip geç gelirse
+    hangi kanıt kaybolur ve CRA paketlerinde hangi bilgi eksik kalır?
+
+Kurulum filosu ve hesap düzenleri ürün önerisi değildir; etki alanının neye bağlı olduğunu göstermek içindir.
 
 Çalıştırma (repo kökünden):  python -m efo_sim.lab6_incident
 """
@@ -146,7 +152,10 @@ PAKET_ADI = {"erken_uyari": "24 sa — erken uyarı", "bildirim": "72 sa — ola
 
 
 def kaynak_tamam_dk(akis, kaynak):
-    """Bir kanıt kimliği ya da eylem metni parçası akışta en erken ne zaman tamamlanıyor?"""
+    """Bir kanıt kimliği ya da eylem metni parçası akışta en erken ne zaman tamamlanıyor?
+    Ömrü dolduktan sonra alınmaya çalışılan kanıt hiç alınmamış sayılır (6.5)."""
+    if kaynak in kanit_kayiplari(akis):
+        return math.inf
     for t, _, eylem, _, al, _ in sorted(akis, key=lambda e: e[0]):
         if kaynak in al or kaynak in eylem:
             return t
@@ -163,6 +172,51 @@ def cra_hazirlik(akis=AKIS):
             t = max(kaynak_tamam_dk(akis, k) for k in kaynaklar)
             sonuc[paket][alan] = (t, t <= sinir)
     return sonuc
+
+
+# ---------------------------------------------------------------- 6.4 Etki alanı
+OLAY_KURULUMU = "M1"
+HESAP_DUZENLERI = {"mevcut": "Mevcut hesap düzeni (paylaşılan servis hesabı)",
+                   "kisisel": "Kişisel hesap + MFA (LAB 4 hedefi)"}
+
+
+def filo(duzen="mevcut"):
+    kurulumlar = [dict(k) for k in d("lab6.kurulumlar")]
+    if duzen == "kisisel":
+        for k in kurulumlar:
+            k["hesap"] = "kisisel"
+    return kurulumlar
+
+
+def etki_alani(duzen="mevcut"):
+    """Olayda kullanılan kimlik bilgisiyle hangi kurulumlara ulaşılır? Ulaşılanda emniyet güvende mi?
+    Ulaşmak için: uzak erişim sürekli açık olmalı ve kurulum ya olayın kendi tesisi olmalı ya da
+    ele geçen hesap paylaşılan bir hesap olup o kurulumda da kullanılıyor olmalı."""
+    kurulumlar = filo(duzen)
+    olay = next(k for k in kurulumlar if k["id"] == OLAY_KURULUMU)
+    sonuc = []
+    for k in kurulumlar:
+        ayni_hesap = k["id"] == OLAY_KURULUMU or (olay["hesap"] == "paylasilan" and k["hesap"] == "paylasilan")
+        ulasilir = ayni_hesap and k["uzak"] == "surekli"
+        riskte = ulasilir and not emniyet_degerlendirmesi(k["emniyet"])["guvende"]
+        sonuc.append({"kurulum": k, "ulasilir": ulasilir, "emniyet_riskte": riskte})
+    return sonuc
+
+
+# ---------------------------------------------------------------- 6.5 Kanıt ömrü
+def kanit_kayiplari(akis):
+    """Ömrü dolmadan alınamayan kanıtlar (halka tampon, log döndürme)."""
+    ilk = {}
+    for t, _, _, _, al, _ in sorted(akis, key=lambda e: e[0]):
+        for k in al:
+            ilk.setdefault(k, t)
+    return {k for k, omur in d("lab6.kanit_omru").items() if ilk.get(k, math.inf) > omur}
+
+
+def gec_akis(akis=AKIS):
+    """OT güvenlik ekibi ertesi sabah gelir: onun eylemleri gecikme kadar kayar."""
+    g = d("lab6.gec_ekip_gecikmesi")
+    return [(t + g if "OT güvenlik" in kim else t, kim, eylem, tur, al, sil) for t, kim, eylem, tur, al, sil in akis]
 
 
 # ---------------------------------------------------------------- Çıktılar
@@ -220,6 +274,50 @@ def kontrol_md():
     return "\n".join(s) + "\n"
 
 
+def etki_md():
+    UZAK = {"surekli": "sürekli açık", "onayli": "tesis onaylı", "yok": "yok"}
+    s = ["| Kurulum | Hesap | Uzak erişim | Emniyet mimarisi | " + " | ".join(
+        f"{ad.split(' (')[0]}: ulaşılır / emniyet" for ad in HESAP_DUZENLERI.values()) + " |",
+         "|---|---|---|---|---|---|"]
+    sonuclar = {duz: {r["kurulum"]["id"]: r for r in etki_alani(duz)} for duz in HESAP_DUZENLERI}
+
+    def hucre(r):
+        if not r["ulasilir"]:
+            return "ulaşılamaz"
+        return "ulaşılır / " + ("**riskte**" if r["emniyet_riskte"] else "güvende")
+
+    for k in filo():
+        s.append(f"| {k['id']} · {k['ad']} | {k['hesap'].replace('paylasilan', 'paylaşılan').replace('kisisel', 'kişisel')} | "
+                 f"{UZAK[k['uzak']]} | {lab4.VARYANTLAR[k['emniyet']]} | "
+                 + " | ".join(hucre(sonuclar[duz][k['id']]) for duz in HESAP_DUZENLERI) + " |")
+    ozet = []
+    for duz, ad in HESAP_DUZENLERI.items():
+        e = etki_alani(duz)
+        ozet.append(f"- **{ad}:** {sum(r['ulasilir'] for r in e)} kurulum ulaşılır, "
+                    f"{sum(r['emniyet_riskte'] for r in e)} kurulumda emniyet riskte.")
+    s += ["", "Emniyet, olaydaki konfigürasyon farkının (6.1) o kurulumun mimarisinde acil stopu bozup bozmadığına "
+              "göre değerlendirildi.", ""] + ozet
+    return "\n".join(s) + "\n"
+
+
+def kanit_omru_md():
+    kt = d("lab6.kilometre_taslari")
+    s = ["| Kanıt | Ömrü | Bu akışta alındığı an | Ekip geç gelirse alındığı an | Sonuç |", "|---|---|---|---|---|"]
+    gec = gec_akis()
+    kayip = kanit_kayiplari(gec)
+    for k, omur in d("lab6.kanit_omru").items():
+        s.append(f"| {k}: {KANITLAR[k]} | {saat_metni(omur)} | {saat_metni(kaynak_tamam_dk(AKIS, k))} | "
+                 f"{saat_metni(min(e[0] for e in gec if k in e[4]))} | {'**kayboldu**' if k in kayip else 'korundu'} |")
+    h, hg = cra_hazirlik(), cra_hazirlik(gec)
+    eksik = [(paket, alan) for paket in CRA_PAKETLERI for alan in CRA_PAKETLERI[paket]
+             if h[paket][alan][1] and not hg[paket][alan][1]]
+    s += ["", f"Ekip geç gelirse OT güvenlik eylemleri {saat_metni(d('lab6.gec_ekip_gecikmesi'))} kayıyor. "
+              "Kaybolan kanıt yüzünden süresinde hazırlanamayan CRA bilgileri:", ""]
+    s += [f"- {PAKET_ADI[p]}: {a}" for p, a in eksik] or ["- yok"]
+    s += ["", f"İlk 2 saat (≤ {saat_metni(kt['ilk_asama'])}) kanıtın hâlâ cihazda olduğu penceredir."]
+    return "\n".join(s) + "\n"
+
+
 def cra_md():
     h = cra_hazirlik()
     kt = d("lab6.kilometre_taslari")
@@ -267,6 +365,49 @@ def _grafik_zaman(yol):
     plt.close(fig)
 
 
+def _grafik_etki_alani(yol):
+    """Filo kutucukları: her hesap düzeninde hangi kurulum ulaşılır, hangisinde emniyet riskte."""
+    plt = stil.mpl()
+    from matplotlib.patches import FancyBboxPatch
+
+    R, D = stil.RENK, stil.DOLGU
+    UZAK = {"surekli": "sürekli açık", "onayli": "tesis onaylı", "yok": "erişim yok"}
+    EMN = {"bagimli": "bağımlı", "bagimsiz": "bağımsız", "bagimsiz_hiz_izlemeli": "bağımsız + hız"}
+    duzenler = list(HESAP_DUZENLERI.items())
+    n = len(d("lab6.kurulumlar"))
+    fig, ax = plt.subplots(figsize=(7.6, 3.1))
+    ax.set_xlim(-2.2, n + 0.05)
+    ax.set_ylim(len(duzenler) * 1.25 + 0.3, -0.55)
+    ax.axis("off")
+    for r, (duz, ad) in enumerate(duzenler):
+        y = r * 1.25
+        e = etki_alani(duz)
+        ax.text(-2.15, y + 0.5, ad.replace(" (", "\n("), fontsize=7.2, fontweight="bold", color=R["ikincil"], va="center")
+        ozet = f"{sum(x['ulasilir'] for x in e)} ulaşılır · {sum(x['emniyet_riskte'] for x in e)} emniyet riskte"
+        ax.text(-2.15, y + 0.98, ozet, fontsize=6.3, color=R["ikincil"], va="center")
+        for i, x in enumerate(e):
+            k = x["kurulum"]
+            ton = "kritik" if x["emniyet_riskte"] else ("uyari" if x["ulasilir"] else "iyi")
+            ax.add_patch(FancyBboxPatch((i + 0.06, y), 0.88, 1.0, boxstyle="round,pad=0,rounding_size=0.08",
+                                        fc=D[ton], ec=R[ton], lw=2.2 if k["id"] == OLAY_KURULUMU else 1.0))
+            ax.text(i + 0.5, y + 0.2, k["id"], ha="center", va="center", fontsize=8.5, fontweight="bold",
+                    color=R["murekkep"])
+            hesap = "paylaşılan" if k["hesap"] == "paylasilan" else "kişisel"
+            ax.text(i + 0.5, y + 0.62, f"{hesap}\n{UZAK[k['uzak']]}\n{EMN[k['emniyet']]}", ha="center", va="center",
+                    fontsize=5.6, color=R["ikincil"], linespacing=1.35)
+    for i, (ton, metin) in enumerate((("kritik", "ulaşılır, emniyet riskte"), ("uyari", "ulaşılır, emniyet güvende"),
+                                      ("iyi", "ulaşılamaz"))):
+        x0 = i * 1.95
+        ax.add_patch(FancyBboxPatch((x0, -0.42), 0.22, 0.22, boxstyle="round,pad=0,rounding_size=0.04",
+                                    fc=D[ton], ec=R[ton], lw=1))
+        ax.text(x0 + 0.3, -0.31, metin, fontsize=6.6, va="center", color=R["murekkep"])
+    ax.text(0.06, len(duzenler) * 1.25 + 0.12, f"Kutuda sırasıyla: hesap · uzak erişim · emniyet mimarisi (LAB 4). "
+            f"Kalın çerçeve: olayın tesisi ({OLAY_KURULUMU}).", fontsize=6.2, va="center", color=R["ikincil"])
+    ax.set_title("Ele geçen servis hesabının etki alanı: hesap düzenine göre", pad=6)
+    fig.savefig(yol)
+    plt.close(fig)
+
+
 def main():
     OUT_DIR.mkdir(exist_ok=True)
     (OUT_DIR / "lab6_akis.md").write_text(akis_md(), encoding="utf-8")
@@ -275,6 +416,9 @@ def main():
     (OUT_DIR / "lab6_cra.md").write_text(cra_md(), encoding="utf-8")
     (OUT_DIR / "lab6_params.yaml").write_text(bolum_metni("lab6"), encoding="utf-8")
     _grafik_zaman(OUT_DIR / "lab6_zaman_cizelgesi.png")
+    (OUT_DIR / "lab6_etki.md").write_text(etki_md(), encoding="utf-8")
+    (OUT_DIR / "lab6_kanit_omru.md").write_text(kanit_omru_md(), encoding="utf-8")
+    _grafik_etki_alani(OUT_DIR / "lab6_etki_alani.png")
     print(emniyet_md())
     print(kontrol_md())
     print(cra_md())

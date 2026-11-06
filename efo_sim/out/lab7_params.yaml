@@ -38,3 +38,17 @@ lab7:
   hiz_istegi_taramasi:
     {deger: [0.5, 1.0, 1.5, 2.0, 3.0], birim: "× nominal", etiket: "VARSAYIM", kaynak: "-",
      not: "Test edilen YZ hız istekleri"}
+  # 7.4 Ortak neden: YZ ve metal dedektörü hatalarının bağımsızlığı (V20) gevşetilir
+  ortak_neden_taramasi:
+    {deger: [0.0, 0.2, 21], birim: "[alt, üst, adım sayısı]", etiket: "VARSAYIM", kaynak: "V26",
+     not: "Ortak neden payı ρ: YZ'nin kaçırdığı metal parçayı dedektörün de aynı nedenle kaçırma olasılığı"}
+  # 7.5 Kayma: kusurlu parçaların skor dağılımı sağlam parçalarınkine doğru kayar (yeni yabancı cisim türü)
+  kayma_taramasi:
+    {deger: [0.0, 0.3, 13], birim: "[alt, üst, adım sayısı]", etiket: "VARSAYIM", kaynak: "V26",
+     not: "δ = 0 devreye alma; δ = 1 kusurlu skorlar sağlamlarla aynı dağılımda"}
+  izleme_alarm_carpani:
+    {deger: 1.5, birim: "× devreye alma değeri", etiket: "VARSAYIM", kaynak: "V26, Y29",
+     not: "İzlenen oran devreye almadaki değerinin bu katına çıkınca alarm"}
+  kayma_tolerans_carpani:
+    {deger: 2.0, birim: "× hedef kaçak", etiket: "VARSAYIM", kaynak: "V26",
+     not: "Alarm, kaçak oranı hedefin bu katına çıkmadan çalmalı (A7)"}

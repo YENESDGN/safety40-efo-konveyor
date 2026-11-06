@@ -12,6 +12,7 @@
 import math
 
 from efo_sim import lab1_safety as lab1
+from efo_sim import stil
 from efo_sim.params import OUT_DIR, bolum_metni, d, gecici, sayi
 
 HEDEF_DUGUM = "sf"
@@ -233,15 +234,26 @@ def varsayim_etkileri_md():
 
 
 # ---------------------------------------------------------------- Çıktılar
+KATMANLAR = {  # diyagramda düğümlerin gruplanması (yalnız görünüm; analiz grafı aynı)
+    "giris_k": ("Giriş noktaları", list(GIRISLER)),
+    "ag_k": ("Ağ ve kumanda", ["router", "jump", "hmi", "plc", "vfd"]),
+    "emniyet_k": ("Emniyet", ["emniyet", HEDEF_DUGUM]),
+}
+
+
 def mermaid_saldiri(mimari):
     satirlar = ["flowchart TB"]
-    for n, ad in DUGUMLER.items():
-        if n in GIRISLER:
-            satirlar.append(f'  {n}(["{ad}"])')
-        elif n == HEDEF_DUGUM:
-            satirlar.append(f'  {n}{{{{"{ad}"}}}}')
-        else:
-            satirlar.append(f'  {n}["{ad}"]')
+    for kid, (baslik, uyeler) in KATMANLAR.items():
+        satirlar.append(f'  subgraph {kid}["{baslik}"]')
+        for n in uyeler:
+            ad = DUGUMLER[n]
+            if n in GIRISLER:
+                satirlar.append(f'    {n}(["{ad}"])')
+            elif n == HEDEF_DUGUM:
+                satirlar.append(f'    {n}{{{{"{ad}"}}}}')
+            else:
+                satirlar.append(f'    {n}["{ad}"]')
+        satirlar.append("  end")
     acik = acik_kenarlar(mimari)
     erisilen = ulasilabilir(mimari) | set(GIRISLER)
     yol_uzerinde = {KENARLAR.index(k) for g in GIRISLER for y in yollar(mimari, g) for k in y}
@@ -249,21 +261,24 @@ def mermaid_saldiri(mimari):
     for i, k in enumerate(KENARLAR):
         if i in yol_uzerinde:
             satirlar.append(f'  {k[0]} -->|"{k[3]}"| {k[1]}')       # emniyet fonksiyonuna giden yol
-            stiller.append(f"  linkStyle {i} stroke:#b3261e,stroke-width:3px")
+            stiller.append(stil.kenar_stili(i, "kritik", kalin=True))
         elif k in acik and k[0] in erisilen:
             satirlar.append(f'  {k[0]} -->|"{k[3]}"| {k[1]}')       # ulaşılabilir ama yol dışında
-            stiller.append(f"  linkStyle {i} stroke:#e2a91c,stroke-width:2px")
+            stiller.append(stil.kenar_stili(i, "uyari"))
         else:
             isaret = "✕ " if k not in acik else ""
             satirlar.append(f'  {k[0]} -.-|"{isaret}{k[3]}"| {k[1]}')  # kapalı ya da ulaşılamaz
-            stiller.append(f"  linkStyle {i} stroke:#c3c8d0,stroke-width:1px")
+            stiller.append(stil.kenar_stili(i, "pasif"))
     satirlar += [
-        "  classDef giris fill:#fdeee6,stroke:#d9572e,color:#16223a",
-        "  classDef hedef fill:#fdecea,stroke:#b3261e,stroke-width:3px,color:#16223a",
-        "  classDef varlik fill:#e9f1fb,stroke:#2a78d6,color:#16223a",
+        stil.classdef("giris", "giris"),
+        stil.classdef("hedef", "kritik", kalin=True),
+        stil.classdef("varlik", "bilgi"),
         f"  class {','.join(GIRISLER)} giris",
         f"  class {HEDEF_DUGUM} hedef",
         "  class " + ",".join(n for n in DUGUMLER if n not in GIRISLER and n != HEDEF_DUGUM) + " varlik",
+        stil.kume_stili("giris_k"),
+        stil.kume_stili("ag_k"),
+        stil.kume_stili("emniyet_k", "kritik"),
     ]
     return "\n".join(satirlar + stiller) + "\n"
 
@@ -300,12 +315,12 @@ def bagimsizlik_md():
 
 def _grafik_bagimsizlik(yol):
     import matplotlib
-    matplotlib.use("Agg")
+    stil.mpl()
     import matplotlib.pyplot as plt
     import matplotlib.ticker
 
     saldirilar = ["yok", "rampa", "hiz_rampa"]
-    renkler = {"bagimli": "#eb6834", "bagimsiz": "#2a78d6", "bagimsiz_hiz_izlemeli": "#1baf7a"}
+    renkler = {"bagimli": stil.RENK["giris"], "bagimsiz": stil.RENK["bilgi"], "bagimsiz_hiz_izlemeli": stil.RENK["iyi"]}
     genislik = 0.26
     fig, ax = plt.subplots(figsize=(7.2, 3.8), dpi=200)
     for i, (v, vad) in enumerate(VARYANTLAR.items()):
@@ -313,10 +328,10 @@ def _grafik_bagimsizlik(yol):
         ys = [acil_stop_sonucu(v, sa)["mesafe"] for sa in saldirilar]
         ax.bar(xs, ys, width=genislik - 0.03, color=renkler[v], label=vad)
         for x, y in zip(xs, ys):
-            ax.text(x, y + 0.08, sayi(y, 2), ha="center", va="bottom", fontsize=7, color="#1d2433")
+            ax.text(x, y + 0.08, sayi(y, 2), ha="center", va="bottom", fontsize=7, color=stil.RENK["murekkep"])
     sinir = d("lab1.guvenli_mesafe")
-    ax.axhline(sinir, color="#b3261e", lw=1.2, ls="--")
-    ax.text(-0.45, sinir + 0.12, f"güvenli mesafe {sayi(sinir)} m", ha="left", fontsize=8, color="#b3261e")
+    ax.axhline(sinir, color=stil.RENK["kritik"], lw=1.2, ls="--")
+    ax.text(-0.45, sinir + 0.12, f"güvenli mesafe {sayi(sinir)} m", ha="left", fontsize=8, color=stil.RENK["kritik"])
     ax.set_xticks(range(len(saldirilar)))
     ax.set_xticklabels([SALDIRI_ADI[s] for s in saldirilar], fontsize=8)
     ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x, _: sayi(x, 1)))

@@ -7,6 +7,8 @@ Renkler anlam taşır, süs değildir:
     bilgi   = nötr varlık, soru düğümü, ana seri
     giris   = saldırı giriş noktası
     pasif   = kapalı kenar, kesilmiş yol, uygulanmayan durum
+    dmz     = IEC 62443 DMZ / ara bölge
+    notr    = kurumsal ya da kapsam dışı bölge
 
 Bu modül yalnızca görünümü belirler; modeldeki hiçbir sayı burada tutulmaz.
 """
@@ -24,6 +26,8 @@ RENK = {
     "giris": "#d9572e",
     "vurgu": "#7a4fd0",
     "pasif": "#9aa3b2",
+    "dmz": "#8a6d1f",
+    "notr": "#5b6576",
 }
 
 DOLGU = {
@@ -34,6 +38,8 @@ DOLGU = {
     "giris": "#fdeee6",
     "vurgu": "#efe9fb",
     "pasif": "#f2f4f7",
+    "dmz": "#fbf6e6",
+    "notr": "#f7f9fb",
 }
 
 # Kategorik seriler (sıra sabit; aynı kavram her grafikte aynı rengi alır)
@@ -101,14 +107,22 @@ def sinir_cizgisi(ax, y, metin, x_metin=None, renk=None):
 
 
 # ---------------------------------------------------------------- Mermaid
-def classdef(ad, ton, kalin=False):
-    """Mermaid classDef satırı: ton = RENK/DOLGU anahtarı."""
+def classdef(ad, ton, kalin=False, kesik=False, cerceve=None):
+    """Mermaid classDef satırı: ton = RENK/DOLGU anahtarı; cerceve = farklı çerçeve tonu."""
     genislik = "3px" if kalin else "1.5px"
-    return (f"  classDef {ad} fill:{DOLGU[ton]},stroke:{RENK[ton]},stroke-width:{genislik},"
-            f"color:{RENK['murekkep']}")
+    ek = ",stroke-dasharray:6 4" if kesik else ""
+    return (f"  classDef {ad} fill:{DOLGU[ton]},stroke:{RENK[cerceve or ton]},stroke-width:{genislik},"
+            f"color:{RENK['murekkep']}{ek}")
 
 
 def kenar_stili(indeks, ton, kalin=False, kesik=False):
     genislik = "3px" if kalin else ("1.2px" if ton == "pasif" else "2px")
     ek = ",stroke-dasharray:5 4" if kesik else ""
     return f"  linkStyle {indeks} stroke:{RENK[ton]},stroke-width:{genislik}{ek}"
+
+
+def kume_stili(kume_id, ton=None):
+    """Mermaid subgraph çerçevesi: varsayılan ince gri; ton verilirse o rengin açık hâli."""
+    if ton:
+        return f"  style {kume_id} fill:{DOLGU[ton]},stroke:{RENK[ton]},stroke-width:1.5px,color:{RENK[ton]}"
+    return f"  style {kume_id} fill:{RENK['zemin']},stroke:{RENK['cizgi']},stroke-width:1px,color:{RENK['ikincil']}"

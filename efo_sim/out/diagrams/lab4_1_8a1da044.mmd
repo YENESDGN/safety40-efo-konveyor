@@ -1,17 +1,23 @@
 %% caption: Şekil 2 — Mevcut (varsayım): kırmızı kenarlar emniyet fonksiyonuna giden yolların üzerinde. Gri kesikli kenarlar kapalı ya da ulaşılamaz.
 flowchart TB
-  internet(["İnternet"])
-  uzak_arac(["Uzak destek aracı"])
-  usb(["USB"])
-  hmi_yerel(["HMI (yerel)"])
-  wifi(["Wi-Fi / WLAN"])
-  router["4G/VPN router"]
-  jump["Jump server"]
-  hmi["HMI"]
-  plc["PLC"]
-  vfd["Bant invertörü"]
-  emniyet["Emniyet rölesi / Safety PLC"]
-  sf{{"SF1 acil stop → STO"}}
+  subgraph giris_k["Giriş noktaları"]
+    internet(["İnternet"])
+    uzak_arac(["Uzak destek aracı"])
+    usb(["USB"])
+    hmi_yerel(["HMI (yerel)"])
+    wifi(["Wi-Fi / WLAN"])
+  end
+  subgraph ag_k["Ağ ve kumanda"]
+    router["4G/VPN router"]
+    jump["Jump server"]
+    hmi["HMI"]
+    plc["PLC"]
+    vfd["Bant invertörü"]
+  end
+  subgraph emniyet_k["Emniyet"]
+    emniyet["Emniyet rölesi / Safety PLC"]
+    sf{{"SF1 acil stop → STO"}}
+  end
   internet -->|"sürekli açık 4G router"| router
   internet -.-|"✕ VPN + MFA aşıldı"| jump
   uzak_arac -->|"HMI'da uzak masaüstü aracı"| hmi
@@ -31,22 +37,25 @@ flowchart TB
   vfd -->|"durma rampası ve STO invertörde"| sf
   vfd -->|"hız, güvenli mesafe varsayımını aşar"| sf
   emniyet -.-|"emniyet programı değişir"| sf
-  classDef giris fill:#fdeee6,stroke:#d9572e,color:#16223a
+  classDef giris fill:#fdeee6,stroke:#d9572e,stroke-width:1.5px,color:#16223a
   classDef hedef fill:#fdecea,stroke:#b3261e,stroke-width:3px,color:#16223a
-  classDef varlik fill:#e9f1fb,stroke:#2a78d6,color:#16223a
+  classDef varlik fill:#e9f1fb,stroke:#2a78d6,stroke-width:1.5px,color:#16223a
   class internet,uzak_arac,usb,hmi_yerel,wifi giris
   class sf hedef
   class router,jump,hmi,plc,vfd,emniyet varlik
+  style giris_k fill:#f7f9fb,stroke:#c3c8d0,stroke-width:1px,color:#5b6576
+  style ag_k fill:#f7f9fb,stroke:#c3c8d0,stroke-width:1px,color:#5b6576
+  style emniyet_k fill:#fdecea,stroke:#b3261e,stroke-width:1.5px,color:#b3261e
   linkStyle 0 stroke:#b3261e,stroke-width:3px
-  linkStyle 1 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 1 stroke:#9aa3b2,stroke-width:1.2px
   linkStyle 2 stroke:#b3261e,stroke-width:3px
   linkStyle 3 stroke:#b3261e,stroke-width:3px
   linkStyle 4 stroke:#b3261e,stroke-width:3px
   linkStyle 5 stroke:#b3261e,stroke-width:3px
-  linkStyle 6 stroke:#c3c8d0,stroke-width:1px
-  linkStyle 7 stroke:#c3c8d0,stroke-width:1px
-  linkStyle 8 stroke:#c3c8d0,stroke-width:1px
-  linkStyle 9 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 6 stroke:#9aa3b2,stroke-width:1.2px
+  linkStyle 7 stroke:#9aa3b2,stroke-width:1.2px
+  linkStyle 8 stroke:#9aa3b2,stroke-width:1.2px
+  linkStyle 9 stroke:#9aa3b2,stroke-width:1.2px
   linkStyle 10 stroke:#b3261e,stroke-width:3px
   linkStyle 11 stroke:#b3261e,stroke-width:3px
   linkStyle 12 stroke:#b3261e,stroke-width:3px
@@ -55,4 +64,4 @@ flowchart TB
   linkStyle 15 stroke:#b3261e,stroke-width:3px
   linkStyle 16 stroke:#b3261e,stroke-width:3px
   linkStyle 17 stroke:#b3261e,stroke-width:3px
-  linkStyle 18 stroke:#c3c8d0,stroke-width:1px
+  linkStyle 18 stroke:#9aa3b2,stroke-width:1.2px

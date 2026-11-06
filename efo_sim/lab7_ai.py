@@ -13,9 +13,11 @@ kesilir ve emniyet tarafındaki hız izleme (LAB 4) bağımsız bir üst sınır
 
 Çalıştırma (repo kökünden):  python -m efo_sim.lab7_ai
 """
+import math
 import random
 from functools import lru_cache
 
+from efo_sim import stil
 from efo_sim import lab1_safety as lab1
 from efo_sim.params import OUT_DIR, bolum_metni, d, sayi
 
@@ -189,35 +191,46 @@ def hiz_md():
 
 
 def _grafik_esik(yol):
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
+    """Logaritmik y ekseni: %1'in altındaki kaçak oranı ile %100'e yaklaşan operatör yükü aynı grafikte okunur."""
+    plt = stil.mpl()
     import matplotlib.ticker
 
+    R = stil.RENK
     tarama = esik_taramasi()
     xs = [t[0] for t in tarama]
-    fig, ax = plt.subplots(figsize=(7.2, 3.6), dpi=200)
-    ax.plot(xs, [t[1]["kacak"] * 100 for t in tarama], color="#eb6834", lw=2, label="Kaçak: yalnız YZ")
-    ax.plot(xs, [t[2]["kacak"] * 100 for t in tarama], color="#1baf7a", lw=2, label="Kaçak: YZ + metal dedektörü")
-    ax.plot(xs, [t[1]["sor"] * 100 for t in tarama], color="#2a78d6", lw=2, ls="--", label="Operatöre sorulan")
+    seriler = [
+        ([t[1]["kacak"] * 100 for t in tarama], R["giris"], "-", "Kaçak: yalnız YZ"),
+        ([t[2]["kacak"] * 100 for t in tarama], R["iyi"], "-", "Kaçak: YZ + metal dedektörü"),
+        ([t[1]["sor"] * 100 for t in tarama], R["bilgi"], "--", "Operatöre sorulan"),
+    ]
+    fig, ax = plt.subplots(figsize=(7.2, 3.7))
+    stil.eksen(ax, izgara="both")
+    ax.set_yscale("log", nonpositive="mask")
+    for ys, renk, ls, ad in seriler:
+        ax.plot(xs, [y if y > 0 else float("nan") for y in ys], color=renk, lw=2, ls=ls, label=ad)
+    pozitif = [y for ys, *_ in seriler for y in ys if y > 0]
+    ax.set_ylim(min(pozitif) / 2, max(pozitif) * 2)
     hedef, kap = d("lab7.hedef_kacak_orani") * 100, d("lab7.insan_kapasitesi") * 100
-    ax.axhline(hedef, color="#b3261e", lw=1, ls=":")
-    ax.text(xs[0], hedef + 0.3, f"kaçak hedefi %{sayi(hedef, 1)}", fontsize=7.5, color="#b3261e")
-    ax.axhline(kap, color="#2a78d6", lw=1, ls=":")
-    ax.text(xs[0], kap + 0.3, f"operatör kapasitesi %{sayi(kap, 0)}", fontsize=7.5, color="#2a78d6")
-    for e, renk in ((esik_sec(), "#eb6834"), (esik_sec(md=True), "#1baf7a")):
-        if e is not None:
-            ax.axvline(e, color=renk, lw=1, alpha=0.6)
-            ax.text(e, ax.get_ylim()[1] * 0.92, f" {sayi(e)}", color=renk, fontsize=7.5)
-    virgul = matplotlib.ticker.FuncFormatter(lambda x, _: sayi(x))
-    ax.xaxis.set_major_formatter(virgul)
-    ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x, _: f"%{sayi(x, 0)}"))
+    for y, renk, metin in ((hedef, R["kritik"], f"kaçak hedefi %{sayi(hedef, 1)}"),
+                           (kap, R["bilgi"], f"operatör kapasitesi %{sayi(kap, 0)}")):
+        ax.axhline(y, color=renk, lw=1, ls=(0, (4, 3)))
+        ax.text(xs[-1], y, metin + " ", color=renk, fontsize=7.2, fontweight="bold", ha="right", va="bottom")
+    secimler = sorted(((esik_sec(), R["giris"], "yalnız YZ"), (esik_sec(md=True), R["iyi"], "YZ + dedektör")),
+                      key=lambda t: t[0] if t[0] is not None else 0)
+    for sira, (e, renk, ad) in enumerate(secimler):
+        if e is not None:  # soldaki eşiğin etiketi sola, sağdakinin sağa: çakışmasınlar
+            ax.axvline(e, color=renk, lw=1, alpha=0.7)
+            ax.text(e, ax.get_ylim()[1], f" eşik {sayi(e)} \n ({ad}) ", color=renk, fontsize=6.8,
+                    va="top", ha="right" if sira == 0 else "left", fontweight="bold")
+    ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x, _: sayi(x)))
+    ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(
+        lambda y, _: "%" + sayi(y, max(0, -math.floor(math.log10(y))))))
+    ax.tick_params(which="both", length=0)
+    ax.yaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
     ax.set_xlabel("Güven eşiği (OK'nin otomatik geçmesi için)")
-    ax.set_title("Güven eşiği: kaçak oranı ve operatör yükü (sentetik veri)", fontsize=10, loc="left")
-    ax.grid(alpha=0.25)
-    ax.spines[["top", "right"]].set_visible(False)
-    ax.legend(frameon=False, fontsize=7.5, loc="upper right")
-    fig.tight_layout()
+    ax.set_ylabel("Oran (logaritmik)")
+    ax.set_title("Güven eşiği: kaçak oranı ve operatör yükü (sentetik veri)")
+    ax.legend(loc="lower right")
     fig.savefig(yol)
     plt.close(fig)
 

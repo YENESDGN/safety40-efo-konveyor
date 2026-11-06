@@ -9,6 +9,7 @@
 """
 import math
 
+from efo_sim import stil
 from efo_sim.params import OUT_DIR, bolum_metni, d, sayi
 
 # ---------------------------------------------------------------- 1.1 Durum makinesi
@@ -152,7 +153,7 @@ def plr_tablosu():
 # ---------------------------------------------------------------- Çıktılar
 def _grafik_durma_mesafesi(yol):
     import matplotlib
-    matplotlib.use("Agg")
+    stil.mpl()
     import matplotlib.pyplot as plt
     import matplotlib.ticker
 
@@ -164,18 +165,18 @@ def _grafik_durma_mesafesi(yol):
     sinir = d("lab1.guvenli_mesafe")
 
     fig, ax = plt.subplots(figsize=(7.2, 4.0), dpi=200)
-    ax.plot(hizlar, kat0, color="#2a78d6", lw=2, label="Stop kat. 0 (STO hemen)")
-    ax.plot(hizlar, kat1, color="#eb6834", lw=2, label="Stop kat. 1 (rampa + STO)")
-    ax.axhline(sinir, color="#16223a", lw=1.2, ls="--")
-    ax.text(v_min, sinir * 1.03, f"güvenli mesafe sınırı {sayi(sinir)} m", fontsize=8, color="#16223a")
+    ax.plot(hizlar, kat0, color=stil.RENK["bilgi"], lw=2, label="Stop kat. 0 (STO hemen)")
+    ax.plot(hizlar, kat1, color=stil.RENK["giris"], lw=2, label="Stop kat. 1 (rampa + STO)")
+    ax.axhline(sinir, color=stil.RENK["murekkep"], lw=1.2, ls="--")
+    ax.text(v_min, sinir * 1.03, f"güvenli mesafe sınırı {sayi(sinir)} m", fontsize=8, color=stil.RENK["murekkep"])
     v_nom = d("lab1.bant_hizi")
-    ax.axvline(v_nom, color="#9aa3b2", lw=1, ls=":")
-    ax.text(v_nom * 1.03, max(kat1) * 0.55, f"nominal hız\n{sayi(v_nom)} m/s", fontsize=8, color="#52514e")
-    for kat, renk in ((0, "#2a78d6"), (1, "#eb6834")):
+    ax.axvline(v_nom, color=stil.RENK["pasif"], lw=1, ls=":")
+    ax.text(v_nom * 1.03, max(kat1) * 0.55, f"nominal hız\n{sayi(v_nom)} m/s", fontsize=8, color=stil.RENK["ikincil"])
+    for kat, renk in ((0, stil.RENK["bilgi"]), (1, stil.RENK["giris"])):
         vs = sinir_hiz(kat)
         ax.plot([vs], [sinir], "o", ms=6, color=renk, mec="white", mew=1.5)
         ax.annotate(f"{sayi(vs)} m/s", (vs, sinir), textcoords="offset points",
-                    xytext=(8, -14) if kat == 0 else (-54, 6), fontsize=8, color="#52514e")
+                    xytext=(8, -14) if kat == 0 else (-54, 6), fontsize=8, color=stil.RENK["ikincil"])
     virgul = matplotlib.ticker.FuncFormatter(lambda x, _: sayi(x))
     ax.xaxis.set_major_formatter(virgul)
     ax.yaxis.set_major_formatter(virgul)

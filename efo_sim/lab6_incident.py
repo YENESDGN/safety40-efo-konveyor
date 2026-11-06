@@ -12,6 +12,7 @@
 """
 import math
 
+from efo_sim import stil
 from efo_sim import lab4_attack as lab4
 from efo_sim.params import OUT_DIR, bolum_metni, d, sayi
 
@@ -233,24 +234,24 @@ def cra_md():
 
 def _grafik_zaman(yol):
     import matplotlib
-    matplotlib.use("Agg")
+    stil.mpl()
     import matplotlib.pyplot as plt
 
     turler = ["emniyet", "kanit", "erisim", "iletisim", "kurtarma", "bildirim"]
     adlar = {"emniyet": "Emniyet", "kanit": "Kanıt", "erisim": "Erişim", "iletisim": "İletişim",
              "kurtarma": "Kurtarma", "bildirim": "Bildirim"}
-    renk = {"emniyet": "#b3261e", "kanit": "#2a78d6", "erisim": "#eb6834", "iletisim": "#9aa3b2",
-            "kurtarma": "#1baf7a", "bildirim": "#7a4fd0"}
+    renk = {"emniyet": stil.RENK["kritik"], "kanit": stil.RENK["bilgi"], "erisim": stil.RENK["giris"], "iletisim": stil.RENK["pasif"],
+            "kurtarma": stil.RENK["iyi"], "bildirim": stil.RENK["vurgu"]}
     fig, ax = plt.subplots(figsize=(7.4, 3.4), dpi=200)
     for t, _, _, tur, _, sil in AKIS:
         y = turler.index(tur)
         ax.plot(max(t, 1), y, "o", ms=7 if not sil else 9, color=renk[tur],
-                mec="#16223a" if sil else "white", mew=1.5)
+                mec=stil.RENK["murekkep"] if sil else "white", mew=1.5)
     kt = d("lab6.kilometre_taslari")
     for anahtar, ad in (("ilk_mudahale", "15 dk"), ("ilk_asama", "2 sa"), ("erken_uyari", "24 sa"),
                         ("bildirim", "72 sa"), ("son_rapor", "14 gün")):
-        ax.axvline(kt[anahtar], color="#16223a", lw=0.8, ls="--", alpha=0.6)
-        ax.text(kt[anahtar], len(turler) - 0.35, ad, ha="center", fontsize=7.5, color="#16223a")
+        ax.axvline(kt[anahtar], color=stil.RENK["murekkep"], lw=0.8, ls="--", alpha=0.6)
+        ax.text(kt[anahtar], len(turler) - 0.35, ad, ha="center", fontsize=7.5, color=stil.RENK["murekkep"])
     ax.set_xscale("log")
     ax.set_xlim(0.8, kt["son_rapor"] * 1.6)
     ax.set_ylim(-0.6, len(turler) - 0.1)

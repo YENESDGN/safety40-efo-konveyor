@@ -7,6 +7,7 @@
 
 Çalıştırma (repo kökünden):  python -m efo_sim.lab3_risk
 """
+from efo_sim import stil
 from efo_sim import lab1_safety as lab1
 from efo_sim.params import OUT_DIR, bolum_metni, d, sayi
 
@@ -124,12 +125,12 @@ def siber_fiziksel_tablo():
 
 
 # ---------------------------------------------------------------- Grafikler
-BANT_RENK = {"Kritik": "#b3261e", "Yüksek": "#e8613c", "Orta": "#e2a91c", "Düşük": "#5b6576"}
+BANT_RENK = {"Kritik": stil.RENK["kritik"], "Yüksek": stil.RENK["giris"], "Orta": stil.RENK["uyari"], "Düşük": stil.RENK["ikincil"]}
 
 
 def _grafik_isi_haritasi(yol):
     import matplotlib
-    matplotlib.use("Agg")
+    stil.mpl()
     import matplotlib.pyplot as plt
     from matplotlib.patches import Patch, Rectangle
 
@@ -145,9 +146,9 @@ def _grafik_isi_haritasi(yol):
                 ax.text(L, S + 0.28, str(sk), ha="center", va="center", fontsize=7, color="white")
         for s in senaryolar():
             if puan(s, "E") == e:
-                ax.plot(puan(s, "L"), puan(s, "S") - 0.08, "o", ms=17, mfc="white", mec="#16223a", mew=1.5)
+                ax.plot(puan(s, "L"), puan(s, "S") - 0.08, "o", ms=17, mfc="white", mec=stil.RENK["murekkep"], mew=1.5)
                 ax.text(puan(s, "L"), puan(s, "S") - 0.08, s["id"], ha="center", va="center", fontsize=7,
-                        fontweight="bold", color="#16223a")
+                        fontweight="bold", color=stil.RENK["murekkep"])
         ax.set_xlim(alt - 0.5, ust + 0.5)
         ax.set_ylim(alt - 0.5, ust + 0.5)
         ax.set_xticks(degerler)
@@ -170,11 +171,11 @@ def _grafik_isi_haritasi(yol):
 
 def _grafik_siber_fiziksel(yol):
     import matplotlib
-    matplotlib.use("Agg")
+    stil.mpl()
     import matplotlib.pyplot as plt
     import matplotlib.ticker
 
-    renkler = ["#2a78d6", "#1baf7a", "#eb6834", "#16223a"]
+    renkler = [stil.RENK["bilgi"], stil.RENK["iyi"], stil.RENK["giris"], stil.RENK["murekkep"]]
     fig, ax = plt.subplots(figsize=(7.2, 3.8), dpi=200)
     t_max = max(r["durma"] for r in siber_fiziksel_tablo())
     n = d("lab1.grafik_nokta_sayisi") * 4
@@ -183,8 +184,8 @@ def _grafik_siber_fiziksel(yol):
         ys = [el_yolu(t, hiz, rampa) for t in ts]
         ax.plot(ts, ys, color=renk, lw=2, label=ad)
     sinir = d("lab1.guvenli_mesafe")
-    ax.axhline(sinir, color="#b3261e", lw=1.2, ls="--")
-    ax.text(t_max * 0.99, sinir * 1.06, f"besleme ağzı ({sayi(sinir)} m)", ha="right", fontsize=8, color="#b3261e")
+    ax.axhline(sinir, color=stil.RENK["kritik"], lw=1.2, ls="--")
+    ax.text(t_max * 0.99, sinir * 1.06, f"besleme ağzı ({sayi(sinir)} m)", ha="right", fontsize=8, color=stil.RENK["kritik"])
     virgul = matplotlib.ticker.FuncFormatter(lambda x, _: sayi(x, 1))
     ax.xaxis.set_major_formatter(virgul)
     ax.yaxis.set_major_formatter(virgul)

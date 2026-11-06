@@ -23,29 +23,9 @@ baglam: "Efo bir SBOM yayınlamıyor; PLC, HMI ve invertör markaları da bilinm
 
 ## Görev — karar akışı
 
-```mermaid
-%% caption: Şekil 1 — Karar akışı. CVSS yalnızca bir girdi; kararı üç şart, emniyete yol ve telafi süresi belirler.
-flowchart TB
-  A["CVE kaydı"] --> B["1 · Bileşen<br/>var mı?"]
-  B -->|evet| C["2 · Sürüm<br/>etkileniyor mu?"]
-  C -->|evet| D["3 · Ulaşılabilir<br/>mi?"]
-  D -->|evet| E["Emniyete<br/>yol var mı?"]
-  E -->|evet| G["Telafi ≤ 2 sa,<br/>istismar yok?"]
-  G -->|evet| H["Durdurmadan<br/>hemen telafi"]
-  B -->|hayır| X["Etkilemez<br/>kayda geç"]
-  C -->|hayır| X
-  D -->|hayır| Y["Şimdilik etkilemez<br/>koşulu izle"]
-  E -->|hayır| F["Devam +<br/>planlı telafi"]
-  G -->|hayır| I["Kontrollü<br/>durdur"]
-  classDef soru fill:#e9f1fb,stroke:#2a78d6,stroke-width:2px,color:#16223a
-  class B,C,D,E,G soru
-  classDef iyi fill:#e6f3f1,stroke:#1f8f86,stroke-width:2px,color:#16223a
-  classDef orta fill:#fdf6e3,stroke:#e2a91c,stroke-width:2px,color:#16223a
-  classDef kotu fill:#fdecea,stroke:#b3261e,stroke-width:2px,color:#16223a
-  class X,Y,F iyi
-  class H orta
-  class I kotu
-```
+![Zafiyet karar akışı](efo_sim/out/lab5_karar_akisi.png)
+
+Akış koddaki `uretim_karari` fonksiyonuyla aynıdır; telafi süresi sınırı `params.yaml`'dan gelir. CVSS yalnızca bir girdidir; kararı üç şart, emniyete yol ve telafi süresi belirler.
 
 Q1 | Bu CVE sizi gerçekten etkiliyor mu? (üç şartı kontrol edin)
 
@@ -114,7 +94,7 @@ Telafi edici önlem, açığı kapatmaz; **üçüncü şartı** (ulaşılabilirl
 
 <!-- include-md: efo_sim/out/lab5_telafi.md -->
 
-<!-- include-mermaid: efo_sim/out/lab5_telafi_mevcut.mmd | Şekil 2 — Mevcut mimaride telafi planı LAB 4 grafında: yeşil kesikli kenarlar (✂) önlemlerin kestiği girişler. Gri kenarlar açık kalıyor ama artık hiçbir girişten ulaşılamıyor. Kırmızı kenar, PLC ele geçirilirse neyin tehlikeye girdiğini gösteriyor. -->
+<!-- include-mermaid: efo_sim/out/lab5_telafi_mevcut.mmd | Şekil 1 — Mevcut mimaride telafi planı LAB 4 grafında: yeşil kesikli kenarlar (✂) önlemlerin kestiği girişler. Gri kenarlar açık kalıyor ama artık hiçbir girişten ulaşılamıyor. Kırmızı kenar, PLC ele geçirilirse neyin tehlikeye girdiğini gösteriyor. -->
 
 - **Mevcutta:** Dört önlem gerekiyor, çünkü PLC'ye dört ayrı giriş noktasından ulaşılıyor. T3 (WLAN) bu kümede yok; Wi-Fi yalnızca invertöre ulaşıyor, PLC'ye değil. Ama invertör parametreleri için ayrıca gerekli (LAB 3, S1).
 - **Hedefte:** Tek önlem yetiyor: yama bitene kadar uzak bakım oturumuna onay vermemek. Bu, LAB 4'ün "varsayılan kapalı" ilkesinin doğrudan bir faydası.

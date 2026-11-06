@@ -458,6 +458,66 @@ def _grafik_zaman(yol):
     plt.close(fig)
 
 
+def _grafik_karar_akisi(yol):
+    """Karar akışı: sorular soldan sağa; her 'hayır' çıkışı sorusunun altında. Eşikler params.yaml'dan."""
+    plt = stil.mpl()
+    from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
+
+    R, D = stil.RENK, stil.DOLGU
+    sure = sayi(d("lab5.telafi_azami_sure"), 0)
+    sorular = ["1 · Bileşen\nSBOM'da\nvar mı?", "2 · Sürüm\netkileniyor\nmu?", "3 · Açık\nulaşılabilir\nmi?",
+               "Emniyet\nfonksiyonuna\nyol var mı?", f"Telafi ≤ {sure} sa\nve istismar\nyok mu?"]
+    son = ("Durdurmadan\nhemen telafi", KARAR_TONU["hemen_telafi"])
+    cikislar = {  # soru indeksi → (metin, ton, kaç sütun kaplar); satırlar kutuya sığacak kadar kısa
+        0: ("Etkilemez:\ngerekçesiyle kayda geç", KARAR_TONU["devam"], 2),
+        2: ("Şimdilik\netkilemez:\nkoşulu izle", KARAR_TONU["devam"], 1),
+        3: ("Devam +\nplanlı telafi\n(KEV: hemen)", KARAR_TONU["devam_telafi"], 1),
+        4: ("Kontrollü\ndurdur +\ndoğrulama", KARAR_TONU["durdur"], 1),
+    }
+    G, Y, ARA = 1.1, 0.74, 1.36  # kutu genişliği, yüksekliği, sütun aralığı (çizim birimi)
+    fig, ax = plt.subplots(figsize=(7.6, 2.85))
+    ax.set_xlim(-1.25, len(sorular) * ARA + 0.62)
+    ax.set_ylim(2.4, -0.5)
+    ax.axis("off")
+
+    def kutu(x, y, metin, ton, genislik=G, kalin=False):
+        ax.add_patch(FancyBboxPatch((x - genislik / 2, y - Y / 2), genislik, Y,
+                                    boxstyle="round,pad=0,rounding_size=0.07",
+                                    fc=D[ton], ec=R[ton], lw=1.6 if kalin else 1.0))
+        ax.text(x, y, metin, ha="center", va="center", fontsize=6.2, color=R["murekkep"], linespacing=1.2)
+
+    def ok(x0, y0, x1, y1, etiket=None, dikey=False):
+        ax.add_patch(FancyArrowPatch((x0, y0), (x1, y1), arrowstyle="-|>", mutation_scale=8,
+                                     color=R["ikincil"], lw=1.0, shrinkA=0, shrinkB=0))
+        if etiket:
+            xm, ym = (x0 + x1) / 2, (y0 + y1) / 2
+            ax.text(xm + (0.06 if dikey else 0), ym - (0 if dikey else 0.06), etiket, fontsize=5.6,
+                    color=R["ikincil"], ha="left" if dikey else "center", va="center" if dikey else "bottom",
+                    fontweight="bold")
+
+    ax.text(-1.2, 0, "CVE\nkaydı", ha="left", va="center", fontsize=6.6, fontweight="bold", color=R["murekkep"])
+    ok(-0.78, 0, -G / 2, 0)
+    for i, metin in enumerate(sorular):
+        x = i * ARA
+        kutu(x, 0, metin, "bilgi")
+        if i:
+            ok(x - ARA + G / 2, 0, x - G / 2, 0, "evet")
+    x_son = len(sorular) * ARA
+    kutu(x_son, 0, son[0], son[1], kalin=True)
+    ok(x_son - ARA + G / 2, 0, x_son - G / 2, 0, "evet")
+
+    y_alt = 1.6
+    for i, (metin, ton, kapla) in cikislar.items():
+        x = i * ARA + (kapla - 1) * ARA / 2
+        kutu(x, y_alt, metin, ton, genislik=G + (kapla - 1) * ARA, kalin=True)
+        for j in range(i, i + kapla):
+            ok(j * ARA, Y / 2, j * ARA, y_alt - Y / 2, "hayır", dikey=True)
+    ax.text(-1.2, 2.3, "Renk kararın ağırlığını gösterir: yeşil etkilemez · mavi planlı · sarı acil telafi · "
+            "kırmızı durdur. CVSS bu akışta bir eşik değildir.", fontsize=5.8, color=R["ikincil"], va="center")
+    fig.savefig(yol)
+    plt.close(fig)
+
+
 def main():
     OUT_DIR.mkdir(exist_ok=True)
     yaz = {
@@ -472,6 +532,7 @@ def main():
     }
     for ad, metin in yaz.items():
         (OUT_DIR / ad).write_text(metin, encoding="utf-8")
+    _grafik_karar_akisi(OUT_DIR / "lab5_karar_akisi.png")
     _grafik_uc_sart(OUT_DIR / "lab5_uc_sart.png")
     _grafik_zaman(OUT_DIR / "lab5_karar_zaman.png")
     print(karar_md())

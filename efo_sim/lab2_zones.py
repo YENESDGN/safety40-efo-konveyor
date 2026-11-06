@@ -9,6 +9,7 @@ Mermaid diyagramı ve kural kontrolü aynı veriden üretilir; diyagram ile veri
 
 Çalıştırma (repo kökünden):  python -m efo_sim.lab2_zones
 """
+from efo_sim import stil
 from efo_sim.params import OUT_DIR, bolum_metni, d
 
 EMNIYET, DIS, DMZ = "Z5", "Z0", "Z2"
@@ -196,13 +197,14 @@ def mermaid(mimari):
         ok = "-->" if yon == "yazma" else "-.->"
         satirlar.append(f'  {k} {ok}|"{etiket}"| {h}')
         if id(a) in ihlal:
-            stiller.append(f"  linkStyle {i} stroke:#b3261e,stroke-width:3px")
+            stiller.append(stil.kenar_stili(i, "kritik", kalin=True))
     satirlar += [
-        "  classDef emniyet fill:#fdecea,stroke:#b3261e,stroke-width:2px,color:#16223a",
-        "  classDef dis fill:#fdeee6,stroke:#d9572e,color:#16223a",
-        "  classDef dmz fill:#fbf6e6,stroke:#8a6d1f,color:#16223a",
-        "  classDef kumanda fill:#e9f1fb,stroke:#2a78d6,color:#16223a",
+        stil.classdef("emniyet", "kritik"),
+        stil.classdef("dis", "giris"),
+        stil.classdef("dmz", "dmz"),
+        stil.classdef("kumanda", "bilgi"),
     ]
+    satirlar += [stil.kume_stili(z, "kritik" if z == EMNIYET else None) for z in kullanilan]
     sinif = {"Z5": "emniyet", "Z0": "dis", "Z2": "dmz", "Z4": "kumanda", "ZD": "kumanda"}
     for v, z in mimari["atama"].items():
         if z in sinif:
@@ -231,23 +233,23 @@ def mermaid_bolge(mimari):
     stiller = []
     for i, ((zk, zh, c), isler) in enumerate(gruplar.items()):
         if c is None:
-            etiket, stil = "kontrolsüz: " + ", ".join(isler), "stroke:#b3261e,stroke-width:3px"
+            etiket, ton = "kontrolsüz: " + ", ".join(isler), "kritik"
         elif not mimari["conduitler"][c]["kontroller"]:
-            etiket, stil = f"{c} · " + mimari["conduitler"][c]["kisa"], "stroke:#b3261e,stroke-width:3px"
+            etiket, ton = f"{c} · " + mimari["conduitler"][c]["kisa"], "kritik"
         else:
-            etiket, stil = f"{c} · " + mimari["conduitler"][c]["kisa"], "stroke:#1f8f86,stroke-width:2px"
+            etiket, ton = f"{c} · " + mimari["conduitler"][c]["kisa"], "iyi"
         satirlar.append(f'  {zk} -->|"{etiket}"| {zh}')
-        stiller.append(f"  linkStyle {i} {stil}")
+        stiller.append(stil.kenar_stili(i, ton, kalin=(ton == "kritik")))
     sinif = {"Z5": "emniyet", "Z0": "dis", "Z2": "dmz", "Z4": "kumanda", "ZD": "duz", "ZT": "gecici",
              "Z1": "kurumsal", "Z3": "kurumsal"}
     satirlar += [
-        "  classDef emniyet fill:#fdecea,stroke:#b3261e,stroke-width:3px,color:#16223a",
-        "  classDef dis fill:#fdeee6,stroke:#d9572e,color:#16223a",
-        "  classDef dmz fill:#fbf6e6,stroke:#8a6d1f,stroke-width:2px,color:#16223a",
-        "  classDef kumanda fill:#e9f1fb,stroke:#2a78d6,stroke-width:2px,color:#16223a",
-        "  classDef duz fill:#fdecea,stroke:#d9572e,stroke-width:2px,stroke-dasharray:6 4,color:#16223a",
-        "  classDef gecici fill:#f2f5f8,stroke:#5b6576,color:#16223a",
-        "  classDef kurumsal fill:#f7f9fb,stroke:#5b6576,color:#16223a",
+        stil.classdef("emniyet", "kritik", kalin=True),
+        stil.classdef("dis", "giris"),
+        stil.classdef("dmz", "dmz"),
+        stil.classdef("kumanda", "bilgi"),
+        stil.classdef("duz", "kritik", kesik=True, cerceve="giris"),
+        stil.classdef("gecici", "pasif", cerceve="notr"),
+        stil.classdef("kurumsal", "notr"),
     ]
     satirlar += [f"  class {z} {sinif[z]}" for z in kullanilan if z in sinif]
     # görünmez bağ: emniyet bölgesini kumanda bölgesinin altına yerleştirir (föydeki şema gibi)

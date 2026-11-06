@@ -22,21 +22,47 @@ import argparse
 import hashlib
 import html
 import json
+import os
 import re
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
+import matplotlib
 import markdown
 import yaml
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import TextLexer, get_lexer_for_filename
 from pypdf import PdfReader
-from weasyprint import CSS, HTML
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from efo_sim import stil  # noqa: E402
+
+# Fontlar: DejaVu, matplotlib paketinin içinden gelir; sistemde kurulu olması gerekmez.
+# WeasyPrint (pango) ve mermaid-cli (Chromium) fontları fontconfig ile bulur. Bu yüzden
+# weasyprint içe aktarılmadan önce o klasörü de tanıyan bir fontconfig dosyası tanımlanır.
+FONT_DIR = Path(matplotlib.get_data_path()) / "fonts" / "ttf"
+
+
+def _fontconfig():
+    tmp = Path(tempfile.gettempdir()) / "efo_fontconfig"
+    tmp.mkdir(exist_ok=True)
+    conf = tmp / "fonts.conf"
+    conf.write_text(
+        '<?xml version="1.0"?>\n<!DOCTYPE fontconfig SYSTEM "fonts.dtd">\n<fontconfig>\n'
+        '  <include ignore_missing="yes">/etc/fonts/fonts.conf</include>\n'
+        f"  <dir>{FONT_DIR}</dir>\n  <cachedir>{tmp / 'cache'}</cachedir>\n</fontconfig>\n",
+        encoding="utf-8")
+    os.environ["FONTCONFIG_FILE"] = str(conf)
+
+
+_fontconfig()
+from weasyprint import CSS, HTML  # noqa: E402
+from weasyprint.text.fonts import FontConfiguration  # noqa: E402
 REPORT = ROOT / "docs" / "report"
 PDF_DIR = ROOT / "pdf"
 DIAG_DIR = ROOT / "efo_sim" / "out" / "diagrams"
@@ -64,19 +90,31 @@ INCLUDE_RE = re.compile(r"<!--\s*include-(code|text):\s*(\S+)\s*-->")
 MERMAID_RE = re.compile(r"```mermaid\n(.*?)```", re.S)
 INCLUDE_MD_RE = re.compile(r"<!--\s*include-md:\s*(\S+)\s*-->")
 INCLUDE_MMD_RE = re.compile(r"<!--\s*include-mermaid:\s*(\S+)\s*(?:\|\s*(.*?))?\s*-->")
+R, D = stil.RENK, stil.DOLGU
 MERMAID_CONFIG = {
     "theme": "base",
     "themeVariables": {
-        "fontFamily": "DejaVu Sans",
+        "fontFamily": stil.FONT,
         "fontSize": "15px",
-        "primaryColor": "#e6f3f1",
-        "primaryBorderColor": "#16223a",
-        "primaryTextColor": "#16223a",
-        "lineColor": "#16223a",
-        "clusterBkg": "#f7f9fb",
-        "clusterBorder": "#9aa3b2",
+        "primaryColor": D["bilgi"],
+        "primaryBorderColor": R["bilgi"],
+        "primaryTextColor": R["murekkep"],
+        "secondaryColor": D["iyi"],
+        "tertiaryColor": D["pasif"],
+        "lineColor": R["ikincil"],
+        "textColor": R["murekkep"],
+        "edgeLabelBackground": "#ffffff",
+        "clusterBkg": R["zemin"],
+        "clusterBorder": R["cizgi"],
+        "titleColor": R["ikincil"],
     },
-    "flowchart": {"htmlLabels": True, "curve": "basis"},
+    "themeCSS": (
+        f".edgeLabel, .edgeLabel p {{ font-size: 13px; color: {R['ikincil']}; background: #ffffff; }}"
+        f".cluster-label, .cluster-label span {{ font-size: 13px; font-weight: bold; letter-spacing: .4px;"
+        f" color: {R['ikincil']}; }}"
+        ".node rect, .node polygon, .node path { rx: 6px; ry: 6px; }"
+    ),
+    "flowchart": {"htmlLabels": True, "curve": "basis", "nodeSpacing": 38, "rankSpacing": 52, "padding": 14},
 }
 
 
@@ -98,7 +136,9 @@ def render_mermaid(code, name):
     if not shutil.which("mmdc"):
         sys.exit("mermaid-cli (mmdc) bulunamadı: npm install -g @mermaid-js/mermaid-cli")
     DIAG_DIR.mkdir(parents=True, exist_ok=True)
-    digest = hashlib.sha1(code.encode("utf-8")).hexdigest()[:8]
+    # Tema da hash'e girer: palet ya da font değişince bütün diyagramlar yeniden çizilir
+    tema = json.dumps(MERMAID_CONFIG, sort_keys=True)
+    digest = hashlib.sha1((code + tema).encode("utf-8")).hexdigest()[:8]
     mmd = DIAG_DIR / f"{name}_{digest}.mmd"
     png = mmd.with_suffix(".png")
     if not png.exists():
@@ -221,9 +261,12 @@ def wrap(sections, meta, title):
 
 
 def write_pdf(doc_html, out_path, title):
+    # @font-face yalnızca aynı FontConfiguration hem CSS'e hem write_pdf'e verilince yüklenir
+    fonts = FontConfiguration()
+    css = CSS(string=CSS_FILE.read_text(encoding="utf-8").replace("{{FONT_DIR}}", FONT_DIR.as_uri()),
+              base_url=str(ROOT), font_config=fonts)
     HTML(string=doc_html, base_url=str(ROOT)).write_pdf(
-        out_path, stylesheets=[CSS(filename=str(CSS_FILE))],
-        pdf_variant=None, presentational_hints=True)
+        out_path, stylesheets=[css], font_config=fonts, pdf_variant=None, presentational_hints=True)
     print(f"yazıldı: {out_path.relative_to(ROOT)}")
 
 
@@ -268,6 +311,13 @@ def check(pdf_path, meta):
     for ch in "çğıİöşü":
         if ch not in full_text:
             problems.append(f"metinde '{ch}' yok (font sorunu olabilir)")
+    # Metin fontları DejaVu olmalı (diyagram/grafik PNG'leri ayrı). Yedek font, bozuk bir font kurulumunu gösterir.
+    fontlar = {str(f.get_object().get("/BaseFont", "")).split("+")[-1] for page in reader.pages
+               for f in (page.get("/Resources", {}).get("/Font", {}) or {}).values()}
+    bizim = ("DejaVu", "Gövde", "Başlık", "Kod")  # pdf_style.css'teki @font-face adları (hepsi DejaVu dosyası)
+    yedek = sorted(f for f in fontlar if not f.startswith(bizim))
+    if yedek:
+        problems.append(f"DejaVu dışında font gömüldü (yedek font): {yedek}")
     status = "TAMAM" if not problems else "SORUN"
     print(f"kontrol {pdf_path.name}: {len(reader.pages)} sayfa — {status}")
     for p in problems:
@@ -278,7 +328,7 @@ def check(pdf_path, meta):
 def preview(pdf_path, out_dir):
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    subprocess.run(["pdftoppm", "-r", "70", "-png", str(pdf_path), str(out_dir / pdf_path.stem)], check=True)
+    subprocess.run(["pdftoppm", "-r", "90", "-png", str(pdf_path), str(out_dir / pdf_path.stem)], check=True)
     print(f"önizleme: {out_dir}")
 
 

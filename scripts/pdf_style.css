@@ -1,10 +1,14 @@
 /* Föy görünümüne yakın PDF stili — WeasyPrint */
 
-@font-face { font-family: "Gövde"; src: url("file:///usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"); }
-@font-face { font-family: "Gövde"; font-weight: bold; src: url("file:///usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"); }
-@font-face { font-family: "Gövde"; font-style: italic; src: url("file:///usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf"); }
-@font-face { font-family: "Başlık"; font-weight: bold; src: url("file:///usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"); }
-@font-face { font-family: "Kod"; src: url("file:///usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"); }
+@font-face { font-family: "Gövde"; src: url("{{FONT_DIR}}/DejaVuSans.ttf"); }
+@font-face { font-family: "Gövde"; font-weight: bold; src: url("{{FONT_DIR}}/DejaVuSans-Bold.ttf"); }
+@font-face { font-family: "Gövde"; font-style: italic; src: url("{{FONT_DIR}}/DejaVuSans-Oblique.ttf"); }
+@font-face { font-family: "Başlık"; font-weight: bold; src: url("{{FONT_DIR}}/DejaVuSerif-Bold.ttf"); }
+@font-face { font-family: "Gövde"; font-weight: bold; font-style: italic; src: url("{{FONT_DIR}}/DejaVuSans-BoldOblique.ttf"); }
+@font-face { font-family: "Kod"; src: url("{{FONT_DIR}}/DejaVuSansMono.ttf"); }
+@font-face { font-family: "Kod"; font-weight: bold; src: url("{{FONT_DIR}}/DejaVuSansMono-Bold.ttf"); }
+@font-face { font-family: "Kod"; font-style: italic; src: url("{{FONT_DIR}}/DejaVuSansMono-Oblique.ttf"); }
+/* Fontlar build_pdf.py'de matplotlib'in DejaVu klasörüne bağlanır; sistemde kurulu olmaları gerekmez. */
 
 :root {
   --lacivert: #16223a;
@@ -70,7 +74,7 @@ ul, ol { margin: 3px 0 6px 0; padding-left: 18px; }
 li { margin: 1px 0; }
 a { color: #1b5e8c; text-decoration: none; word-break: break-all; }
 strong { color: #111827; }
-code { font-family: "Kod", monospace; font-size: 8.2pt; background: #eef1f5; padding: 0 3px; border-radius: 3px; }
+code { font-family: "Kod", "Gövde", monospace; font-size: 8.2pt; background: #eef1f5; padding: 0 3px; border-radius: 3px; }
 
 /* Soru numarası (föydeki yuvarlak rozet) */
 .soru { display: flex; gap: 8px; align-items: baseline; margin: 12px 0 4px 0; break-after: avoid; }
@@ -104,11 +108,12 @@ figure.genis img { max-height: 170mm; }
 figcaption { font-size: 7.8pt; color: var(--gri); margin-top: 3px; }
 
 /* ---------- Kod ---------- */
-.kod-baslik { font-family: "Kod", monospace; font-size: 8pt; background: var(--lacivert); color: white;
+.kod-baslik { font-family: "Kod", "Gövde", monospace; font-size: 8pt; background: var(--lacivert); color: white;
               padding: 3px 8px; border-radius: 4px 4px 0 0; margin-top: 10px; }
-.highlight, pre.metin { font-family: "Kod", monospace; font-size: 7.1pt; line-height: 1.34;
+.highlight, pre.metin { font-family: "Kod", "Gövde", monospace; font-size: 7.1pt; line-height: 1.34;
   background: #f7f8fa; border: 1px solid var(--cizgi); border-radius: 0 0 4px 4px; padding: 6px 8px; margin: 0 0 8px 0; }
 .highlight pre, pre.metin { white-space: pre-wrap; word-break: break-all; margin: 0; }
+pre, kbd, samp { font-family: "Kod", "Gövde", monospace; }
 .highlight .linenos { color: #9aa3b2; padding-right: 8px; }
 
 /* ---------- İçindekiler (birleşik rapor) ---------- */

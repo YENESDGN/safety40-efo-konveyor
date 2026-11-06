@@ -26,4 +26,4 @@ efo_sim/tests/test_lab4_attack.py::test_saldiri_yokken_her_varyant_guvenli[bagim
 efo_sim/tests/test_lab4_attack.py::test_saldiri_yokken_her_varyant_guvenli[bagimsiz_hiz_izlemeli] PASSED [ 94%]
 efo_sim/tests/test_lab4_attack.py::test_varsayim_etkisi_hesaplari_tutarli PASSED [100%]
 
-======================== 15 passed, 4 xfailed in 0.07s =========================
+======================== 15 passed, 4 xfailed in 0.08s =========================
